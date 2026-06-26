@@ -22,13 +22,8 @@ export default function LoginPage() {
 
             <p className="text-login-gray text-center text-xs font-normal">
               로그인 시 왓장의{" "}
-              <span className="cursor-pointer font-medium underline">
-                이용약관
-              </span>{" "}
-              및{" "}
-              <span className="cursor-pointer font-medium underline">
-                개인정보 처리방침
-              </span>
+              <span className="font-medium underline">이용약관</span> 및{" "}
+              <span className="font-medium underline">개인정보 처리방침</span>
               에
               <br />
               동의하는 것으로 간주됩니다.
