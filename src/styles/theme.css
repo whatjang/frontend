@@ -1,6 +1,11 @@
 :root {
   --green: #00523a;
 
+  --login-gradient-start: #e6f7ef;
+  --login-yellow: #fee500;
+  --login-brown: #3c1e1e;
+  --login-gray: #707973;
+
   /* Base */
   --white: #ffffff;
   --black: #000000;
@@ -17,6 +22,12 @@
 
 @theme inline {
   --color-green: var(--green);
+
+  --color-login-gradient-start: var(--login-gradient-start);
+  --color-login-yellow: var(--login-yellow);
+  --color-login-brown: var(--login-brown);
+  --color-login-gray: var(--login-gray);
+
   --color-white: var(--white);
   --color-black: var(--black);
 
