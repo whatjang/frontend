@@ -5,7 +5,7 @@ export default function LoginPage() {
     <main className="from-login-gradient-start flex min-h-screen flex-col items-center justify-center bg-linear-to-b to-white px-5">
       <div className="flex max-w-xs flex-col items-center gap-12">
         <section className="flex flex-col gap-8 text-center">
-          <h1 className="text-2xl font-bold text-black">환영합니다!</h1>
+          <h1 className="text-2xl font-bold">환영합니다!</h1>
 
           <p className="text-green text-sm font-medium">
             이제부터 왓장과 함께

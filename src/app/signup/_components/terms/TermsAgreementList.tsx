@@ -38,7 +38,7 @@ export default function TermsAgreementList({
               checked={checkedTerms[term.id]}
               onChange={() => onToggleTerm(term.id)}
             >
-              <p className="text-login-gray text-sm font-medium">
+              <p className="text-deep-gray text-sm font-medium">
                 <strong className="text-green font-semibold">
                   [{term.required ? "필수" : "선택"}]
                 </strong>{" "}
