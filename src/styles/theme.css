@@ -1,10 +1,18 @@
 :root {
   --green: #00523a;
+  --light-green: #f4fef7;
+  --deep-green: #bfc9c2;
+
+  --light-gray: #e0e3e8;
+  --deep-gray: #707973;
+
+  --red: #e72727;
 
   --login-gradient-start: #e6f7ef;
   --login-yellow: #fee500;
   --login-brown: #3c1e1e;
-  --login-gray: #707973;
+
+  --signup-gradient-end: #f0fdf4;
 
   /* Base */
   --white: #ffffff;
@@ -22,11 +30,19 @@
 
 @theme inline {
   --color-green: var(--green);
+  --color-light-green: var(--light-green);
+  --color-deep-green: var(--deep-green);
+
+  --color-light-gray: var(--light-gray);
+  --color-deep-gray: var(--deep-gray);
+
+  --color-red: var(--red);
 
   --color-login-gradient-start: var(--login-gradient-start);
   --color-login-yellow: var(--login-yellow);
   --color-login-brown: var(--login-brown);
-  --color-login-gray: var(--login-gray);
+
+  --color-signup-gradient-end: var(--signup-gradient-end);
 
   --color-white: var(--white);
   --color-black: var(--black);
