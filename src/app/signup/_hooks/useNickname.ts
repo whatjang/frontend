@@ -1,6 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+
+import { useSignupForm } from "../_providers/SignupFormProvider";
 
 const MIN_NICKNAME_LENGTH = 2;
 const MAX_NICKNAME_LENGTH = 10;
@@ -8,7 +10,7 @@ const MAX_NICKNAME_LENGTH = 10;
 export type NicknameStatus = "default" | "error" | "success";
 
 export default function useNickname() {
-  const [nickname, setNickname] = useState("");
+  const { nickname, setNickname } = useSignupForm();
 
   const nicknameStatus = useMemo<NicknameStatus>(() => {
     if (!nickname) return "default";

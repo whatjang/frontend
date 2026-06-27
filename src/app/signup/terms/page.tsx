@@ -1,4 +1,4 @@
-import SignupLayout from "../_components/layout/SignupLayout";
+import SignupLayout from "../_components/common/layout/SignupLayout";
 import TermsForm from "../_components/terms/TermsForm";
 
 export default function TermsPage() {

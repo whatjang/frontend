@@ -1,4 +1,4 @@
-import SignupLayout from "../_components/layout/SignupLayout";
+import SignupLayout from "../_components/common/layout/SignupLayout";
 import NicknameForm from "../_components/nickname/NicknameForm";
 
 export default function NicknamePage() {
