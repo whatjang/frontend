@@ -1,13 +1,16 @@
 @import "tailwindcss";
+
 @import "pretendard/dist/web/static/pretendard.css";
+
 @import "../styles/theme.css";
+@import "../styles/animations.css";
 
 html {
   font-family: var(--font-pretendard);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--white);
+  color: var(--black);
   font-family: var(--font-pretendard);
 }

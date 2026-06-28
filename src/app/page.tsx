@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="bg-background text-foreground flex min-h-screen flex-col">
+    <main className="flex min-h-screen flex-col">
       <section className="flex flex-1 flex-col items-center justify-center px-6 py-20 text-center">
         <p className="text-green text-sm font-semibold">왓장</p>
 
@@ -23,7 +23,7 @@ export default function Home() {
 
           <a
             href="#"
-            className="rounded-full border border-black/10 px-6 py-3 text-sm font-semibold text-black transition-colors hover:bg-black/5"
+            className="rounded-full border border-black/10 px-6 py-3 text-sm font-semibold transition-colors hover:bg-black/5"
           >
             서비스 둘러보기
           </a>
