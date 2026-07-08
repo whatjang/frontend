@@ -1,5 +1,5 @@
 import Header from "@/src/components/Header";
-// import Navbar from "@/src/components/Navbar";
+import Navbar from "@/src/components/navbar";
 
 export default function MainLayout({
   children,
@@ -13,7 +13,7 @@ export default function MainLayout({
 
         <main className="flex-1">{children}</main>
 
-        {/* <Navbar /> */}
+        <Navbar />
       </div>
     </div>
   );
