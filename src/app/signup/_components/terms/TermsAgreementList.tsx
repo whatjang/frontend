@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 
 import { TERMS, type TermId } from "../../_data/terms";
 import CustomCheckbox from "../common/CustomCheckbox";
@@ -49,12 +50,12 @@ export default function TermsAgreementList({
             <Link
               href={`/signup/terms/${term.id}`}
               aria-label={`${term.title} 상세보기`}
+              className="flex size-6 items-center justify-center"
             >
-              <img
-                src="/images/signup/right-arrow.svg"
-                alt=""
+              <ChevronRight
                 aria-hidden="true"
-                className="size-3"
+                className="text-deep-gray size-4"
+                strokeWidth={2.5}
               />
             </Link>
           </li>

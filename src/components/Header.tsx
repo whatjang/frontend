@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   HEADER_LOGO_ITEM,
@@ -12,12 +13,15 @@ export default function Header() {
       <Link
         href={HEADER_LOGO_ITEM.href}
         aria-label={HEADER_LOGO_ITEM.ariaLabel}
-        className="inline-flex items-center justify-center"
+        className="relative inline-block h-8 w-12"
       >
-        <img
+        <Image
           src={HEADER_LOGO_ITEM.src}
           alt={HEADER_LOGO_ITEM.alt}
-          className={`${HEADER_LOGO_ITEM.className} cursor-pointer`}
+          fill
+          loading="eager"
+          className="object-contain object-left"
+          sizes="48px"
         />
       </Link>
 
