@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 type NicknameCompleteModalProps = {
   onStart: () => void;
 };
@@ -17,10 +19,17 @@ export default function NicknameCompleteModal({
       <section className="animate-bottom-sheet flex w-full max-w-sm flex-col items-center rounded-t-2xl bg-white px-5 pt-5 pb-8 shadow-xl">
         <div className="bg-deep-gray mx-auto h-1 w-10 rounded-full" />
 
-        <img src="/images/common/logo.svg" />
+        <Image
+          src="/images/common/logo.svg"
+          width={80}
+          height={100}
+          alt="왓장 로고"
+        />
 
         <div className="mb-8 flex w-full flex-col gap-3 text-center">
-          <h2 className="text-xl font-bold">짠, 둥실둥실 왓장 등장!</h2>
+          <h2 id="nickname-complete-title" className="text-xl font-bold">
+            짠, 둥실둥실 왓장 등장!
+          </h2>
 
           <p className="text-deep-gray text-sm">
             가입을 축하드립니다!

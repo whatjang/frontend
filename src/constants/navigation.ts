@@ -22,7 +22,6 @@ export type HeaderLogoItem = {
   ariaLabel: string;
   src: string;
   alt: string;
-  className: string;
 };
 
 export const HEADER_LOGO_ITEM: HeaderLogoItem = {
@@ -30,7 +29,6 @@ export const HEADER_LOGO_ITEM: HeaderLogoItem = {
   ariaLabel: "홈으로 이동",
   src: "/images/common/logo.svg",
   alt: "왓장 로고",
-  className: "h-8 w-auto",
 };
 
 export type HeaderIconItem = {

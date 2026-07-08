@@ -19,6 +19,7 @@ const eslintConfig = defineConfig([
     // Generated PWA files:
     "public/sw.js",
     "public/workbox-*.js",
+    "public/fallback-*.js",
   ]),
 ]);
 
