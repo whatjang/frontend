@@ -10,6 +10,8 @@
   --yellow: #fee500;
   --brown: #3c1e1e;
 
+  --navbar-gradient-end: #006d4e;
+
   --login-gradient-start: #e6f7ef;
 
   --signup-gradient-end: #f0fdf4;
@@ -35,6 +37,8 @@
   --color-red: var(--red);
   --color-yellow: var(--yellow);
   --color-brown: var(--brown);
+
+  --color-navbar-gradient-end: var(--navbar-gradient-end);
 
   --color-login-gradient-start: var(--login-gradient-start);
 

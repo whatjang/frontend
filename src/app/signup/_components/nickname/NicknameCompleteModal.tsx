@@ -17,7 +17,7 @@ export default function NicknameCompleteModal({
       <section className="animate-bottom-sheet flex w-full max-w-sm flex-col items-center rounded-t-2xl bg-white px-5 pt-5 pb-8 shadow-xl">
         <div className="bg-deep-gray mx-auto h-1 w-10 rounded-full" />
 
-        <img src="/images/logo.svg" />
+        <img src="/images/common/logo.svg" />
 
         <div className="mb-8 flex w-full flex-col gap-3 text-center">
           <h2 className="text-xl font-bold">짠, 둥실둥실 왓장 등장!</h2>
