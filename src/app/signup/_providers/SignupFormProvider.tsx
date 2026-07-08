@@ -3,6 +3,7 @@
 import {
   createContext,
   type ReactNode,
+  useCallback,
   useContext,
   useMemo,
   useState,
@@ -58,16 +59,16 @@ export default function SignupFormProvider({
     (term) => checkedTerms[term.id]
   );
 
-  const handleToggleAll = () => {
+  const handleToggleAll = useCallback(() => {
     setCheckedTerms(createCheckedTerms(!isAllChecked));
-  };
+  }, [isAllChecked]);
 
-  const handleToggleTerm = (id: TermId) => {
+  const handleToggleTerm = useCallback((id: TermId) => {
     setCheckedTerms((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
-  };
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -79,7 +80,14 @@ export default function SignupFormProvider({
       nickname,
       setNickname,
     }),
-    [checkedTerms, isAllChecked, isRequiredChecked, nickname]
+    [
+      checkedTerms,
+      isAllChecked,
+      isRequiredChecked,
+      handleToggleAll,
+      handleToggleTerm,
+      nickname,
+    ]
   );
 
   return (
