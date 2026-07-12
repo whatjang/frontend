@@ -4,7 +4,7 @@ import KakaoLoginButton from "./_components/KakaoLoginButton";
 export default function LoginPage() {
   return (
     <main className="from-login-gradient-start flex min-h-screen flex-col items-center justify-center bg-linear-to-b to-white px-5">
-      <div className="flex w-full max-w-xs flex-col items-center gap-12">
+      <div className="flex w-full max-w-sm flex-col items-center gap-12">
         <section className="flex flex-col gap-8 text-center">
           <h1 className="text-2xl font-bold">환영합니다!</h1>
 
