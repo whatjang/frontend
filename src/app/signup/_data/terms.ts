@@ -6,15 +6,15 @@ export const TERMS = [
     required: true,
     content: [
       {
-        heading: "제1조 목적",
+        heading: "목적",
         body: "이 약관은 왓장 서비스의 이용 조건 및 절차, 회원과 회사의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.",
       },
       {
-        heading: "제2조 서비스 이용",
+        heading: "서비스 이용",
         body: "회원은 본 약관에 동의함으로써 왓장 서비스를 이용할 수 있습니다. 회사는 안정적인 서비스 제공을 위해 필요한 조치를 취할 수 있습니다.",
       },
       {
-        heading: "제3조 회원의 의무",
+        heading: "회원의 의무",
         body: "회원은 서비스를 이용함에 있어 관련 법령 및 본 약관을 준수해야 하며, 타인의 권리를 침해하거나 서비스 운영을 방해해서는 안 됩니다.",
       },
     ],
@@ -73,7 +73,9 @@ export const TERMS = [
   },
 ] as const;
 
-export type TermId = (typeof TERMS)[number]["id"];
+export type Term = (typeof TERMS)[number];
+export type TermId = Term["id"];
+export type TermItem = Term["content"][number];
 
 export const findTermById = (termId: string) => {
   return TERMS.find((term) => term.id === termId);

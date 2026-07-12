@@ -16,7 +16,7 @@ export default function NicknameCompleteModal({
       aria-modal="true"
       aria-labelledby="nickname-complete-title"
     >
-      <section className="animate-bottom-sheet flex w-full max-w-sm flex-col items-center rounded-t-2xl bg-white px-5 pt-5 pb-8 shadow-xl">
+      <section className="animate-bottom-sheet flex w-full max-w-md flex-col items-center rounded-t-2xl bg-white px-5 pt-5 pb-8 shadow-xl">
         <div className="bg-deep-gray mx-auto h-1 w-10 rounded-full" />
 
         <Image

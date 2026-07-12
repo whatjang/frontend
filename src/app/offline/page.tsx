@@ -9,7 +9,7 @@ export default function OfflinePage() {
         지금은 장터 정보를 불러올 수 없습니다
       </h1>
 
-      <p className="text-deep-gray mt-4 max-w-md text-sm leading-6">
+      <p className="text-deep-gray mt-4 max-w-sm text-sm leading-6">
         인터넷 연결이 불안정해 강원 장날, 먹거리, 주변 관광 정보를 불러오지
         못했습니다. 연결 상태를 확인한 뒤 다시 시도해 주세요.
       </p>
