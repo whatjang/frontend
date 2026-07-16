@@ -1,0 +1,128 @@
+.screen {
+  animation: screenFade 600ms ease-out both;
+}
+
+.backgroundGlow {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.logoContainer {
+  animation: logoEnter 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.logo {
+  animation: logoFloat 2.8s ease-in-out 900ms infinite;
+}
+
+.logoGlow {
+  animation: logoGlow 2.8s ease-in-out 900ms infinite;
+}
+
+.textContainer {
+  opacity: 0;
+  animation: textEnter 700ms ease-out 350ms forwards;
+}
+
+.line {
+  width: 0;
+  animation: lineExpand 650ms ease-out 800ms forwards;
+}
+
+@keyframes screenFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes logoEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.75) rotate(-6deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0);
+  }
+}
+
+@keyframes logoFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes logoGlow {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes textEnter {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes lineExpand {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 130px;
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen,
+  .backgroundGlow,
+  .logoContainer,
+  .logo,
+  .logoGlow,
+  .textContainer,
+  .line {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .line {
+    width: 130px;
+  }
+}
