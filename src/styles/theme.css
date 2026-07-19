@@ -9,6 +9,7 @@
   --red: #e72727;
   --yellow: #fee500;
   --brown: #3c1e1e;
+  --light-brown: #9b4500;
 
   --navbar-gradient-end: #006d4e;
 
@@ -37,6 +38,7 @@
   --color-red: var(--red);
   --color-yellow: var(--yellow);
   --color-brown: var(--brown);
+  --color-light-brown: var(--light-brown);
 
   --color-navbar-gradient-end: var(--navbar-gradient-end);
 
