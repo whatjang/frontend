@@ -35,7 +35,7 @@ export default function HomeTrendFoodItem({
           </span>
         </div>
 
-        <div className="flex min-h-44 flex-1 flex-col p-4">
+        <div className="flex min-h-35 flex-1 flex-col p-4">
           <p
             className={`text-${badgeStyles[badgeIndex]} text-xs font-semibold`}
           >
