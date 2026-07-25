@@ -1,32 +1,79 @@
+"use client";
+
+import Image from "next/image";
+import { useCallback, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+
+import styles from "./page.module.css";
+
 export default function Home() {
+  const router = useRouter();
+  const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const redirectToLogin = useCallback(() => {
+    if (redirectTimerRef.current) return;
+
+    redirectTimerRef.current = setTimeout(() => {
+      router.replace("/login");
+    }, 2000);
+  }, [router]);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    if (prefersReducedMotion.matches) {
+      redirectToLogin();
+    }
+
+    return () => {
+      if (redirectTimerRef.current) {
+        clearTimeout(redirectTimerRef.current);
+      }
+    };
+  }, [redirectToLogin]);
+
   return (
-    <main className="flex min-h-screen flex-col">
-      <section className="flex flex-1 flex-col items-center justify-center px-6 py-20 text-center">
-        <p className="text-green text-sm font-semibold">왓장</p>
+    <main
+      className={`to-light-green relative flex min-h-dvh items-center justify-center overflow-hidden bg-linear-to-t from-white via-white ${styles.screen}`}
+    >
+      <div
+        aria-hidden="true"
+        className={`bg-green/30 absolute size-72 rounded-full blur-3xl ${styles.backgroundGlow}`}
+      />
 
-        <h1 className="mt-4 max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl">
-          강원 장날을 여행처럼 만나는 방법
-        </h1>
+      <section className="relative z-10 flex items-center gap-4">
+        <div className={`relative ${styles.logoContainer}`}>
+          <div
+            aria-hidden="true"
+            className={`bg-green/30 absolute inset-3 rounded-full blur-xl ${styles.logoGlow}`}
+          />
 
-        <p className="mt-6 max-w-xl text-base leading-7 text-black/70">
-          강원도 오일장과 전통 장터의 장날, 먹거리, 특산품, 주변 관광 동선을 한
-          번에 확인하는 로컬 장터 여행 서비스입니다.
-        </p>
+          <Image
+            priority
+            src="/images/common/logo.svg"
+            width={90}
+            height={120}
+            alt="왓장 로고"
+            className={`relative ${styles.logo}`}
+          />
+        </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="#"
-            className="bg-green rounded-full px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-          >
-            장날 찾아보기
-          </a>
+        <div className={`flex flex-col gap-1 ${styles.textContainer}`}>
+          <p className="text-green text-2xl font-extrabold tracking-tight">
+            왓장
+          </p>
 
-          <a
-            href="#"
-            className="rounded-full border border-black/10 px-6 py-3 text-sm font-semibold transition-colors hover:bg-black/5"
-          >
-            서비스 둘러보기
-          </a>
+          <p className="text-deep-gray text-xs font-semibold">
+            강원 전통시장 · 장날 캘린더
+          </p>
+
+          <span
+            aria-hidden="true"
+            onAnimationEnd={redirectToLogin}
+            className={`bg-green -mt-0.5 h-0.5 rounded-full ${styles.line}`}
+          />
         </div>
       </section>
     </main>
