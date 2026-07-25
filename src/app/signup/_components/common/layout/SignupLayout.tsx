@@ -12,7 +12,7 @@ export default function SignupLayout({
   children,
 }: SignupProps) {
   return (
-    <section className="flex min-h-dvh w-full max-w-sm flex-col pt-22">
+    <section className="flex min-h-dvh w-full max-w-md flex-col pt-22">
       <header className="flex flex-col gap-3">
         <h1 className="text-2xl font-bold">{title}</h1>
 
