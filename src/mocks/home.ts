@@ -23,4 +23,25 @@ export const mockHomeData = {
       address: "강원 정선군 고한읍 고한4길 38-6",
     },
   ],
+
+  favoriteMarkets: [
+    {
+      id: 1,
+      name: "강릉중앙시장",
+      remainingDays: 3,
+      href: "/markets/1",
+    },
+    {
+      id: 2,
+      name: "속초관광수산시장",
+      remainingDays: 5,
+      href: "/markets/2",
+    },
+    {
+      id: 3,
+      name: "정선아리랑시장",
+      remainingDays: 6,
+      href: "/markets/3",
+    },
+  ],
 };
