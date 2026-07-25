@@ -4,7 +4,7 @@ export default function KakaoLoginButton() {
   return (
     <button
       type="button"
-      className="bg-yellow flex cursor-pointer items-center justify-center gap-3 rounded-2xl py-4"
+      className="bg-yellow flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl py-4"
     >
       <span className="relative size-4.5">
         <Image

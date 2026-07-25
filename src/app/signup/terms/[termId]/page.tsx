@@ -28,7 +28,7 @@ export default async function TermsDetailPage({
 
   return (
     <main className="to-signup-gradient-end flex min-h-dvh justify-center bg-linear-to-t from-white px-5">
-      <div className="flex min-h-dvh w-full max-w-sm flex-col">
+      <div className="flex min-h-dvh w-full max-w-md flex-col">
         <TermsDetailHeader title={term.title} />
         <TermsDetailList content={term.content} />
       </div>

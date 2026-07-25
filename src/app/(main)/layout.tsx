@@ -7,11 +7,13 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="to-signup-gradient-end min-h-dvh bg-linear-to-br from-white">
-      <div className="mx-auto flex min-h-dvh w-full max-w-xs flex-col">
-        <Header />
+    <div className="to-signup-gradient-end h-dvh overflow-hidden bg-linear-to-br from-white">
+      <div className="mx-auto h-full w-full max-w-md overflow-hidden">
+        <div className="h-full scrollbar-none overflow-x-hidden overflow-y-auto overscroll-contain pb-[calc(8rem+env(safe-area-inset-bottom))] [&::-webkit-scrollbar]:hidden">
+          <Header />
 
-        <main className="flex-1">{children}</main>
+          <main>{children}</main>
+        </div>
 
         <Navbar />
       </div>

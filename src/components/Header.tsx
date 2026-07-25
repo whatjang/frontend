@@ -9,7 +9,7 @@ export default function Header() {
   const NoticeIcon = HEADER_NOTICE_ITEM.icon;
 
   return (
-    <header className="flex w-full items-center justify-between py-6">
+    <header className="flex w-full items-center justify-between px-5 py-6">
       <Link
         href={HEADER_LOGO_ITEM.href}
         aria-label={HEADER_LOGO_ITEM.ariaLabel}
