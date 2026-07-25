@@ -3,12 +3,11 @@
 import { MapPin, Navigation } from "lucide-react";
 import { useEffect, useState } from "react";
 
-interface HomeLiveMarketProps {
+interface HomeLiveMarketItemProps {
   name: string;
   schedule: string;
   address: string;
   mapUrl: string;
-  onNavigate?: () => void;
 }
 
 function formatToday() {
@@ -20,13 +19,12 @@ function formatToday() {
   }).format(new Date());
 }
 
-export default function HomeLiveMarket({
+export default function HomeLiveMarketItem({
   name,
   schedule,
   address,
   mapUrl,
-  onNavigate,
-}: HomeLiveMarketProps) {
+}: HomeLiveMarketItemProps) {
   const [today, setToday] = useState("");
 
   useEffect(() => {
@@ -34,13 +32,14 @@ export default function HomeLiveMarket({
   }, []);
 
   return (
-    <section className="bg-green flex w-full flex-col gap-6 rounded-3xl p-6 text-white">
+    <article className="bg-green flex w-full flex-col justify-between gap-4 overflow-hidden rounded-3xl p-6 text-white">
       <header className="flex items-start justify-between">
         <div className="bg-light-brown/90 flex items-center gap-1 rounded-full border border-white/50 px-3 py-1">
           <span
             aria-hidden="true"
             className="h-1.5 w-1.5 rounded-full bg-white"
           />
+
           <span className="text-xs font-bold">MARKET LIVE</span>
         </div>
 
@@ -58,6 +57,7 @@ export default function HomeLiveMarket({
             className="h-4 w-4 shrink-0"
             strokeWidth={2}
           />
+
           <p className="text-xs font-medium">{address}</p>
         </div>
       </div>
@@ -70,8 +70,9 @@ export default function HomeLiveMarket({
         className="text-green flex w-full items-center justify-center gap-1 rounded-full bg-white/90 py-3.5 text-xs font-bold transition-opacity hover:opacity-90"
       >
         <span>길찾기 바로가기</span>
+
         <Navigation aria-hidden="true" className="h-4 w-4" strokeWidth={2.5} />
       </a>
-    </section>
+    </article>
   );
 }
