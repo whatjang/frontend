@@ -32,8 +32,21 @@ export default function HomeLiveMarketItem({
   }, []);
 
   return (
-    <article className="bg-green flex w-full flex-col justify-between gap-4 overflow-hidden rounded-3xl p-6 text-white">
-      <header className="flex items-start justify-between">
+    <article className="relative flex w-full flex-col justify-between gap-4 overflow-hidden rounded-3xl border border-white/40 p-6 text-white">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/images/home/live-market.svg')",
+        }}
+      />
+
+      <div
+        aria-hidden="true"
+        className="from-green/85 to-green/75 backdrop-blur-1 absolute inset-0 bg-linear-to-r"
+      />
+
+      <header className="relative z-10 flex items-start justify-between">
         <div className="bg-light-brown/90 flex items-center gap-1 rounded-full border border-white/50 px-3 py-1">
           <span
             aria-hidden="true"
@@ -46,7 +59,7 @@ export default function HomeLiveMarketItem({
         <time className="text-xs">{today || "\u00A0"}</time>
       </header>
 
-      <div className="flex flex-col gap-1">
+      <div className="relative z-10 flex flex-col gap-1">
         <h2 className="text-xl font-bold">
           {name} <span>({schedule})</span>
         </h2>
@@ -67,7 +80,7 @@ export default function HomeLiveMarketItem({
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${name} 구글 지도 열기`}
-        className="text-green flex w-full items-center justify-center gap-1 rounded-full bg-white/90 py-3.5 text-xs font-bold transition-opacity hover:opacity-90"
+        className="text-green relative z-10 flex w-full items-center justify-center gap-1 rounded-full bg-white/90 py-3.5 text-xs font-bold transition-opacity hover:opacity-90"
       >
         <span>길찾기 바로가기</span>
 

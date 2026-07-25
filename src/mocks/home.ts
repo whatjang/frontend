@@ -44,4 +44,31 @@ export const mockHomeData = {
       href: "/markets/3",
     },
   ],
+
+  trendFood: [
+    {
+      id: 1,
+      rank: 1,
+      marketName: "속초 중앙시장",
+      title: "바삭한 시장 튀김 먹거리",
+      tag: "전국구_맛",
+      href: "/trends/1",
+    },
+    {
+      id: 2,
+      rank: 2,
+      marketName: "정선 5일장",
+      title: "정선 산나물과 지역 먹거리",
+      tag: "향긋한_건강",
+      href: "/trends/2",
+    },
+    {
+      id: 3,
+      rank: 3,
+      marketName: "지역 농산물 시장",
+      title: "달콤한 로컬 벌꿀 이야기",
+      tag: "달콤한_로컬",
+      href: "/trends/3",
+    },
+  ],
 };
