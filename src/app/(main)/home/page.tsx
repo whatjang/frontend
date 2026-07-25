@@ -1,5 +1,6 @@
 import { mockHomeData } from "@/src/mocks/home";
 
+import HomeCalendarList from "./_components/calendar/HomeCalendarList";
 import HomeFavoriteMarketList from "./_components/favorite/HomeFavoriteMarketList";
 import HomeHeader from "./_components/HomeHeader";
 import HomeLiveMarketList from "./_components/live/HomeLiveMarketList";
@@ -18,6 +19,8 @@ export default function HomePage() {
       </section>
 
       <HomeTrendFoodList trends={trendFood} />
+
+      <HomeCalendarList />
     </main>
   );
 }
