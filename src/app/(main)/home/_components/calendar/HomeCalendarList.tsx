@@ -2,30 +2,22 @@
 
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { WEEKDAYS } from "@/src/constants/calendar";
 import {
   type CalendarDay,
-  getDateInTimeZone,
-  getWeekCalendarDays,
+  getCurrentWeekCalendarDays,
 } from "@/src/utils/calendar";
 
 import HomeCalendarItem from "./HomeCalendarItem";
 
 export default function HomeCalendarList() {
-  const [week, setWeek] = useState<CalendarDay[]>([]);
-
-  useEffect(() => {
-    const today = getDateInTimeZone();
-
-    setWeek(
-      getWeekCalendarDays(today, {
-        today,
-        weekStartsOn: 1,
-      })
-    );
-  }, []);
+  const [week] = useState<CalendarDay[]>(() =>
+    getCurrentWeekCalendarDays({
+      weekStartsOn: 1,
+    })
+  );
 
   return (
     <section
@@ -54,18 +46,6 @@ export default function HomeCalendarList() {
       <div className="mt-4 grid grid-cols-7">
         {WEEKDAYS.map((weekday, index) => {
           const day = week[index];
-
-          if (!day) {
-            return (
-              <div key={weekday} className="flex flex-col items-center gap-3">
-                <span className="text-gray text-xs font-semibold">
-                  {weekday}
-                </span>
-
-                <span className="h-10 w-10" />
-              </div>
-            );
-          }
 
           return (
             <HomeCalendarItem

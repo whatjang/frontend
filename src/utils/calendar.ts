@@ -13,6 +13,11 @@ interface CalendarOptions {
   weekStartsOn?: number;
 }
 
+interface CurrentWeekCalendarOptions {
+  weekStartsOn?: number;
+  timeZone?: string;
+}
+
 export function formatIsoDate(date: Date) {
   const year = date.getUTCFullYear();
   const month = String(date.getUTCMonth() + 1).padStart(2, "0");
@@ -39,6 +44,10 @@ export function getDateInTimeZone(
   const day = Number(parts.find((part) => part.type === "day")?.value);
 
   return new Date(Date.UTC(year, month - 1, day));
+}
+
+export function getToday(timeZone = DEFAULT_TIME_ZONE) {
+  return getDateInTimeZone(new Date(), timeZone);
 }
 
 export function addDays(date: Date, amount: number) {
@@ -81,15 +90,32 @@ export function getWeekCalendarDays(
   anchorDate: Date,
   options: CalendarOptions = {}
 ): CalendarDay[] {
-  const { today = getDateInTimeZone(), weekStartsOn = 1 } = options;
+  const { today = getToday(), weekStartsOn = 1 } = options;
 
   const offset = getWeekdayIndex(anchorDate, weekStartsOn);
+
   const startDate = addDays(anchorDate, -offset);
 
   return Array.from({ length: 7 }, (_, index) => {
     const date = addDays(startDate, index);
 
     return createCalendarDay(date, today);
+  });
+}
+
+/**
+ * 오늘이 포함된 한 주 반환
+ */
+export function getCurrentWeekCalendarDays(
+  options: CurrentWeekCalendarOptions = {}
+): CalendarDay[] {
+  const { weekStartsOn = 1, timeZone = DEFAULT_TIME_ZONE } = options;
+
+  const today = getToday(timeZone);
+
+  return getWeekCalendarDays(today, {
+    today,
+    weekStartsOn,
   });
 }
 
@@ -104,7 +130,7 @@ export function getMonthCalendarDays(
   month: number,
   options: CalendarOptions = {}
 ): CalendarDay[] {
-  const { today = getDateInTimeZone(), weekStartsOn = 1 } = options;
+  const { today = getToday(), weekStartsOn = 1 } = options;
 
   const monthIndex = month - 1;
 

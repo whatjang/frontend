@@ -1,7 +1,7 @@
 "use client";
 
 import { MapPin, Navigation } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface HomeLiveMarketItemProps {
   name: string;
@@ -25,11 +25,7 @@ export default function HomeLiveMarketItem({
   address,
   mapUrl,
 }: HomeLiveMarketItemProps) {
-  const [today, setToday] = useState("");
-
-  useEffect(() => {
-    setToday(formatToday());
-  }, []);
+  const [today] = useState(formatToday);
 
   return (
     <article className="relative flex w-full flex-col justify-between gap-4 overflow-hidden rounded-3xl border border-white/40 p-6 text-white">
@@ -56,7 +52,7 @@ export default function HomeLiveMarketItem({
           <span className="text-xs font-bold">MARKET LIVE</span>
         </div>
 
-        <time className="text-xs">{today || "\u00A0"}</time>
+        <time className="text-xs">{today}</time>
       </header>
 
       <div className="relative z-10 flex flex-col gap-1">
