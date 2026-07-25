@@ -4,7 +4,7 @@ type HomeHeaderProps = {
 
 export default function HomeHeader({ userName }: HomeHeaderProps) {
   return (
-    <header className="flex flex-col gap-1">
+    <header className="flex flex-col gap-1 px-5">
       <p className="text-green text-xs font-bold">GANGWON PROVINCE</p>
 
       <h1 className="text-green text-lg font-bold">

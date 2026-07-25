@@ -80,7 +80,10 @@ export default function HomeLiveMarketList({
   }
 
   return (
-    <section aria-label="현재 운영 중인 시장" className="flex flex-col gap-1">
+    <section
+      aria-label="현재 운영 중인 시장"
+      className="flex flex-col gap-1 px-5"
+    >
       {markets.length > 1 && (
         <nav
           aria-label="시장 슬라이드 이동"

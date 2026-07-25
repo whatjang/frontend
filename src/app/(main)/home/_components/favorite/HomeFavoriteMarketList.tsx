@@ -19,7 +19,7 @@ export default function HomeFavoriteMarketList({
   }
 
   return (
-    <section aria-label="즐겨찾는 시장">
+    <section aria-label="즐겨찾는 시장" className="pl-5">
       <div className="flex snap-x snap-mandatory scrollbar-none gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
         {markets.map((market) => (
           <div
@@ -27,7 +27,7 @@ export default function HomeFavoriteMarketList({
             className={
               markets.length === 1
                 ? "w-full shrink-0"
-                : "w-[92%] shrink-0 snap-start"
+                : "w-[94%] shrink-0 snap-start"
             }
           >
             <HomeFavoriteMarketItem
