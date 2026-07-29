@@ -9,7 +9,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-  placeholder = "시장 이름 또는 강원 지역명을 검색하세요",
+  placeholder = "시장명 또는 강원 지역명을 검색하세요.",
   defaultValue = "",
 }: SearchBarProps) {
   const [keyword, setKeyword] = useState(defaultValue);
@@ -37,7 +37,7 @@ export default function SearchBar({
         onChange={(event) => setKeyword(event.target.value)}
         placeholder={placeholder}
         autoComplete="off"
-        className="text-deep-gray placeholder:text-deep-gray text-md min-w-0 flex-1 appearance-none bg-transparent outline-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
+        className="text-deep-gray placeholder:text-deep-gray min-w-0 flex-1 appearance-none bg-transparent text-sm font-semibold outline-none [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
       />
 
       {keyword && (
