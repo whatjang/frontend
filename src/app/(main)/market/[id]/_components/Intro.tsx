@@ -22,7 +22,7 @@ export default function Intro({ market }: IntroProps) {
     <section className="flex w-full flex-col gap-4 px-5">
       <div className="bg-light-gray h-50 w-full rounded-3xl" />
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <h1 className="text-green text-xl font-bold">{market.name}</h1>
 
@@ -32,7 +32,7 @@ export default function Intro({ market }: IntroProps) {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-start gap-1">
           <MapPin
             size={16}
             strokeWidth={2}
@@ -40,14 +40,14 @@ export default function Intro({ market }: IntroProps) {
             aria-hidden="true"
           />
 
-          <p className="text-sm text-gray-500">
-            {market.address}
-            <span className="mx-1">·</span>
-            이번 달 {marketDates.join("-")}일
-          </p>
+          <div className="text-deep-gray flex flex-col text-sm">
+            <p className="font-bold">{market.address}</p>
+            <p>이번 달 {marketDates.join("-")}일</p>
+          </div>
         </div>
+
         {market.notice && (
-          <div className="text-green shadow-light-gray flex items-start gap-3 rounded-3xl bg-white p-4 shadow-xs">
+          <div className="text-green shadow-light-gray flex items-start gap-3 rounded-3xl bg-white p-2 shadow-xs">
             <InfoIcon size={16} strokeWidth={2} />
             <p className="text-xs font-medium">{market.notice}</p>
           </div>
