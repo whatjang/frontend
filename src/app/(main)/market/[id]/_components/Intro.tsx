@@ -47,7 +47,7 @@ export default function Intro({ market }: IntroProps) {
         </div>
 
         {market.notice && (
-          <div className="text-green shadow-light-gray flex items-start gap-3 rounded-3xl bg-white p-2 shadow-xs">
+          <div className="text-green shadow-light-gray flex items-start gap-1 rounded-3xl bg-white p-2 shadow-xs">
             <InfoIcon size={16} strokeWidth={2} />
             <p className="text-xs font-medium">{market.notice}</p>
           </div>
