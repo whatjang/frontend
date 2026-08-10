@@ -5,6 +5,7 @@ import Intro from "./_components/Intro";
 import Facilities from "./_components/Facilities";
 import Food from "./_components/Food";
 import Reports from "./_components/Reports";
+import BottomActions from "./_components/BottomActions";
 
 interface MarketDetailPageProps {
   params: Promise<{
@@ -34,6 +35,8 @@ export default async function MarketDetailPage({
       <Facilities facilities={market.facilities} />
       <Food specialties={market.specialties} />
       <Reports reports={market.reports} marketId={marketId} />
+
+      <BottomActions initialFavorite={market.isFavorite} />
     </main>
   );
 }
