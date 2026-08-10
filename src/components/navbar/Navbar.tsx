@@ -1,6 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useSelectedLayoutSegments } from "next/navigation";
+
 import {
   HOME_NAVBAR_ITEM,
   NAVBAR_ITEMS,
@@ -10,16 +11,20 @@ import NavItem from "./NavItem";
 import HomeNavItem from "./HomeNavItem";
 
 export default function Navbar() {
-  const pathname = usePathname();
+  const segments = useSelectedLayoutSegments();
+
+  const rootSegment = segments.find((segment) => !segment.startsWith("("));
 
   const isActive = (href: string) => {
-    return pathname === href || pathname.startsWith(`${href}/`);
+    const rootPath = href.split("/").filter(Boolean)[0];
+
+    return rootSegment === rootPath;
   };
 
   const isSearchActive =
-    isActive(ROUTES.search) ||
-    isActive(ROUTES.market) ||
-    isActive(ROUTES.report);
+    rootSegment === "search" ||
+    rootSegment === "market" ||
+    rootSegment === "report";
 
   const isHomeActive = isActive(HOME_NAVBAR_ITEM.href);
 
