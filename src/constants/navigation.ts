@@ -15,6 +15,8 @@ export const ROUTES = {
   tour: "/tour",
   records: "/records",
   mypage: "/mypage",
+  market: "/market",
+  report: "/report",
 } as const;
 
 export type HeaderLogoItem = {
