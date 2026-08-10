@@ -22,9 +22,9 @@ export default function Navbar() {
   };
 
   const isSearchActive =
-    rootSegment === "search" ||
-    rootSegment === "market" ||
-    rootSegment === "report";
+    isActive(ROUTES.search) ||
+    isActive(ROUTES.market) ||
+    isActive(ROUTES.report);
 
   const isHomeActive = isActive(HOME_NAVBAR_ITEM.href);
 
