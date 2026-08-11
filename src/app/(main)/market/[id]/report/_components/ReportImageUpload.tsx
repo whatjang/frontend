@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Camera, Lightbulb, X } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -13,7 +14,7 @@ interface ImageUploadButtonProps {
 }
 
 interface ImagePreviewProps {
-  src: string;
+  file: File;
   index: number;
   onDelete: (index: number) => void;
 }
@@ -24,21 +25,7 @@ export default function ReportImageUpload({
   images,
   onChange,
 }: ReportImageUploadProps) {
-  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-
   const canAddImage = images.length < MAX_IMAGES;
-
-  useEffect(() => {
-    const urls = images.map((image) => URL.createObjectURL(image));
-
-    setPreviewUrls(urls);
-
-    return () => {
-      urls.forEach((url) => {
-        URL.revokeObjectURL(url);
-      });
-    };
-  }, [images]);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files ?? []);
@@ -51,8 +38,7 @@ export default function ReportImageUpload({
 
     onChange([...images, ...filesToAdd]);
 
-    // 같은 이미지를 다시 선택해도 onChange가 발생하도록 초기화
-    event.target.value = "";
+    event.currentTarget.value = "";
   };
 
   const handleDelete = (targetIndex: number) => {
@@ -69,20 +55,14 @@ export default function ReportImageUpload({
         <div className="flex w-max gap-3 px-5">
           {canAddImage && <ImageUploadButton onChange={handleImageChange} />}
 
-          {previewUrls.map((url, index) => {
-            const file = images[index];
-
-            if (!file) return null;
-
-            return (
-              <ImagePreview
-                key={`${file.name}-${file.lastModified}-${index}`}
-                src={url}
-                index={index}
-                onDelete={handleDelete}
-              />
-            );
-          })}
+          {images.map((file, index) => (
+            <ImagePreview
+              key={`${file.name}-${file.lastModified}-${file.size}-${index}`}
+              file={file}
+              index={index}
+              onDelete={handleDelete}
+            />
+          ))}
 
           <ImageUploadTip />
         </div>
@@ -132,21 +112,46 @@ function ImageUploadButton({ onChange }: ImageUploadButtonProps) {
   );
 }
 
-function ImagePreview({ src, index, onDelete }: ImagePreviewProps) {
+function ImagePreview({ file, index, onDelete }: ImagePreviewProps) {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setPreviewUrl(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(file);
+
+    return () => {
+      if (reader.readyState === FileReader.LOADING) {
+        reader.abort();
+      }
+    };
+  }, [file]);
+
   return (
-    <div className="relative size-23 shrink-0 overflow-hidden rounded-xl">
-      <img
-        src={src}
-        alt={`제보 이미지 ${index + 1}`}
-        className="size-full object-cover"
-      />
+    <div className="relative size-23 shrink-0 overflow-hidden rounded-xl bg-gray-100">
+      {previewUrl && (
+        <Image
+          src={previewUrl}
+          alt={`제보 이미지 ${index + 1}`}
+          fill
+          unoptimized
+          sizes="92px"
+          className="object-cover"
+        />
+      )}
 
       <button
         type="button"
         aria-label={`${index + 1}번째 사진 삭제`}
         onClick={() => onDelete(index)}
         className={[
-          "absolute top-1 right-1",
+          "absolute top-1 right-1 z-10",
           "flex size-4 items-center justify-center",
           "cursor-pointer rounded-full",
           "bg-black/60 text-white",
