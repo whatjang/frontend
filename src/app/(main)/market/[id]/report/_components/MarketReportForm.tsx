@@ -27,6 +27,11 @@ export default function MarketReportForm({ marketId }: MarketReportFormProps) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (rating === 0) {
+      alert("별점을 선택해주세요.");
+      return;
+    }
+
     if (!category) {
       alert("제보 카테고리를 선택해주세요.");
       return;
