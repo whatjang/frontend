@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import ReportRating from "./ReportRating";
 import ReportCategory from "./ReportCategory";
 import ReportContent from "./ReportContent";
 import ReportImageUpload from "./ReportImageUpload";
@@ -18,6 +19,7 @@ interface MarketReportFormProps {
 export default function MarketReportForm({ marketId }: MarketReportFormProps) {
   const router = useRouter();
 
+  const [rating, setRating] = useState(0);
   const [category, setCategory] = useState<ReportCategoryType | null>(null);
   const [content, setContent] = useState("");
   const [images, setImages] = useState<File[]>([]);
@@ -42,6 +44,7 @@ export default function MarketReportForm({ marketId }: MarketReportFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <div className="flex flex-col gap-6 px-5">
+        <ReportRating value={rating} onChange={setRating} />
         <ReportCategory value={category} onChange={setCategory} />
         <ReportContent value={content} onChange={setContent} />
       </div>
