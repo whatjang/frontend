@@ -34,7 +34,7 @@ export default function HomeTrendFoodList({ trends }: HomeTrendFoodListProps) {
         </div>
 
         <Link
-          href="/tour"
+          href="/trend"
           className="border-green/20 text-green shrink-0 cursor-pointer rounded-full border bg-white/40 px-4 py-1.5 text-xs font-semibold backdrop-blur-sm transition-colors hover:bg-white/70"
         >
           전체보기
