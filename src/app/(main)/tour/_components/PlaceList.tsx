@@ -23,12 +23,13 @@ export default function PlaceList({
 
   return (
     <section className="space-y-3">
-      {places.map((place) => (
+      {places.map((place, index) => (
         <PlaceItem
           key={place.id}
           place={place}
           selected={place.id === selectedPlaceId}
           onSelect={() => onSelectPlace(place.id)}
+          eager={index === 0}
         />
       ))}
     </section>

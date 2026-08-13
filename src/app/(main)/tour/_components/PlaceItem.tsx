@@ -11,12 +11,14 @@ interface PlaceItemProps {
   place: TourPlace;
   selected: boolean;
   onSelect: () => void;
+  eager?: boolean;
 }
 
 export default function PlaceItem({
   place,
   selected,
   onSelect,
+  eager = false,
 }: PlaceItemProps) {
   const [liked, setLiked] = useState(false);
 
@@ -47,6 +49,7 @@ export default function PlaceItem({
         alt={place.name}
         width={84}
         height={84}
+        loading={eager ? "eager" : "lazy"}
         className="size-21 shrink-0 rounded-xl object-cover"
       />
 
