@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { ExternalLink, Heart } from "lucide-react";
 import { useState } from "react";
 
@@ -40,9 +42,11 @@ export default function PlaceItem({
         selected ? "border-green" : "border-light-gray shadow-light-gray",
       ].join(" ")}
     >
-      <img
+      <Image
         src={place.image}
         alt={place.name}
+        width={84}
+        height={84}
         className="size-21 shrink-0 rounded-xl object-cover"
       />
 
