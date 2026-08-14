@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 import type { Market } from "@/src/types/market";
+import ReportCard from "@/src/components/report/ReportCard";
 
-import { ChevronRight, SquarePen, Star, UserRound } from "lucide-react";
+import { SquarePen } from "lucide-react";
 
 interface ReportsProps {
   reports: Market["reports"];
@@ -33,80 +34,10 @@ export default function Reports({ reports, marketId }: ReportsProps) {
         </Link>
       </div>
 
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-2">
         {reports.map((report) => (
-          <li
-            key={report.id}
-            className="shadow-light-gray flex flex-col gap-3 rounded-3xl bg-white p-4 shadow-xs"
-          >
-            <div className="flex min-w-0 items-start gap-2">
-              <div className="bg-light-green text-green border-light-gray flex size-9 shrink-0 items-center justify-center rounded-full border">
-                <UserRound size={18} strokeWidth={2} />
-              </div>
-
-              <div className="min-w-0 flex-1">
-                <div className="flex min-w-0 items-center gap-1 whitespace-nowrap">
-                  <span className="text-green min-w-0 truncate text-sm font-bold">
-                    {report.author}
-                  </span>
-
-                  <span className="text-deep-gray shrink-0 text-xs">
-                    {formatDate(report.createdAt)}
-                  </span>
-                </div>
-
-                <div className="flex min-w-0 items-center gap-1 whitespace-nowrap">
-                  <span className="border-light-gray text-deep-gray truncate rounded-full border px-1.5 py-0.5 text-xs">
-                    #{report.tag}
-                  </span>
-
-                  <div className="flex shrink-0 items-center gap-0.5">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star
-                        key={index}
-                        size={11}
-                        strokeWidth={2}
-                        className={
-                          index < Math.round(report.rating)
-                            ? "fill-green text-green"
-                            : "text-light-gray"
-                        }
-                      />
-                    ))}
-                  </div>
-
-                  <span className="text-green shrink-0 text-xs font-semibold">
-                    {report.rating.toFixed(1)}
-                  </span>
-                </div>
-              </div>
-
-              <Link
-                href={`/report/${report.id}`}
-                aria-label={`${report.author}님의 제보 상세보기`}
-                className="mt-1 shrink-0"
-              >
-                <ChevronRight
-                  size={16}
-                  strokeWidth={2}
-                  className="text-green"
-                  aria-hidden="true"
-                />
-              </Link>
-            </div>
-
-            <div className="flex min-w-0 items-stretch gap-2">
-              <p className="text-green line-clamp-3 min-w-0 flex-1 text-xs">
-                {report.content}
-              </p>
-
-              {report.imageUrl && (
-                <div
-                  className="bg-light-gray size-16 shrink-0 rounded-xl"
-                  aria-hidden="true"
-                />
-              )}
-            </div>
+          <li key={report.id}>
+            <ReportCard report={report} title={report.author} showUserIcon />
           </li>
         ))}
       </ul>

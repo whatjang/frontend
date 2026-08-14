@@ -1,8 +1,10 @@
+import type { ReportSummary } from "./report";
+
 export interface MyPageData {
   profile: Profile;
   favoriteMarkets: FavoriteMarket[];
   records: MarketRecord[];
-  recentReports: RecentReport[];
+  reports: MyPageReport[];
 }
 
 export interface Profile {
@@ -27,9 +29,7 @@ export interface MarketRecord {
   memo: string;
 }
 
-export interface RecentReport {
-  id: number;
-  title: string;
-  createdAt: string;
-  status: "PENDING" | "ACCEPTED" | "REJECTED";
+export interface MyPageReport extends ReportSummary {
+  marketId: number;
+  marketName: string;
 }

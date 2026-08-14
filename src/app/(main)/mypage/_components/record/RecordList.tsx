@@ -37,7 +37,7 @@ export default function RecordList({ records }: RecordListProps) {
           아직 작성한 기록이 없어요.
         </div>
       ) : (
-        <div className="scrollbar-hide flex snap-x snap-mandatory scrollbar-none overflow-x-auto">
+        <div className="scrollbar-hide flex snap-x snap-mandatory scrollbar-none gap-2 overflow-x-auto">
           {recordPages.map((page, pageIndex) => (
             <div
               key={pageIndex}

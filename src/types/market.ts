@@ -1,3 +1,5 @@
+import type { ReportSummary } from "./report";
+
 export type MarketSpecialtyIcon =
   "seafood" | "fried-chicken" | "vegetable" | "meat" | "fruit" | "food";
 
@@ -26,14 +28,8 @@ export interface MarketLocation {
   longitude: number;
 }
 
-export interface MarketReport {
-  id: number;
+export interface MarketReport extends ReportSummary {
   author: string;
-  content: string;
-  rating: number;
-  createdAt: string;
-  tag?: string;
-  imageUrl?: string;
 }
 
 export interface Market {

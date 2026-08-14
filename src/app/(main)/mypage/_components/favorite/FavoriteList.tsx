@@ -47,7 +47,7 @@ export default function FavoriteList({ markets }: FavoriteListProps) {
           즐겨찾기한 시장이 없어요.
         </div>
       ) : (
-        <div className="scrollbar-hide flex snap-x snap-mandatory scrollbar-none overflow-x-auto">
+        <div className="scrollbar-hide flex snap-x snap-mandatory scrollbar-none gap-2 overflow-x-auto">
           {marketPages.map((page, pageIndex) => (
             <div
               key={pageIndex}

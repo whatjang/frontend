@@ -109,12 +109,59 @@ export const mockMyPageData: MyPageData = {
     },
   ],
 
-  recentReports: [
+  reports: [
     {
       id: 1,
-      title: "양양시장 주차장 혼잡도",
-      createdAt: "어제 오후 2:30",
-      status: "ACCEPTED",
+      marketId: 1,
+      marketName: "양양 전통시장",
+      createdAt: "2026-07-28",
+      tag: "교통정보",
+      rating: 4.8,
+      content:
+        "주말에는 방문객이 많아 주차장이 혼잡합니다. 대중교통 이용을 추천합니다.",
+      imageUrl: "/images/reports/yangyang-parking.jpg",
+    },
+    {
+      id: 2,
+      marketId: 2,
+      marketName: "속초 관광수산시장",
+      createdAt: "2026-07-25",
+      tag: "방문팁",
+      rating: 4.6,
+      content:
+        "오전 시간대에 방문하면 비교적 여유롭게 시장을 둘러볼 수 있습니다.",
+    },
+    {
+      id: 3,
+      marketId: 3,
+      marketName: "춘천 풍물시장",
+      createdAt: "2026-07-19",
+      tag: "먹거리",
+      rating: 4.9,
+      content:
+        "시장 안쪽에 있는 감자전이 정말 맛있었어요. 따뜻할 때 먹는 걸 추천합니다.",
+      imageUrl: "/images/reports/chuncheon-food.jpg",
+    },
+    {
+      id: 4,
+      marketId: 4,
+      marketName: "강릉 중앙시장",
+      createdAt: "2026-07-12",
+      tag: "혼잡도",
+      rating: 4.4,
+      content:
+        "저녁 시간에는 먹거리 골목 쪽이 많이 붐벼서 조금 일찍 방문하는 게 좋습니다.",
+    },
+    {
+      id: 5,
+      marketId: 5,
+      marketName: "정선 5일장",
+      createdAt: "2026-07-02",
+      tag: "방문팁",
+      rating: 4.7,
+      content:
+        "장날 오전에 방문하면 상점도 많이 열려 있고 지역 특산물 구경하기 좋습니다.",
+      imageUrl: "/images/reports/jeongseon-market.jpg",
     },
   ],
 };
