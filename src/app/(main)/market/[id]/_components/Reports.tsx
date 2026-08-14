@@ -1,24 +1,38 @@
 import Link from "next/link";
 
 import type { Market } from "@/src/types/market";
+import ReportCard from "@/src/components/report/ReportCard";
 
-import { ChevronRight, SquarePen, Star, UserRound } from "lucide-react";
+import { SquarePen } from "lucide-react";
 
 interface ReportsProps {
   reports: Market["reports"];
   marketId: number;
 }
 
-function formatDate(date: string) {
-  return date.replaceAll("-", ".");
+type Report = Market["reports"][number];
+
+const ITEMS_PER_PAGE = 3;
+
+function chunkReports(reports: Report[]) {
+  const chunks: Report[][] = [];
+
+  for (let i = 0; i < reports.length; i += ITEMS_PER_PAGE) {
+    chunks.push(reports.slice(i, i + ITEMS_PER_PAGE));
+  }
+
+  return chunks;
 }
 
 export default function Reports({ reports, marketId }: ReportsProps) {
+  const reportPages = chunkReports(reports);
+
   return (
     <section className="flex flex-col gap-4 px-5">
       <div className="flex items-center justify-between gap-2">
         <div className="flex flex-col">
           <h2 className="text-green text-xl font-bold">현장 제보</h2>
+
           <p className="text-deep-gray text-xs font-semibold">
             지금 시장의 생생한 소식을 알려주세요!
           </p>
@@ -33,83 +47,30 @@ export default function Reports({ reports, marketId }: ReportsProps) {
         </Link>
       </div>
 
-      <ul className="flex flex-col gap-3">
-        {reports.map((report) => (
-          <li
-            key={report.id}
-            className="shadow-light-gray flex flex-col gap-3 rounded-3xl bg-white p-4 shadow-xs"
-          >
-            <div className="flex min-w-0 items-start gap-2">
-              <div className="bg-light-green text-green border-light-gray flex size-9 shrink-0 items-center justify-center rounded-full border">
-                <UserRound size={18} strokeWidth={2} />
-              </div>
-
-              <div className="min-w-0 flex-1">
-                <div className="flex min-w-0 items-center gap-1 whitespace-nowrap">
-                  <span className="text-green min-w-0 truncate text-sm font-bold">
-                    {report.author}
-                  </span>
-
-                  <span className="text-deep-gray shrink-0 text-xs">
-                    {formatDate(report.createdAt)}
-                  </span>
-                </div>
-
-                <div className="flex min-w-0 items-center gap-1 whitespace-nowrap">
-                  <span className="border-light-gray text-deep-gray truncate rounded-full border px-1.5 py-0.5 text-xs">
-                    #{report.tag}
-                  </span>
-
-                  <div className="flex shrink-0 items-center gap-0.5">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star
-                        key={index}
-                        size={11}
-                        strokeWidth={2}
-                        className={
-                          index < Math.round(report.rating)
-                            ? "fill-green text-green"
-                            : "text-light-gray"
-                        }
-                      />
-                    ))}
-                  </div>
-
-                  <span className="text-green shrink-0 text-xs font-semibold">
-                    {report.rating.toFixed(1)}
-                  </span>
-                </div>
-              </div>
-
-              <Link
-                href={`/report/${report.id}`}
-                aria-label={`${report.author}님의 제보 상세보기`}
-                className="mt-1 shrink-0"
-              >
-                <ChevronRight
-                  size={16}
-                  strokeWidth={2}
-                  className="text-green"
-                  aria-hidden="true"
-                />
-              </Link>
-            </div>
-
-            <div className="flex min-w-0 items-stretch gap-2">
-              <p className="text-green line-clamp-3 min-w-0 flex-1 text-xs">
-                {report.content}
-              </p>
-
-              {report.imageUrl && (
-                <div
-                  className="bg-light-gray size-16 shrink-0 rounded-xl"
-                  aria-hidden="true"
-                />
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
+      {reports.length === 0 ? (
+        <p className="text-deep-gray text-center text-sm">
+          아직 등록된 제보가 없어요.
+        </p>
+      ) : (
+        <div className="scrollbar-hide flex snap-x snap-mandatory scrollbar-none gap-2 overflow-x-auto scroll-smooth py-1">
+          {reportPages.map((page, pageIndex) => (
+            <ul
+              key={pageIndex}
+              className="flex w-full shrink-0 snap-start flex-col gap-2"
+            >
+              {page.map((report) => (
+                <li key={report.id}>
+                  <ReportCard
+                    report={report}
+                    title={report.author}
+                    showUserIcon
+                  />
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
