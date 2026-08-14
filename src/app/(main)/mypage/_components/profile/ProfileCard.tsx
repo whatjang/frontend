@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import { LogOutIcon, Pencil, Trash2 } from "lucide-react";
 
@@ -22,7 +22,7 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
   const handleDeleteAccount = () => {
     alert("회원 탈퇴가 완료되었습니다.");
     setIsDeleteModalOpen(false);
-    router.push("/");
+    router.replace("/");
   };
 
   return (
