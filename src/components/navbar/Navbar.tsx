@@ -24,7 +24,8 @@ export default function Navbar() {
   const isSearchActive =
     isActive(ROUTES.search) ||
     isActive(ROUTES.market) ||
-    isActive(ROUTES.report);
+    isActive(ROUTES.report) ||
+    isActive(ROUTES.trend);
 
   const isHomeActive = isActive(HOME_NAVBAR_ITEM.href);
 
