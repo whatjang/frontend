@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, StarIcon } from "lucide-react";
+import { StarIcon } from "lucide-react";
 import { useState } from "react";
 
 import { FavoriteMarket } from "@/src/types/mypage";
