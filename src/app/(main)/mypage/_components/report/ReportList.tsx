@@ -24,7 +24,7 @@ export default function ReportList({ reports }: ReportListProps) {
 
   return (
     <section className="flex flex-col gap-2">
-      <div className="mb-3 flex items-center gap-1">
+      <div className="flex items-center gap-1">
         <MessageSquareText className="text-green" size={18} />
         <h2 className="text-green font-bold">나의 제보</h2>
       </div>

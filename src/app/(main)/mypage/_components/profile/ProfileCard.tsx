@@ -1,4 +1,4 @@
-import { Pencil, LogOutIcon } from "lucide-react";
+import { Pencil, LogOutIcon, Trash2 } from "lucide-react";
 
 import type { Profile } from "@/src/types/mypage";
 import StatCard from "./StatCard";
@@ -26,10 +26,17 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
             </div>
           </div>
 
-          <button className="text-deep-gray flex items-center gap-1 text-xs font-bold">
-            <LogOutIcon size={14} />
-            로그아웃
-          </button>
+          <div className="flex flex-col gap-2">
+            <button className="text-deep-gray flex cursor-pointer items-center gap-1 text-xs font-bold">
+              <LogOutIcon size={14} />
+              로그아웃
+            </button>
+
+            <button className="text-red flex cursor-pointer items-center gap-1 text-xs font-medium">
+              <Trash2 size={13} />
+              회원탈퇴
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
