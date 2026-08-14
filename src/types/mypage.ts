@@ -24,6 +24,7 @@ export interface MarketRecord {
   visitedAt: string;
   imageUrl: string;
   tags: string[];
+  memo: string;
 }
 
 export interface RecentReport {

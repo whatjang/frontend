@@ -1,5 +1,7 @@
 import ProfileCard from "./_components/profile/ProfileCard";
 import FavoriteList from "./_components/favorite/FavoriteList";
+import RecordList from "./_components/record/RecordList";
+
 import { mockMyPageData } from "@/src/mocks/mypage";
 
 export default function MyPage() {
@@ -10,6 +12,7 @@ export default function MyPage() {
       <div className="flex flex-col gap-6">
         <ProfileCard profile={profile} />
         <FavoriteList markets={favoriteMarkets} />
+        <RecordList records={records} />
       </div>
     </main>
   );
