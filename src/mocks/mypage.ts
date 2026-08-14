@@ -20,6 +20,42 @@ export const mockMyPageData: MyPageData = {
       marketDays: "매월 2, 7, 12, 17, 22, 27일",
       dDay: "오늘",
     },
+    {
+      id: 3,
+      marketName: "춘천 풍물시장",
+      marketDays: "매월 2, 7일",
+      dDay: "D-4",
+    },
+    {
+      id: 4,
+      marketName: "강릉 주문진시장",
+      marketDays: "매월 1, 6일",
+      dDay: "D-5",
+    },
+    {
+      id: 5,
+      marketName: "양양 전통시장",
+      marketDays: "매월 4, 9일",
+      dDay: "D-7",
+    },
+    {
+      id: 6,
+      marketName: "평창 봉평시장",
+      marketDays: "매월 2, 7일",
+      dDay: "D-8",
+    },
+    {
+      id: 7,
+      marketName: "홍천 중앙시장",
+      marketDays: "매월 1, 6일",
+      dDay: "D-10",
+    },
+    {
+      id: 8,
+      marketName: "삼척 중앙시장",
+      marketDays: "매월 2, 7일",
+      dDay: "D-12",
+    },
   ],
 
   records: [
