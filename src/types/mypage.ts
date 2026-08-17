@@ -18,6 +18,7 @@ export interface FavoriteMarket {
   marketName: string;
   marketDays: string;
   dDay: string;
+  notificationEnabled: boolean;
 }
 
 export interface MarketRecord {
