@@ -35,6 +35,19 @@ export default function FavoriteList({ markets }: FavoriteListProps) {
     );
   };
 
+  const handleToggleNotification = (marketId: number) => {
+    setFavoriteMarkets((prev) =>
+      prev.map((market) =>
+        market.id === marketId
+          ? {
+              ...market,
+              notificationEnabled: !market.notificationEnabled,
+            }
+          : market
+      )
+    );
+  };
+
   return (
     <section className="flex flex-col gap-2">
       <div className="flex items-center gap-1">
@@ -58,6 +71,7 @@ export default function FavoriteList({ markets }: FavoriteListProps) {
                   key={market.id}
                   market={market}
                   onRemove={handleRemoveFavorite}
+                  onToggleNotification={handleToggleNotification}
                 />
               ))}
             </div>
