@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import { TERMS, type TermId } from "../_data/terms";
+import type { UserType } from "@/src/types/signup";
 
 type CheckedTerms = Record<TermId, boolean>;
 
@@ -19,6 +20,9 @@ type SignupFormContextValue = {
   isRequiredChecked: boolean;
   handleToggleAll: () => void;
   handleToggleTerm: (id: TermId) => void;
+
+  userType: UserType | null;
+  setUserType: (userType: UserType) => void;
 
   nickname: string;
   setNickname: (nickname: string) => void;
@@ -51,6 +55,7 @@ export default function SignupFormProvider({
     createInitialCheckedTerms
   );
 
+  const [userType, setUserType] = useState<UserType | null>(null);
   const [nickname, setNickname] = useState("");
 
   const isAllChecked = TERMS.every((term) => checkedTerms[term.id]);
@@ -77,6 +82,10 @@ export default function SignupFormProvider({
       isRequiredChecked,
       handleToggleAll,
       handleToggleTerm,
+
+      userType,
+      setUserType,
+
       nickname,
       setNickname,
     }),
@@ -86,6 +95,7 @@ export default function SignupFormProvider({
       isRequiredChecked,
       handleToggleAll,
       handleToggleTerm,
+      userType,
       nickname,
     ]
   );
