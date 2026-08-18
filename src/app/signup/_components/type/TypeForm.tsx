@@ -30,7 +30,7 @@ export default function TypeForm() {
             <label
               key={type}
               className={[
-                "flex cursor-pointer items-center rounded-xl border bg-white p-3",
+                "flex cursor-pointer items-center rounded-xl border bg-white p-4",
                 isSelected ? "border-green" : "border-light-gray",
               ].join(" ")}
             >
@@ -44,8 +44,8 @@ export default function TypeForm() {
               />
 
               <div className="flex flex-1 flex-col gap-0.5">
-                <span className="text-sm font-semibold">{title}</span>
-                <span className="text-deep-gray text-xs">{description}</span>
+                <span className="text-base font-semibold">{title}</span>
+                <span className="text-deep-gray text-sm">{description}</span>
               </div>
 
               <span
