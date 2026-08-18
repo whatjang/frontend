@@ -8,7 +8,6 @@ export default function KakaoLoginButton() {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-
     const code = searchParams.get("code");
     const error = searchParams.get("error");
     const errorDescription = searchParams.get("error_description");
@@ -23,13 +22,9 @@ export default function KakaoLoginButton() {
 
     if (!code) return;
 
-    setIsLoading(true);
-
     console.log("카카오 인가 코드:", code);
 
-    // 추후 백엔드 연동
-    // await kakaoLogin(code);
-    // router.replace("/home");
+    // 백엔드 연동 후 인가 코드를 전달 후 로그인 성공 시 /home으로 이동 처리할 것
   }, []);
 
   const handleKakaoLogin = () => {
@@ -48,15 +43,15 @@ export default function KakaoLoginButton() {
       response_type: "code",
     });
 
-    const authUrl = `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
 
     console.log("카카오 로그인 요청:", {
       redirectUri,
-      authUrl,
+      kakaoAuthUrl,
     });
 
     setIsLoading(true);
-    window.location.href = authUrl;
+    window.location.href = kakaoAuthUrl;
   };
 
   return (
