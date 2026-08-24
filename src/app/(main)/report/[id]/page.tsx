@@ -23,7 +23,7 @@ export default async function ReportDetailPage({
   }
 
   return (
-    <main className="flex flex-col gap-6 px-5">
+    <main className="flex flex-col gap-6">
       <ReportCard report={report} />
 
       <ReportInteractionSection
