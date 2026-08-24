@@ -1,6 +1,6 @@
 import type { Market } from "@/src/types/market";
 
-export const markets = [
+export const markets: Market[] = [
   {
     id: 1,
     name: "속초 중앙시장",
@@ -70,7 +70,7 @@ export const markets = [
 
     reports: [
       {
-        id: 1,
+        id: 101,
         author: "강릉토박이",
         content:
           "주말에는 방문객이 많아 주차장이 혼잡합니다. 대중교통 이용을 추천합니다.",
@@ -80,7 +80,7 @@ export const markets = [
         imageUrl: "/images/reports/market-report-01.webp",
       },
       {
-        id: 2,
+        id: 102,
         author: "바다여행자",
         content:
           "오전 시간대에 방문하면 비교적 여유롭게 시장을 둘러볼 수 있습니다.",
@@ -169,7 +169,7 @@ export const markets = [
 
     reports: [
       {
-        id: 1,
+        id: 201,
         author: "강릉토박이",
         content:
           "지금 중앙시장 공영주차장 만차입니다. 남대천 둔치 주차장을 이용하면 편리합니다.",
@@ -179,7 +179,7 @@ export const markets = [
         imageUrl: "/images/reports/parking-report.webp",
       },
       {
-        id: 2,
+        id: 202,
         author: "감자좋아",
         content:
           "감자전 골목은 점심시간에 대기 줄이 길어 오전 방문을 추천합니다.",
@@ -268,7 +268,7 @@ export const markets = [
 
     reports: [
       {
-        id: 1,
+        id: 301,
         author: "양양주민",
         content:
           "오전 10시 이전에 방문하면 농산물 종류가 많고 시장도 비교적 한산합니다.",
@@ -350,7 +350,7 @@ export const markets = [
 
     reports: [
       {
-        id: 1,
+        id: 401,
         author: "동해산책",
         content:
           "장날 오후에는 주요 먹거리 점포의 재료가 일찍 소진될 수 있습니다.",
@@ -362,8 +362,23 @@ export const markets = [
 
     nearbyAttractions: ["무릉별유천지", "추암해변", "천곡황금박쥐동굴"],
   },
-] satisfies Market[];
+];
 
 export const getMarketById = (id: number) => {
   return markets.find((market) => market.id === id);
+};
+
+export const getReportById = (id: number) => {
+  for (const market of markets) {
+    const report = market.reports.find((report) => report.id === id);
+
+    if (report) {
+      return {
+        market,
+        report,
+      };
+    }
+  }
+
+  return undefined;
 };
