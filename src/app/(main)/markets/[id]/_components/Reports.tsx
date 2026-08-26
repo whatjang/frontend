@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import type { Market } from "@/src/types/market";
-import ReportCard from "@/src/components/report/ReportCard";
+import ReportCard from "@/src/components/reports/ReportCard";
 
 import { SquarePen } from "lucide-react";
 

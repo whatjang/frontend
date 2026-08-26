@@ -1,24 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { Bookmark, MapPin, Star } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 
 import type { ReportDetail } from "@/src/types/report";
 
 import { EditDeleteMenu } from "./EditDeleteMenu";
+import { BookmarkButton } from "@/src/components/reports/BookmarkButton";
 
 interface ReportCardProps {
   report: ReportDetail;
 }
 
 export function ReportCard({ report }: ReportCardProps) {
-  const [isBookmarked, setIsBookmarked] = useState(report.isBookmarked);
-
-  const handleBookmark = () => {
-    // 추후 북마크 API 연결
-    setIsBookmarked((prev) => !prev);
-  };
-
   return (
     <article className="flex w-full flex-col gap-2 px-5">
       <div className="flex items-center justify-between">
@@ -48,23 +41,7 @@ export function ReportCard({ report }: ReportCardProps) {
             }}
           />
 
-          <button
-            type="button"
-            aria-label={isBookmarked ? "제보 저장 해제" : "제보 저장"}
-            aria-pressed={isBookmarked}
-            onClick={handleBookmark}
-            className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border transition-colors ${
-              isBookmarked
-                ? "bg-light-green text-green border-light-gray"
-                : "border-light-gray text-deep-gray bg-white"
-            }`}
-          >
-            <Bookmark
-              size={15}
-              strokeWidth={2}
-              fill={isBookmarked ? "currentColor" : "none"}
-            />
-          </button>
+          <BookmarkButton initialBookmarked={report.isBookmarked} />
         </div>
       </div>
 
