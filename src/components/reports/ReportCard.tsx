@@ -4,12 +4,16 @@ import { ChevronRight, Star, UserRound } from "lucide-react";
 
 import type { ReportSummary } from "@/src/types/report";
 
+type ReportCardReport = Pick<
+  ReportSummary,
+  "id" | "createdAt" | "tag" | "rating" | "content" | "imageUrl"
+>;
+
 interface ReportCardProps {
-  report: ReportSummary;
+  report: ReportCardReport;
   title: string;
   showUserIcon?: boolean;
 }
-
 function formatDate(date: string) {
   return date.replaceAll("-", ".");
 }

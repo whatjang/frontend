@@ -1,8 +1,6 @@
 import Link from "next/link";
 
-import type { TrendFood } from "@/src/types/trend";
-
-type HomeTrendFoodItemProps = TrendFood;
+import type { HomeTrendFood } from "@/src/types/trend";
 
 const badgeStyles = [
   {
@@ -28,7 +26,7 @@ export default function HomeTrendFoodItem({
   marketName,
   title,
   tag,
-}: HomeTrendFoodItemProps) {
+}: HomeTrendFood) {
   const badgeIndex = (rank - 1) % badgeStyles.length;
   const badgeStyle = badgeStyles[badgeIndex];
   const formattedRank = String(rank).padStart(2, "0");

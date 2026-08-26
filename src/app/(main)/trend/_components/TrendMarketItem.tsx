@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Heart, MapPin } from "lucide-react";
 
-import type { TrendFood } from "./TrendMarketList";
+import type { TrendFood } from "@/src/types/trend";
 
 interface TrendMarketItemProps {
   trend: TrendFood;
@@ -78,7 +78,7 @@ export default function TrendMarketItem({
         </div>
 
         <Link
-          href={trend.href}
+          href={`/markets/${trend.id}`}
           className="bg-green mt-4 flex w-full cursor-pointer items-center justify-center rounded-full py-3 text-xs font-semibold text-white"
         >
           시장 상세 보기

@@ -1,10 +1,11 @@
 import Link from "next/link";
 
 import HomeTrendFoodItem from "./HomeTrendFoodItem";
-import type { TrendFood } from "@/src/types/trend";
+
+import type { HomeTrendFood } from "@/src/types/trend";
 
 interface HomeTrendFoodListProps {
-  trends: TrendFood[];
+  trends: HomeTrendFood[];
 }
 
 export default function HomeTrendFoodList({ trends }: HomeTrendFoodListProps) {
@@ -43,13 +44,7 @@ export default function HomeTrendFoodList({ trends }: HomeTrendFoodListProps) {
                 : "w-[80%] shrink-0 snap-start"
             }
           >
-            <HomeTrendFoodItem
-              id={trend.id}
-              rank={trend.rank}
-              marketName={trend.marketName}
-              title={trend.title}
-              tag={trend.tag}
-            />
+            <HomeTrendFoodItem {...trend} />
           </div>
         ))}
       </div>
