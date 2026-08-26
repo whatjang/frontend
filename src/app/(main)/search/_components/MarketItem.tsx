@@ -82,7 +82,7 @@ export default function MarketItem({ market }: MarketItemProps) {
 
           <div className="border-deep-gray text-green mt-2 border-t py-3 font-bold">
             <Link
-              href={`/market/${market.id}`}
+              href={`/markets/${market.id}`}
               className="flex items-center justify-between text-xs"
               aria-label={`${market.name} 상세보기`}
             >
