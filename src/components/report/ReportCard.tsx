@@ -21,7 +21,7 @@ export default function ReportCard({
 }: ReportCardProps) {
   return (
     <Link
-      href={`/report/${report.id}`}
+      href={`/reports/${report.id}`}
       className="shadow-light-gray flex flex-col gap-3 rounded-xl bg-white p-4 shadow-xs"
     >
       <div className="flex min-w-0 items-start gap-2">
