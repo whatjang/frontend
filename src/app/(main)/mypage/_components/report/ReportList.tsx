@@ -1,6 +1,6 @@
 import { MessageSquareText } from "lucide-react";
 
-import ReportCard from "@/src/components/report/ReportCard";
+import ReportCard from "@/src/components/reports/ReportCard";
 import type { MyPageReport } from "@/src/types/mypage";
 
 interface ReportListProps {

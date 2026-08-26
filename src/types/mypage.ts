@@ -30,7 +30,10 @@ export interface MarketRecord {
   memo: string;
 }
 
-export interface MyPageReport extends ReportSummary {
+export interface MyPageReport extends Omit<
+  ReportSummary,
+  "isBookmarked" | "helpfulCount" | "incorrectCount" | "commentCount"
+> {
   marketId: number;
   marketName: string;
 }

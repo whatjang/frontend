@@ -63,8 +63,6 @@ export const mockTrendData = {
       tags: ["닭강정", "시장먹거리", "속초맛집"],
       reason:
         "바삭한 식감과 달콤매콤한 양념으로 전국적으로 사랑받는 속초 대표 먹거리입니다.",
-
-      href: "/market/1",
     },
 
     {
@@ -81,8 +79,6 @@ export const mockTrendData = {
       tags: ["산나물", "곤드레", "로컬푸드"],
       reason:
         "정선의 청정 자연에서 자란 산나물과 지역 특산물을 다양하게 만나볼 수 있습니다.",
-
-      href: "/market/2",
     },
 
     {
@@ -99,8 +95,6 @@ export const mockTrendData = {
       tags: ["벌꿀", "로컬푸드", "농산물"],
       reason:
         "지역에서 생산된 신선한 벌꿀과 다양한 로컬 농산물을 만나볼 수 있는 시장입니다.",
-
-      href: "/market/3",
     },
   ],
 };

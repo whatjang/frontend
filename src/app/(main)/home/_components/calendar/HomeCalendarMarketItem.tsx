@@ -63,7 +63,7 @@ export default function HomeCalendarMarketItem({
             </div>
 
             <Link
-              href={`/market/${market.id}`}
+              href={`/markets/${market.id}`}
               className="text-green flex items-center gap-0.5 text-xs font-semibold"
             >
               상세보기

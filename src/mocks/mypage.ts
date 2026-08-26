@@ -123,7 +123,7 @@ export const mockMyPageData: MyPageData = {
       marketId: 1,
       marketName: "양양 전통시장",
       createdAt: "2026-07-28",
-      tag: "교통정보",
+      tag: "혼잡도",
       rating: 4.8,
       content:
         "주말에는 방문객이 많아 주차장이 혼잡합니다. 대중교통 이용을 추천합니다.",
@@ -134,7 +134,7 @@ export const mockMyPageData: MyPageData = {
       marketId: 2,
       marketName: "속초 관광수산시장",
       createdAt: "2026-07-25",
-      tag: "방문팁",
+      tag: "기타",
       rating: 4.6,
       content:
         "오전 시간대에 방문하면 비교적 여유롭게 시장을 둘러볼 수 있습니다.",
@@ -144,7 +144,7 @@ export const mockMyPageData: MyPageData = {
       marketId: 3,
       marketName: "춘천 풍물시장",
       createdAt: "2026-07-19",
-      tag: "먹거리",
+      tag: "새로운 먹거리",
       rating: 4.9,
       content:
         "시장 안쪽에 있는 감자전이 정말 맛있었어요. 따뜻할 때 먹는 걸 추천합니다.",
@@ -165,7 +165,7 @@ export const mockMyPageData: MyPageData = {
       marketId: 5,
       marketName: "정선 5일장",
       createdAt: "2026-07-02",
-      tag: "방문팁",
+      tag: "기타",
       rating: 4.7,
       content:
         "장날 오전에 방문하면 상점도 많이 열려 있고 지역 특산물 구경하기 좋습니다.",
