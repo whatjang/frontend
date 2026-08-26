@@ -1,12 +1,6 @@
 import Link from "next/link";
 
-interface HomeTrendFoodItemProps {
-  rank: number;
-  marketName: string;
-  title: string;
-  tag: string;
-  href: string;
-}
+import type { HomeTrendFood } from "@/src/types/trend";
 
 const badgeStyles = [
   {
@@ -27,19 +21,19 @@ const badgeStyles = [
 ] as const;
 
 export default function HomeTrendFoodItem({
+  id,
   rank,
   marketName,
   title,
   tag,
-  href,
-}: HomeTrendFoodItemProps) {
+}: HomeTrendFood) {
   const badgeIndex = (rank - 1) % badgeStyles.length;
   const badgeStyle = badgeStyles[badgeIndex];
   const formattedRank = String(rank).padStart(2, "0");
 
   return (
     <Link
-      href={href}
+      href={`/markets/${id}`}
       aria-label={`${title} 상세 페이지로 이동`}
       className="block h-full overflow-hidden rounded-3xl bg-white/55 backdrop-blur-md"
     >

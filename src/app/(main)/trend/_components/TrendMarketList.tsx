@@ -1,18 +1,5 @@
+import type { TrendFood } from "@/src/types/trend";
 import TrendMarketItem from "./TrendMarketItem";
-
-export interface TrendFood {
-  id: number;
-  rank: number;
-  marketName: string;
-  title: string;
-  tag: string;
-  keyword: string;
-  image: string;
-  location: string;
-  tags: string[];
-  reason: string;
-  href: string;
-}
 
 interface TrendMarketListProps {
   trends: TrendFood[];

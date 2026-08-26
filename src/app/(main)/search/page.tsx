@@ -1,4 +1,4 @@
-import SearchBar from "./_components/SearchBar";
+import SearchBar from "@/src/components/search/SearchBar";
 import MarketList from "./_components/MarketList";
 
 export default function SearchPage() {

@@ -1,4 +1,3 @@
-import TermsDetailHeader from "@/src/app/signup/_components/terms/detail/TermsDetailHeader";
 import { getMarketById } from "@/src/mocks/market";
 import { notFound } from "next/navigation";
 import MarketReportForm from "./_components/MarketReportForm";
@@ -18,10 +17,6 @@ export default async function MarketReportPage({
 
   return (
     <>
-      <div className="px-5">
-        <TermsDetailHeader title="현장 제보하기" />
-      </div>
-
       <section className="flex flex-col gap-5">
         <div className="px-5">
           <div className="shadow-light-gray border-light-gray flex flex-col gap-1 rounded-2xl border bg-white p-4 shadow-xs">

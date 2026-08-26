@@ -13,10 +13,9 @@ export const ROUTES = {
   notice: "/notice",
   search: "/search",
   tour: "/tour",
-  records: "/records",
   mypage: "/mypage",
-  market: "/market",
-  report: "/report",
+  market: "/markets",
+  report: "/reports",
   trend: "/trend",
 } as const;
 
@@ -67,9 +66,9 @@ export const NAVBAR_ITEMS: NavbarItem[] = [
     icon: Map,
   },
   {
-    label: "기록",
-    href: ROUTES.records,
-    ariaLabel: "기록 페이지로 이동",
+    label: "제보",
+    href: ROUTES.report,
+    ariaLabel: "현장 제보 피드 페이지로 이동",
     icon: BookOpen,
   },
   {

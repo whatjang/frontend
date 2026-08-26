@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { MessageSquareText, ThumbsUp, TriangleAlert } from "lucide-react";
 
@@ -7,6 +8,8 @@ interface ReportActionsProps {
   helpfulCount: number;
   commentCount: number;
   incorrectCount: number;
+  commentHref?: string;
+  className?: string;
 }
 
 type Reaction = "helpful" | "incorrect" | null;
@@ -15,6 +18,8 @@ export function ReportActions({
   helpfulCount,
   commentCount,
   incorrectCount,
+  commentHref,
+  className = "",
 }: ReportActionsProps) {
   const [reaction, setReaction] = useState<Reaction>(null);
 
@@ -38,8 +43,11 @@ export function ReportActions({
     });
   };
 
+  const commentClassName =
+    "border-light-gray text-green flex shrink-0 cursor-pointer items-center gap-1 rounded-full border px-3 py-2 text-xs font-semibold whitespace-nowrap transition-colors";
+
   return (
-    <div className="flex scrollbar-none gap-2 overflow-x-auto pl-5">
+    <div className={`flex scrollbar-none gap-2 overflow-x-auto ${className}`}>
       <button
         type="button"
         aria-pressed={reaction === "helpful"}
@@ -65,7 +73,7 @@ export function ReportActions({
         onClick={handleIncorrect}
         className={`flex shrink-0 cursor-pointer items-center gap-1 rounded-full border px-3 py-2 text-xs font-semibold whitespace-nowrap transition-colors ${
           reaction === "incorrect"
-            ? "border-red/20 text-red bg-red/20"
+            ? "border-red/20 bg-red/20 text-red"
             : "border-light-gray text-green"
         }`}
       >
@@ -78,15 +86,21 @@ export function ReportActions({
         <span>잘못된 정보 {currentIncorrectCount}</span>
       </button>
 
-      <button
-        type="button"
-        onClick={handleCommentClick}
-        className="border-light-gray text-green hover:bg-gray/50 flex shrink-0 cursor-pointer items-center gap-1 rounded-full border px-3 py-2 text-xs font-semibold whitespace-nowrap transition-colors"
-      >
-        <MessageSquareText size={13} strokeWidth={2} />
-
-        <span>댓글 {commentCount}</span>
-      </button>
+      {commentHref ? (
+        <Link href={commentHref} className={commentClassName}>
+          <MessageSquareText size={13} strokeWidth={2} />
+          <span>댓글 {commentCount}</span>
+        </Link>
+      ) : (
+        <button
+          type="button"
+          onClick={handleCommentClick}
+          className={commentClassName}
+        >
+          <MessageSquareText size={13} strokeWidth={2} />
+          <span>댓글 {commentCount}</span>
+        </button>
+      )}
     </div>
   );
 }

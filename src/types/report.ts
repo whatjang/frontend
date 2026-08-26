@@ -1,10 +1,18 @@
+export type ReportTag =
+  "혼잡도" | "운영 여부" | "새로운 먹거리" | "이벤트/축제" | "기타";
+
 export interface ReportSummary {
   id: number;
-  createdAt: string;
-  tag?: string;
-  rating: number;
   content: string;
+  rating: number;
+  createdAt: string;
+  tag: ReportTag;
   imageUrl?: string;
+
+  isBookmarked: boolean;
+  helpfulCount: number;
+  incorrectCount: number;
+  commentCount: number;
 }
 
 export interface ReportAuthor {

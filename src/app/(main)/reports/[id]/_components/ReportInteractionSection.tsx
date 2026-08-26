@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
+import { ReportActions } from "@/src/components/reports/ReportActions";
 import type { ReportComment } from "@/src/types/report";
 
 import { CommentSection } from "./CommentSection";
-import { ReportActions } from "./ReportActions";
 
 interface ReportInteractionSectionProps {
   helpfulCount: number;
@@ -32,6 +32,7 @@ export function ReportInteractionSection({
         helpfulCount={helpfulCount}
         commentCount={currentCommentCount}
         incorrectCount={incorrectCount}
+        className="pl-5"
       />
 
       <CommentSection

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import type { Market } from "@/src/types/market";
-import ReportCard from "@/src/components/report/ReportCard";
+import ReportCard from "@/src/components/reports/ReportCard";
 
 import { SquarePen } from "lucide-react";
 
@@ -39,7 +39,7 @@ export default function Reports({ reports, marketId }: ReportsProps) {
         </div>
 
         <Link
-          href={`/market/${marketId}/report`}
+          href={`/markets/${marketId}/new`}
           className="border-light-brown/10 bg-light-brown/10 text-light-brown flex shrink-0 items-center gap-1 rounded-full border px-3 py-1 text-xs font-bold"
         >
           <SquarePen size={13} strokeWidth={2.2} />

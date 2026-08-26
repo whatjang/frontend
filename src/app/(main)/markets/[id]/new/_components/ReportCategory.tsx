@@ -2,15 +2,15 @@
 
 import { Clock3, Ellipsis, Ticket, UsersRound, Utensils } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { ReportCategoryType } from "./MarketReportForm";
+import type { ReportTag } from "@/src/types/report";
 
 interface ReportCategoryProps {
-  value: ReportCategoryType | null;
-  onChange: (category: ReportCategoryType) => void;
+  value: ReportTag | null;
+  onChange: (category: ReportTag) => void;
 }
 
 const categories: {
-  label: ReportCategoryType;
+  label: ReportTag;
   icon: LucideIcon;
 }[] = [
   {
