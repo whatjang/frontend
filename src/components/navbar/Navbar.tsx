@@ -22,11 +22,16 @@ export default function Navbar() {
     pathname === `${ROUTES.market}/new` ||
     /^\/markets\/[^/]+\/new(?:\/|$)/.test(pathname);
 
+  const isMarketTourPath = /^\/markets\/[^/]+\/tour(?:\/|$)/.test(pathname);
+
   const isSearchActive =
     !isMarketReportPath &&
+    !isMarketTourPath &&
     (isPathActive(ROUTES.search) ||
       isPathActive(ROUTES.market) ||
       isPathActive(ROUTES.trend));
+
+  const isTourActive = isPathActive(ROUTES.tour) || isMarketTourPath;
 
   const isReportActive = isPathActive(ROUTES.report) || isMarketReportPath;
 
@@ -38,10 +43,7 @@ export default function Navbar() {
         <div className="grid h-full grid-cols-[1fr_1fr_5rem_1fr_1fr] items-center">
           <NavItem {...NAVBAR_ITEMS[0]} active={isSearchActive} />
 
-          <NavItem
-            {...NAVBAR_ITEMS[1]}
-            active={isPathActive(NAVBAR_ITEMS[1].href)}
-          />
+          <NavItem {...NAVBAR_ITEMS[1]} active={isTourActive} />
 
           <div aria-hidden className="h-15 w-15" />
 
