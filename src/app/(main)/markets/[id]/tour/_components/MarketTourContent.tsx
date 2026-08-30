@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import TourMap from "@/src/components/tour/TourMap";
@@ -19,8 +18,6 @@ export default function MarketTourContent({
   market,
   route,
 }: MarketTourContentProps) {
-  const router = useRouter();
-
   const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
 
   const handleSelectPlace = (placeId: number) => {

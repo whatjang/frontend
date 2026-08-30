@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface RouteOrderItemProps {
   order: number;
@@ -21,13 +21,9 @@ export default function RouteOrderItem({
   isStart = false,
   onClick,
 }: RouteOrderItemProps) {
-  const [imageError, setImageError] = useState(false);
+  const [failedImage, setFailedImage] = useState<string | null>(null);
 
-  useEffect(() => {
-    setImageError(false);
-  }, [image]);
-
-  const hasImage = image && !imageError;
+  const imageSrc = image && failedImage !== image ? image : null;
 
   const className =
     "relative flex min-w-28 flex-col items-center rounded-2xl border border-light-gray bg-white px-3 py-4 shadow-xs";
@@ -43,13 +39,13 @@ export default function RouteOrderItem({
         {order}
       </span>
 
-      {hasImage ? (
+      {imageSrc ? (
         <Image
-          src={image}
+          src={imageSrc}
           alt={name}
           width={64}
           height={64}
-          onError={() => setImageError(true)}
+          onError={() => setFailedImage(imageSrc)}
           className="border-light-gray size-16 rounded-full border object-cover"
         />
       ) : (
