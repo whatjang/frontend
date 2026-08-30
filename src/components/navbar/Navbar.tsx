@@ -22,7 +22,6 @@ export default function Navbar() {
     pathname === `${ROUTES.market}/new` ||
     /^\/markets\/[^/]+\/new(?:\/|$)/.test(pathname);
 
-  // /markets/[id]/tour
   const isMarketTourPath = /^\/markets\/[^/]+\/tour(?:\/|$)/.test(pathname);
 
   const isSearchActive =
