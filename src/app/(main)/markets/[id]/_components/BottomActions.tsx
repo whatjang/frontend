@@ -1,14 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { Compass, Heart } from "lucide-react";
 
 interface BottomActionsProps {
+  marketId: number;
   initialFavorite?: boolean;
 }
 
 export default function BottomActions({
+  marketId,
   initialFavorite = false,
 }: BottomActionsProps) {
   const [isFavorite, setIsFavorite] = useState(initialFavorite);
@@ -28,13 +31,13 @@ export default function BottomActions({
         />
       </button>
 
-      <button
-        type="button"
-        className="bg-green shadow-light-gray flex h-14 min-w-0 flex-1 cursor-pointer items-center justify-center gap-2 rounded-3xl text-sm font-bold text-white shadow-xs"
+      <Link
+        href={`/markets/${marketId}/tour`}
+        className="bg-green shadow-light-gray flex h-14 min-w-0 flex-1 items-center justify-center gap-2 rounded-3xl text-sm font-bold text-white shadow-xs"
       >
         <Compass size={18} strokeWidth={2.2} />
         주변 관광 동선
-      </button>
+      </Link>
     </div>
   );
 }
