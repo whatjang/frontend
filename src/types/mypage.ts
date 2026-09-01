@@ -1,15 +1,17 @@
 import type { ReportSummary } from "./report";
+import type { TourPlace } from "./tour";
 
 export interface MyPageData {
   profile: Profile;
   favoriteMarkets: FavoriteMarket[];
-  records: MarketRecord[];
+  bookmarkedReports: BookmarkedReport[];
+  likedPlaces: TourPlace[];
   reports: MyPageReport[];
 }
 
 export interface Profile {
   nickname: string;
-  recordedMarketCount: number;
+  favoriteMarketCount: number;
   reportCount: number;
 }
 
@@ -21,13 +23,9 @@ export interface FavoriteMarket {
   notificationEnabled: boolean;
 }
 
-export interface MarketRecord {
-  id: number;
+export interface BookmarkedReport extends ReportSummary {
+  marketId: number;
   marketName: string;
-  visitedAt: string;
-  imageUrl: string;
-  tags: string[];
-  memo: string;
 }
 
 export interface MyPageReport extends Omit<

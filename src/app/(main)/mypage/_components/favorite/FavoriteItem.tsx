@@ -1,4 +1,4 @@
-import { Bell, Heart, Store } from "lucide-react";
+import { Bell, Star, Store } from "lucide-react";
 
 import { FavoriteMarket } from "@/src/types/mypage";
 
@@ -56,7 +56,7 @@ export default function FavoriteItem({
           aria-label={`${market.marketName} 즐겨찾기 해제`}
           className="text-green cursor-pointer"
         >
-          <Heart size={20} className="fill-green transition-transform" />
+          <Star size={20} className="fill-green transition-transform" />
         </button>
       </div>
     </article>

@@ -9,18 +9,24 @@ import type { TourPlace } from "@/src/types/tour";
 
 interface PlaceItemProps {
   place: TourPlace;
-  selected: boolean;
-  onSelect: () => void;
+  selected?: boolean;
+  onSelect?: () => void;
+  liked?: boolean;
+  onLikeToggle?: () => void;
   eager?: boolean;
 }
 
 export default function PlaceItem({
   place,
-  selected,
+  selected = false,
   onSelect,
+  liked: controlledLiked,
+  onLikeToggle,
   eager = false,
 }: PlaceItemProps) {
-  const [liked, setLiked] = useState(false);
+  const [internalLiked, setInternalLiked] = useState(false);
+
+  const liked = controlledLiked ?? internalLiked;
 
   const kakaoMapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(
     place.name
@@ -28,7 +34,13 @@ export default function PlaceItem({
 
   const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    setLiked((prev) => !prev);
+
+    if (onLikeToggle) {
+      onLikeToggle();
+      return;
+    }
+
+    setInternalLiked((prev) => !prev);
   };
 
   const handleMapClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -56,7 +68,7 @@ export default function PlaceItem({
       <div className="flex min-w-0 flex-1 flex-col justify-between self-stretch py-1">
         <div className="flex flex-col">
           <div className="flex items-center justify-between gap-2">
-            <h2 className="text-md min-w-0 truncate font-bold text-black">
+            <h2 className="min-w-0 truncate text-sm font-bold text-black">
               {place.name}
             </h2>
 
