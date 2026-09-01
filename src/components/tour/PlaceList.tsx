@@ -15,7 +15,7 @@ export default function PlaceList({
 }: PlaceListProps) {
   if (places.length === 0) {
     return (
-      <div className="text-deep-gray py-10 text-center text-sm">
+      <div className="text-deep-gray py-6 text-center text-xs">
         주변 장소가 없습니다.
       </div>
     );

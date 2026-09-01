@@ -36,7 +36,7 @@ export default async function MarketDetailPage({
       <Food specialties={market.specialties} />
       <Reports reports={market.reports} marketId={marketId} />
 
-      <BottomActions initialFavorite={market.isFavorite} />
+      <BottomActions marketId={market.id} initialFavorite={market.isFavorite} />
     </main>
   );
 }

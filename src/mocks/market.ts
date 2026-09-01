@@ -406,3 +406,15 @@ export const getReportById = (id: number) => {
 
   return undefined;
 };
+
+export const getBookmarkedReports = () => {
+  return markets.flatMap((market) =>
+    market.reports
+      .filter((report) => report.isBookmarked)
+      .map((report) => ({
+        ...report,
+        marketId: market.id,
+        marketName: market.name,
+      }))
+  );
+};

@@ -5,8 +5,8 @@ import { useMemo, useState } from "react";
 import type { TourData } from "@/src/types/tour";
 
 import CategoryTabs from "./CategoryTabs";
-import NearbyMap from "./NearbyMap";
-import PlaceList from "./PlaceList";
+import TourMap from "../../../../components/tour/TourMap";
+import PlaceList from "@/src/components/tour/PlaceList";
 
 interface TourContentProps {
   data: TourData;
@@ -41,7 +41,7 @@ export default function TourContent({ data }: TourContentProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <NearbyMap
+      <TourMap
         radiusKm={radiusKm}
         places={filteredPlaces}
         selectedPlaceId={selectedPlaceId}
