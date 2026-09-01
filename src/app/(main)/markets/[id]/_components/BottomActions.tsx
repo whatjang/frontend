@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { Compass, Heart } from "lucide-react";
+import { Compass, Star } from "lucide-react";
 
 interface BottomActionsProps {
   marketId: number;
@@ -24,7 +24,7 @@ export default function BottomActions({
         aria-label={isFavorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
         className="border-light-gray shadow-light-gray flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-3xl border bg-white shadow-xs"
       >
-        <Heart
+        <Star
           size={22}
           strokeWidth={2}
           className={isFavorite ? "fill-green text-green" : "text-green"}

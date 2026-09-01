@@ -66,8 +66,8 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
 
           <div className="grid grid-cols-2 gap-3">
             <StatCard
-              label="기록한 시장"
-              value={profile.recordedMarketCount}
+              label="즐겨찾는 시장"
+              value={profile.favoriteMarketCount}
               unit="곳"
             />
 
