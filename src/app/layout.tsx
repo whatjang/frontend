@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { COLORS } from "@/src/constants/theme";
 import "./globals.css";
+import AuthInitializer from "../components/auth/AuthInitializer";
 
 export const metadata: Metadata = {
   title: {
@@ -45,7 +46,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="h-full antialiased">
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <AuthInitializer />
+        {children}
+      </body>
     </html>
   );
 }
