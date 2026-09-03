@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { LogOutIcon, Pencil, Trash2 } from "lucide-react";
+import { LoaderCircle, LogOutIcon, Pencil, Trash2 } from "lucide-react";
 
 import { useLogout } from "../../_hooks/useLogout";
 import type { Profile } from "@/src/types/mypage";
@@ -52,10 +52,15 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
                 type="button"
                 onClick={logout}
                 disabled={isLoggingOut}
+                aria-busy={isLoggingOut}
                 className="text-deep-gray flex cursor-pointer items-center gap-1 text-xs font-bold disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <LogOutIcon size={14} />
-                {isLoggingOut ? "로그아웃 중..." : "로그아웃"}
+                {isLoggingOut ? (
+                  <LoaderCircle size={14} className="animate-spin" />
+                ) : (
+                  <LogOutIcon size={14} />
+                )}
+                로그아웃
               </button>
 
               <button
