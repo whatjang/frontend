@@ -5,7 +5,7 @@ import type { ApiResponse } from "@/src/types/api";
 import type { RefreshTokenResult } from "@/src/types/auth";
 
 import { API_ENDPOINTS } from "../endpoints";
-import { ApiError, toApiError } from "./error";
+import { toApiError } from "./error";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -28,19 +28,11 @@ export function renewAccessToken(): Promise<string> {
           ApiResponse<RefreshTokenResult>
         >(API_ENDPOINTS.AUTH.REFRESH_TOKEN);
 
-        if (!data.isSuccess || !data.result?.access_token) {
-          throw new ApiError(
-            data.message ?? "로그인이 만료되었습니다.",
-            401,
-            data.code
-          );
-        }
+        const { access_token } = data.result;
 
-        const accessToken = data.result.access_token;
+        useAuthStore.getState().setAccessToken(access_token);
 
-        useAuthStore.getState().setAccessToken(accessToken);
-
-        return accessToken;
+        return access_token;
       } catch (error) {
         throw toApiError(error);
       }

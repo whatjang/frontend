@@ -1,17 +1,12 @@
 export interface KakaoLoginRequest {
   code: string;
-  redirectUri: string;
-}
-
-export interface KakaoLoginResponseResult {
-  member_id: number;
-  access_token: string;
-  refresh_token: null;
+  redirect_uri: string;
 }
 
 export interface KakaoLoginResult {
-  memberId: number;
-  accessToken: string;
+  member_id: number;
+  access_token: string;
+  refresh_token: string;
 }
 
 export interface RefreshTokenResult {

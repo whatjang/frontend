@@ -21,10 +21,10 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
   }
 
-  const accessToken = useAuthStore.getState().accessToken;
+  const access_token = useAuthStore.getState().access_token;
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
+  if (access_token) {
+    config.headers.Authorization = `Bearer ${access_token}`;
   }
 
   return config;
@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
   (response) => {
     const data = response.data;
 
-    if (data?.isSuccess === false) {
+    if (data?.is_success === false) {
       throw new ApiError(
         data.message ?? "API 요청에 실패했습니다.",
         response.status,

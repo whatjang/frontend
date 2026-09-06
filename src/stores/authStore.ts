@@ -1,36 +1,36 @@
 import { create } from "zustand";
 
 interface AuthState {
-  memberId: number | null;
-  accessToken: string | null;
+  member_id: number | null;
+  access_token: string | null;
   isInitialized: boolean;
 
-  setAuth: (memberId: number, accessToken: string) => void;
-  setAccessToken: (accessToken: string) => void;
+  setAuth: (member_id: number, access_token: string) => void;
+  setAccessToken: (access_token: string) => void;
   clearAuth: () => void;
   setInitialized: (isInitialized: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  memberId: null,
-  accessToken: null,
+  member_id: null,
+  access_token: null,
   isInitialized: false,
 
-  setAuth: (memberId, accessToken) =>
+  setAuth: (member_id, access_token) =>
     set({
-      memberId,
-      accessToken,
+      member_id,
+      access_token,
     }),
 
-  setAccessToken: (accessToken) =>
+  setAccessToken: (access_token) =>
     set({
-      accessToken,
+      access_token,
     }),
 
   clearAuth: () =>
     set({
-      memberId: null,
-      accessToken: null,
+      member_id: null,
+      access_token: null,
     }),
 
   setInitialized: (isInitialized) =>

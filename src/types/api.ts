@@ -1,12 +1,12 @@
 export interface ApiResponse<T> {
-  isSuccess: boolean;
+  is_success: true;
   code: string;
   message: string;
   result: T;
 }
 
 export interface ApiErrorResponse {
-  isSuccess: false;
+  is_success: false;
   code: string;
   message: string;
 }

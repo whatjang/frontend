@@ -56,12 +56,12 @@ export function useKakaoLogin() {
 
         const response = await loginWithKakao({
           code,
-          redirectUri: getRedirectUri(),
+          redirect_uri: getRedirectUri(),
         });
 
-        const { memberId, accessToken } = response.result;
+        const { member_id, access_token } = response.result;
 
-        setAuth(memberId, accessToken);
+        setAuth(member_id, access_token);
 
         window.history.replaceState({}, "", LOGIN_PATH);
 

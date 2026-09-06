@@ -15,7 +15,7 @@ export default function AuthInitializer() {
     initializedRef.current = true;
 
     const initializeAuth = async () => {
-      const { accessToken, setInitialized } = useAuthStore.getState();
+      const { access_token, setInitialized } = useAuthStore.getState();
 
       const pathname = window.location.pathname;
 
@@ -24,7 +24,7 @@ export default function AuthInitializer() {
         return;
       }
 
-      if (accessToken) {
+      if (access_token) {
         setInitialized(true);
         return;
       }
@@ -33,6 +33,7 @@ export default function AuthInitializer() {
         await renewAccessToken();
       } catch (error) {
         console.error("인증 초기화 실패:", error);
+
         useAuthStore.getState().clearAuth();
       } finally {
         useAuthStore.getState().setInitialized(true);
