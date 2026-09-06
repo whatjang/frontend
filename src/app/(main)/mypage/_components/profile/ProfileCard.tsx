@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { LogOutIcon, Pencil, Trash2 } from "lucide-react";
+import { LoaderCircle, LogOutIcon, Pencil, Trash2 } from "lucide-react";
 
+import { useLogout } from "../../_hooks/useLogout";
 import type { Profile } from "@/src/types/mypage";
 
 import DeleteModal from "./DeleteModal";
@@ -18,6 +19,8 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
   const router = useRouter();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const { logout, isLoggingOut } = useLogout();
 
   const handleDeleteAccount = () => {
     alert("회원 탈퇴가 완료되었습니다.");
@@ -47,9 +50,16 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
             <div className="flex flex-col gap-2">
               <button
                 type="button"
-                className="text-deep-gray flex cursor-pointer items-center gap-1 text-xs font-bold"
+                onClick={logout}
+                disabled={isLoggingOut}
+                aria-busy={isLoggingOut}
+                className="text-deep-gray flex cursor-pointer items-center gap-1 text-xs font-bold disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <LogOutIcon size={14} />
+                {isLoggingOut ? (
+                  <LoaderCircle size={14} className="animate-spin" />
+                ) : (
+                  <LogOutIcon size={14} />
+                )}
                 로그아웃
               </button>
 
