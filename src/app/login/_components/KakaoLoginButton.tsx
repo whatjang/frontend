@@ -1,67 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+
+import { useKakaoLogin } from "@/src/app/login/_hooks/useKakaoLogin";
 
 export default function KakaoLoginButton() {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = searchParams.get("code");
-    const error = searchParams.get("error");
-    const errorDescription = searchParams.get("error_description");
-
-    if (error) {
-      alert(
-        errorDescription
-          ? `카카오 로그인에 실패했습니다.\n${errorDescription}`
-          : "카카오 로그인에 실패했습니다."
-      );
-
-      console.error("카카오 로그인 실패:", {
-        error,
-        errorDescription,
-      });
-
-      return;
-    }
-
-    if (!code) return;
-
-    router.replace("/home");
-  }, [router]);
-
-  const handleKakaoLogin = () => {
-    const restApiKey = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-
-    if (!restApiKey) {
-      alert("카카오 로그인 설정에 문제가 있습니다.");
-
-      console.error("카카오 REST API 키가 설정되지 않았습니다.");
-      return;
-    }
-
-    const redirectUri = `${window.location.origin}/login`;
-
-    const params = new URLSearchParams({
-      client_id: restApiKey,
-      redirect_uri: redirectUri,
-      response_type: "code",
-    });
-
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
-
-    setIsLoading(true);
-    window.location.href = kakaoAuthUrl;
-  };
+  const { isLoading, startKakaoLogin } = useKakaoLogin();
 
   return (
     <button
       type="button"
-      onClick={handleKakaoLogin}
+      onClick={startKakaoLogin}
       disabled={isLoading}
       className="bg-yellow flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl py-4 disabled:cursor-not-allowed disabled:opacity-70"
     >
