@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
+import { AUTH_SKIP_PATHS } from "@/src/constants/auth";
 import { renewAccessToken } from "@/src/lib/api/core/refresh";
 import { useAuthStore } from "@/src/stores/authStore";
 
@@ -16,7 +17,9 @@ export default function AuthInitializer() {
     const initializeAuth = async () => {
       const { accessToken, setInitialized } = useAuthStore.getState();
 
-      if (window.location.pathname === "/login") {
+      const pathname = window.location.pathname;
+
+      if (AUTH_SKIP_PATHS.includes(pathname)) {
         setInitialized(true);
         return;
       }
@@ -30,7 +33,6 @@ export default function AuthInitializer() {
         await renewAccessToken();
       } catch (error) {
         console.error("인증 초기화 실패:", error);
-
         useAuthStore.getState().clearAuth();
       } finally {
         useAuthStore.getState().setInitialized(true);
