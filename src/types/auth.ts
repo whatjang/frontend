@@ -15,5 +15,5 @@ export interface KakaoLoginResult {
 }
 
 export interface RefreshTokenResult {
-  accessToken: string;
+  access_token: string;
 }

@@ -20,7 +20,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({
       memberId,
       accessToken,
-      isInitialized: true,
     }),
 
   setAccessToken: (accessToken) =>

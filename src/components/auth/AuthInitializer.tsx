@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { refreshAccessToken } from "@/src/lib/api/auth";
+import { renewAccessToken } from "@/src/lib/api/core/refresh";
 import { useAuthStore } from "@/src/stores/authStore";
 
 export default function AuthInitializer() {
@@ -14,8 +14,7 @@ export default function AuthInitializer() {
     initializedRef.current = true;
 
     const initializeAuth = async () => {
-      const { accessToken, setAccessToken, setInitialized } =
-        useAuthStore.getState();
+      const { accessToken, setInitialized } = useAuthStore.getState();
 
       if (window.location.pathname === "/login") {
         setInitialized(true);
@@ -28,14 +27,11 @@ export default function AuthInitializer() {
       }
 
       try {
-        const response = await refreshAccessToken();
-
-        setAccessToken(response.result.accessToken);
+        await renewAccessToken();
       } catch (error) {
         console.error("인증 초기화 실패:", error);
 
-        // refreshToken 쿠키 이슈 해결 후 인증 실패 시 상태 초기화
-        // useAuthStore.getState().clearAuth();
+        useAuthStore.getState().clearAuth();
       } finally {
         useAuthStore.getState().setInitialized(true);
       }

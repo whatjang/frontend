@@ -1,94 +1,111 @@
+import axios, { type AxiosError, type AxiosRequestConfig } from "axios";
+
 import { useAuthStore } from "@/src/stores/authStore";
 
-import { ApiError } from "./error";
+import { ApiError, toApiError } from "./error";
 import { renewAccessToken } from "./refresh";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-interface RequestOptions extends Omit<
-  RequestInit,
-  "method" | "body" | "credentials"
-> {
-  auth?: boolean;
-  skipRefresh?: boolean;
+if (!API_BASE_URL) {
+  throw new Error("API 주소가 설정되지 않았습니다.");
 }
 
-async function request<T, B = unknown>(
-  endpoint: string,
-  method: string,
-  body?: B,
-  options: RequestOptions = {}
-): Promise<T> {
-  if (!API_BASE_URL) {
-    throw new Error("API 주소가 설정되지 않았습니다.");
+const axiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  withCredentials: true,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  if (config.useAuth === false) {
+    return config;
   }
 
-  const {
-    auth = true,
-    skipRefresh = false,
-    headers,
-    ...requestOptions
-  } = options;
+  const accessToken = useAuthStore.getState().accessToken;
 
-  const sendRequest = () => {
-    const requestHeaders = new Headers(headers);
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
 
-    if (body !== undefined) {
-      requestHeaders.set("Content-Type", "application/json");
+  return config;
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    const data = response.data;
+
+    if (data?.isSuccess === false) {
+      throw new ApiError(
+        data.message ?? "API 요청에 실패했습니다.",
+        response.status,
+        data.code
+      );
     }
 
-    if (auth) {
-      const accessToken = useAuthStore.getState().accessToken;
+    return response;
+  },
 
-      if (accessToken) {
-        requestHeaders.set("Authorization", `Bearer ${accessToken}`);
-      }
+  async (error: AxiosError) => {
+    const originalRequest = error.config;
+
+    if (!originalRequest) {
+      return Promise.reject(toApiError(error));
     }
 
-    return fetch(`${API_BASE_URL}${endpoint}`, {
-      ...requestOptions,
-      method,
-      headers: requestHeaders,
-      credentials: "include",
-      body: body !== undefined ? JSON.stringify(body) : undefined,
-    });
-  };
+    const shouldRefresh =
+      error.response?.status === 401 &&
+      originalRequest.useAuth !== false &&
+      !originalRequest.skipRefresh &&
+      !originalRequest._retry;
 
-  let response = await sendRequest();
+    if (!shouldRefresh) {
+      return Promise.reject(toApiError(error));
+    }
 
-  if (response.status === 401 && auth && !skipRefresh) {
-    await renewAccessToken();
+    originalRequest._retry = true;
 
-    response = await sendRequest();
+    try {
+      await renewAccessToken();
+
+      return axiosInstance(originalRequest);
+    } catch (refreshError) {
+      useAuthStore.getState().clearAuth();
+
+      return Promise.reject(refreshError);
+    }
   }
-
-  const data = await response.json().catch(() => null);
-
-  if (!response.ok || data?.isSuccess === false) {
-    throw new ApiError(
-      data?.message ?? "API 요청에 실패했습니다.",
-      response.status,
-      data?.code
-    );
-  }
-
-  return data;
-}
+);
 
 export const apiClient = {
-  get<T>(endpoint: string, options?: RequestOptions) {
-    return request<T>(endpoint, "GET", undefined, options);
+  async get<T>(endpoint: string, options?: AxiosRequestConfig): Promise<T> {
+    const { data } = await axiosInstance.get<T>(endpoint, options);
+
+    return data;
   },
 
-  post<T, B = unknown>(endpoint: string, body?: B, options?: RequestOptions) {
-    return request<T, B>(endpoint, "POST", body, options);
+  async post<T, B = unknown>(
+    endpoint: string,
+    body?: B,
+    options?: AxiosRequestConfig
+  ): Promise<T> {
+    const { data } = await axiosInstance.post<T>(endpoint, body, options);
+
+    return data;
   },
 
-  patch<T, B = unknown>(endpoint: string, body?: B, options?: RequestOptions) {
-    return request<T, B>(endpoint, "PATCH", body, options);
+  async patch<T, B = unknown>(
+    endpoint: string,
+    body?: B,
+    options?: AxiosRequestConfig
+  ): Promise<T> {
+    const { data } = await axiosInstance.patch<T>(endpoint, body, options);
+
+    return data;
   },
 
-  delete<T>(endpoint: string, options?: RequestOptions) {
-    return request<T>(endpoint, "DELETE", undefined, options);
+  async delete<T>(endpoint: string, options?: AxiosRequestConfig): Promise<T> {
+    const { data } = await axiosInstance.delete<T>(endpoint, options);
+
+    return data;
   },
 };

@@ -3,7 +3,6 @@ import type {
   KakaoLoginRequest,
   KakaoLoginResponseResult,
   KakaoLoginResult,
-  RefreshTokenResult,
 } from "@/src/types/auth";
 
 import { apiClient } from "../core/client";
@@ -16,7 +15,8 @@ export async function loginWithKakao(
     ApiResponse<KakaoLoginResponseResult>,
     KakaoLoginRequest
   >(API_ENDPOINTS.AUTH.KAKAO_LOGIN, request, {
-    auth: false,
+    useAuth: false,
+    skipRefresh: true,
   });
 
   return {
@@ -28,23 +28,6 @@ export async function loginWithKakao(
   };
 }
 
-export function refreshAccessToken() {
-  return apiClient.post<ApiResponse<RefreshTokenResult>>(
-    API_ENDPOINTS.AUTH.REFRESH_TOKEN,
-    undefined,
-    {
-      auth: false,
-      skipRefresh: true,
-    }
-  );
-}
-
 export function logoutUser() {
-  return apiClient.post<ApiResponse<null>>(
-    API_ENDPOINTS.AUTH.LOGOUT,
-    undefined,
-    {
-      skipRefresh: true,
-    }
-  );
+  return apiClient.post<ApiResponse<null>>(API_ENDPOINTS.AUTH.LOGOUT);
 }
