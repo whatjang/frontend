@@ -42,7 +42,7 @@ export default function MarketReportForm({ marketId }: MarketReportFormProps) {
     }
 
     alert("제보 등록이 완료되었습니다.");
-    router.push(`/market/${marketId}`);
+    router.replace(`/markets/${marketId}`);
   };
 
   return (
