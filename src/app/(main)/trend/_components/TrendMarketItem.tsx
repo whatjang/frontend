@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import Link from "next/link";
-import { Heart, MapPin } from "lucide-react";
+import { Star, MapPin } from "lucide-react";
 
 import type { TrendFood } from "@/src/types/trend";
 
@@ -53,7 +53,7 @@ export default function TrendMarketItem({
             aria-pressed={isFavorite}
             className="border-green flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-full border bg-white"
           >
-            <Heart
+            <Star
               size={15}
               strokeWidth={2}
               className={isFavorite ? "fill-green text-green" : "text-green"}
