@@ -51,7 +51,7 @@ export default function NicknameForm() {
         </fieldset>
 
         <SignupStepButtons
-          prevHref="/signup/type"
+          prevHref="/signup/terms"
           nextLabel="완료"
           nextDisabled={!isValidNickname}
         />
