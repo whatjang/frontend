@@ -36,9 +36,14 @@ export interface ReportComment {
 export interface ReportDetail extends ReportSummary {
   author: ReportAuthor;
   location?: string;
-  isBookmarked: boolean;
-  helpfulCount: number;
-  commentCount: number;
-  incorrectCount: number;
   comments: ReportComment[];
 }
+
+export interface ReportFormValues {
+  rating: number;
+  category: ReportTag | null;
+  content: string;
+  images: File[];
+}
+
+export type ReportFormInitialValues = Partial<ReportFormValues>;

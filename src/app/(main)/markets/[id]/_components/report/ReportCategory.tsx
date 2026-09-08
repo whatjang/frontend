@@ -40,8 +40,10 @@ export default function ReportCategory({
   onChange,
 }: ReportCategoryProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-deep-gray text-sm font-semibold">제보 카테고리</p>
+    <fieldset className="flex flex-col gap-2">
+      <legend className="text-deep-gray text-sm font-semibold">
+        제보 카테고리
+      </legend>
 
       <div className="flex flex-wrap gap-2">
         {categories.map(({ label, icon: Icon }) => {
@@ -51,6 +53,7 @@ export default function ReportCategory({
             <button
               key={label}
               type="button"
+              aria-pressed={isSelected}
               onClick={() => onChange(label)}
               className={[
                 "flex items-center gap-2 rounded-full border px-3 py-1",
@@ -60,12 +63,12 @@ export default function ReportCategory({
                   : "border-light-gray text-deep-gray bg-white",
               ].join(" ")}
             >
-              <Icon size={17} strokeWidth={1.8} />
+              <Icon size={17} strokeWidth={1.8} aria-hidden="true" />
               {label}
             </button>
           );
         })}
       </div>
-    </div>
+    </fieldset>
   );
 }
