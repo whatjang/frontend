@@ -13,6 +13,8 @@ export default function NicknameMessage({
 }: NicknameMessageProps) {
   return (
     <div
+      id="nickname-message"
+      aria-live="polite"
       className={[
         "mt-2 flex items-center gap-1 text-xs font-medium",
         status === "default" && "text-deep-gray",

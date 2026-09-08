@@ -12,14 +12,19 @@ export default function SignupLayout({
   children,
 }: SignupProps) {
   return (
-    <section className="flex min-h-dvh w-full max-w-md flex-col pt-22">
+    <section
+      className="flex min-h-dvh w-full max-w-md flex-col pt-22"
+      aria-labelledby="signup-title"
+    >
       <header className="flex flex-col gap-3">
-        <h1 className="text-2xl font-bold">{title}</h1>
+        <h1 id="signup-title" className="text-2xl font-bold">
+          {title}
+        </h1>
 
         <p className="text-sm font-normal whitespace-pre-line">{description}</p>
       </header>
 
-      <section className="mt-12 flex flex-1 flex-col">{children}</section>
+      <div className="mt-12 flex flex-1 flex-col">{children}</div>
     </section>
   );
 }

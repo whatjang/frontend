@@ -31,7 +31,7 @@ export default function NicknameForm() {
   };
 
   const handleStart = () => {
-    router.push("/home");
+    router.replace("/home");
   };
 
   return (

@@ -4,8 +4,8 @@ import { type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
 import SignupStepButtons from "../common/SignupStepButtons";
-import useTermsAgreement from "../../_hooks/useTermsAgreement";
 import TermsAgreementList from "./TermsAgreementList";
+import { useSignupForm } from "../../_providers/SignupFormProvider";
 
 type TermsFormProps = {
   nextHref: string;
@@ -20,7 +20,7 @@ export default function TermsForm({ nextHref }: TermsFormProps) {
     isRequiredChecked,
     handleToggleAll,
     handleToggleTerm,
-  } = useTermsAgreement();
+  } = useSignupForm();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
