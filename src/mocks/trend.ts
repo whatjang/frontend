@@ -1,3 +1,10 @@
+import type { TrendInsight, TrendMarket } from "@/src/types/trend";
+
+interface TrendData {
+  insight: TrendInsight;
+  trendMarkets: TrendMarket[];
+}
+
 export const mockTrendData = {
   insight: {
     title: "실시간 검색어 인사이트",
@@ -48,7 +55,7 @@ export const mockTrendData = {
     sources: ["Naver DataLab", "Google Trends"],
   },
 
-  trendFood: [
+  trendMarkets: [
     {
       id: 1,
       rank: 1,
@@ -57,7 +64,6 @@ export const mockTrendData = {
       title: "달콤매콤 닭강정 페스티벌",
       tag: "전국구_맛",
       keyword: "닭강정",
-      image: "/images/trend/dakgangjeong.jpg",
 
       location: "강원 속초시 중앙로",
       tags: ["닭강정", "시장먹거리", "속초맛집"],
@@ -73,7 +79,6 @@ export const mockTrendData = {
       title: "정선 산나물과 지역 먹거리",
       tag: "향긋한_건강",
       keyword: "산나물",
-      image: "/images/trend/sannamul.jpg",
 
       location: "강원 정선군 정선읍",
       tags: ["산나물", "곤드레", "로컬푸드"],
@@ -89,7 +94,6 @@ export const mockTrendData = {
       title: "달콤한 로컬 벌꿀 이야기",
       tag: "달콤한_로컬",
       keyword: "벌꿀",
-      image: "/images/trend/honey.jpg",
 
       location: "강원 정선군",
       tags: ["벌꿀", "로컬푸드", "농산물"],
@@ -97,4 +101,4 @@ export const mockTrendData = {
         "지역에서 생산된 신선한 벌꿀과 다양한 로컬 농산물을 만나볼 수 있는 시장입니다.",
     },
   ],
-};
+} satisfies TrendData;

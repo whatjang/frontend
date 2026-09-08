@@ -12,7 +12,7 @@ export default function ReportSubmitButton() {
         "active:opacity-80",
       ].join(" ")}
     >
-      <Send size={21} strokeWidth={2} />
+      <Send size={21} strokeWidth={2} aria-hidden="true" />
       제보 등록하기
     </button>
   );

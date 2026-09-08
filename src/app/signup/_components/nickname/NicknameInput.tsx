@@ -26,6 +26,8 @@ export default function NicknameInput({
         onChange={(event) => onChange(event.target.value)}
         placeholder="닉네임을 입력하세요"
         maxLength={maxLength}
+        aria-describedby="nickname-message"
+        aria-invalid={status === "error"}
         className={[
           "text-md h-14 w-full rounded-xl border bg-white px-4 font-semibold outline-none",
           "placeholder:text-deep-green",

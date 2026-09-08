@@ -3,11 +3,11 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-type TermsDetailHeaderProps = {
+type BackHeaderProps = {
   title: string;
 };
 
-export default function TermsDetailHeader({ title }: TermsDetailHeaderProps) {
+export default function BackHeader({ title }: BackHeaderProps) {
   const router = useRouter();
 
   return (
@@ -18,7 +18,7 @@ export default function TermsDetailHeader({ title }: TermsDetailHeaderProps) {
         onClick={() => router.back()}
         className="absolute left-0 flex cursor-pointer items-center justify-center"
       >
-        <ArrowLeft size={24} className="text-black" />
+        <ArrowLeft size={24} className="text-black" aria-hidden="true" />
       </button>
 
       <h1 className="text-green text-md truncate text-center font-bold">

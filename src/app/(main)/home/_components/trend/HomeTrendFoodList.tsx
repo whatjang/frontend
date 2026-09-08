@@ -2,10 +2,10 @@ import Link from "next/link";
 
 import HomeTrendFoodItem from "./HomeTrendFoodItem";
 
-import type { HomeTrendFood } from "@/src/types/trend";
+import type { HomeTrendMarket } from "@/src/types/trend";
 
 interface HomeTrendFoodListProps {
-  trends: HomeTrendFood[];
+  trends: HomeTrendMarket[];
 }
 
 export default function HomeTrendFoodList({ trends }: HomeTrendFoodListProps) {
