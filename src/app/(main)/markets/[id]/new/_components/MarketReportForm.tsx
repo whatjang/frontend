@@ -1,15 +1,15 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-import type { ReportTag } from "@/src/types/report";
+import useReportForm from "@/src/app/(main)/markets/[id]/_hooks/useReportForm";
 
-import ReportRating from "./ReportRating";
-import ReportCategory from "./ReportCategory";
-import ReportContent from "./ReportContent";
-import ReportImageUpload from "./ReportImageUpload";
-import ReportSubmitButton from "./ReportSubmitButton";
+import ReportRating from "@/src/app/(main)/markets/[id]/_components/report/ReportRating";
+import ReportCategory from "@/src/app/(main)/markets/[id]/_components/report/ReportCategory";
+import ReportContent from "@/src/app/(main)/markets/[id]/_components/report/ReportContent";
+import ReportImageUpload from "@/src/app/(main)/markets/[id]/_components/report/image-upload/ReportImageUpload";
+import ReportSubmitButton from "@/src/app/(main)/markets/[id]/_components/report/ReportSubmitButton";
 
 interface MarketReportFormProps {
   marketId: number;
@@ -18,10 +18,16 @@ interface MarketReportFormProps {
 export default function MarketReportForm({ marketId }: MarketReportFormProps) {
   const router = useRouter();
 
-  const [rating, setRating] = useState(0);
-  const [category, setCategory] = useState<ReportTag | null>(null);
-  const [content, setContent] = useState("");
-  const [images, setImages] = useState<File[]>([]);
+  const {
+    rating,
+    setRating,
+    category,
+    setCategory,
+    content,
+    setContent,
+    images,
+    setImages,
+  } = useReportForm();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,7 +48,7 @@ export default function MarketReportForm({ marketId }: MarketReportFormProps) {
     }
 
     alert("제보 등록이 완료되었습니다.");
-    router.push(`/market/${marketId}`);
+    router.replace(`/markets/${marketId}`);
   };
 
   return (

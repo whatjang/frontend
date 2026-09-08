@@ -11,8 +11,8 @@ const MAX_RATING = 5;
 
 export default function ReportRating({ value, onChange }: ReportRatingProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-deep-gray text-sm font-semibold">별점</p>
+    <fieldset className="flex flex-col gap-2">
+      <legend className="text-deep-gray text-sm font-semibold">별점</legend>
 
       <div className="flex items-center gap-2">
         <div className="flex gap-1">
@@ -31,6 +31,7 @@ export default function ReportRating({ value, onChange }: ReportRatingProps) {
               >
                 <Star
                   size={28}
+                  aria-hidden="true"
                   className={
                     isSelected ? "fill-green text-green" : "text-light-gray"
                   }
@@ -44,6 +45,6 @@ export default function ReportRating({ value, onChange }: ReportRatingProps) {
           <span className="text-deep-gray text-sm font-medium">{value}.0</span>
         )}
       </div>
-    </div>
+    </fieldset>
   );
 }
