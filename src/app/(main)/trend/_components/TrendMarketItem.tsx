@@ -5,10 +5,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { Star, MapPin } from "lucide-react";
 
-import type { TrendFood } from "@/src/types/trend";
+import type { TrendMarket } from "@/src/types/trend";
 
 interface TrendMarketItemProps {
-  trend: TrendFood;
+  trend: TrendMarket;
   initialFavorite?: boolean;
 }
 
@@ -24,7 +24,7 @@ export default function TrendMarketItem({
         <div className="bg-light-gray h-full w-full" />
 
         <div className="bg-green/90 absolute top-2 left-2 rounded-full px-3 py-1.5 text-xs font-bold text-white">
-          TREND #0{trend.rank} {trend.keyword}
+          TREND #{String(trend.rank).padStart(2, "0")} {trend.keyword}
         </div>
       </div>
 
@@ -40,7 +40,7 @@ export default function TrendMarketItem({
             </h3>
 
             <div className="text-deep-gray mt-1 flex items-center gap-1 text-xs">
-              <MapPin className="h-3 w-3" />
+              <MapPin className="h-3 w-3" aria-hidden="true" />
 
               <span>{trend.location}</span>
             </div>
@@ -54,6 +54,7 @@ export default function TrendMarketItem({
             className="border-green flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-full border bg-white"
           >
             <Star
+              aria-hidden="true"
               size={15}
               strokeWidth={2}
               className={isFavorite ? "fill-green text-green" : "text-green"}

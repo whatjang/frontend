@@ -47,5 +47,5 @@ export const mockHomeData = {
     },
   ],
 
-  trendFood: mockTrendData.trendFood,
+  trendFood: mockTrendData.trendMarkets,
 };

@@ -3,20 +3,7 @@
 import { useState } from "react";
 
 import { TrendingUp } from "lucide-react";
-
-interface TrendInsight {
-  title: string;
-  updatedAt: string;
-  keywords: {
-    name: string;
-    rate: number;
-    history: {
-      day: string;
-      value: number;
-    }[];
-  }[];
-  sources: string[];
-}
+import type { TrendInsight } from "@/src/types/trend";
 
 interface TrendInsightCardProps {
   insight: TrendInsight;
@@ -44,7 +31,7 @@ export default function TrendInsightCard({ insight }: TrendInsightCardProps) {
           </h2>
         </div>
 
-        <TrendingUp className="text-light-brown h-4 w-4" />
+        <TrendingUp className="text-light-brown h-4 w-4" aria-hidden="true" />
       </div>
 
       <div className="mt-5 flex items-end justify-between">
@@ -102,6 +89,7 @@ export default function TrendInsightCard({ insight }: TrendInsightCardProps) {
             <button
               key={keyword.name}
               type="button"
+              aria-pressed={isSelected}
               onClick={() => setSelectedIndex(index)}
               className={`cursor-pointer rounded-full border px-2 py-1 text-xs font-semibold transition-colors ${
                 isSelected

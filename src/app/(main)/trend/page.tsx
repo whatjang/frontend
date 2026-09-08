@@ -5,7 +5,7 @@ import TrendNotice from "./_components/TrendNotice";
 import TrendMarketList from "./_components/TrendMarketList";
 
 export default function TrendPage() {
-  const { insight, trendFood } = mockTrendData;
+  const { insight, trendMarkets } = mockTrendData;
 
   return (
     <div className="min-h-screen w-full space-y-5 px-5">
@@ -13,7 +13,7 @@ export default function TrendPage() {
 
       <TrendNotice />
 
-      <TrendMarketList trends={trendFood} />
+      <TrendMarketList trends={trendMarkets} />
     </div>
   );
 }
