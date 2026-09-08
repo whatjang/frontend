@@ -1,8 +1,8 @@
-import type { TrendFood } from "@/src/types/trend";
+import type { TrendMarket } from "@/src/types/trend";
 import TrendMarketItem from "./TrendMarketItem";
 
 interface TrendMarketListProps {
-  trends: TrendFood[];
+  trends: TrendMarket[];
 }
 
 export default function TrendMarketList({ trends }: TrendMarketListProps) {
