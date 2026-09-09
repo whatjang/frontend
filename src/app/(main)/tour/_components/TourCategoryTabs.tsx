@@ -1,16 +1,16 @@
 import type { TourCategory } from "@/src/types/tour";
 
-interface CategoryTabsProps {
+interface TourCategoryTabsProps {
   categories: TourCategory[];
   selectedCategory: string;
   onChange: (categoryId: string) => void;
 }
 
-export default function CategoryTabs({
+export default function TourCategoryTabs({
   categories,
   selectedCategory,
   onChange,
-}: CategoryTabsProps) {
+}: TourCategoryTabsProps) {
   return (
     <div className="flex items-center gap-1">
       {categories.map((category) => {

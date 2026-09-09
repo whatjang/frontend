@@ -9,15 +9,15 @@ import type { MarketTourRoute } from "@/src/types/marketTour";
 
 import RouteStopList from "./RouteStopList";
 
-interface MarketTourRouteViewProps {
+interface TourRouteSectionProps {
   market: Market;
   route: MarketTourRoute;
 }
 
-export default function MarketTourRouteView({
+export default function TourRouteSection({
   market,
   route,
-}: MarketTourRouteViewProps) {
+}: TourRouteSectionProps) {
   const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
 
   const handleSelectPlace = (placeId: number) => {
@@ -30,7 +30,7 @@ export default function MarketTourRouteView({
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6">
       <TourMap
         mode="route"
         places={route.places}
@@ -60,7 +60,7 @@ export default function MarketTourRouteView({
         onSelectPlace={handleSelectPlace}
       />
 
-      <section className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2">
         <h2 className="text-green text-sm font-bold">코스 상세 정보</h2>
 
         <PlaceList
@@ -68,7 +68,7 @@ export default function MarketTourRouteView({
           selectedPlaceId={selectedPlaceId}
           onSelectPlace={handleSelectPlace}
         />
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
