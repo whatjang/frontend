@@ -5,13 +5,17 @@ import type { MarketSearchItem } from "@/src/services/market";
 
 interface MarketSelectItemProps {
   market: MarketSearchItem;
+  href: string;
 }
 
-export default function MarketSelectItem({ market }: MarketSelectItemProps) {
+export default function MarketSelectItem({
+  market,
+  href,
+}: MarketSelectItemProps) {
   return (
     <li>
       <Link
-        href={`/markets/${market.id}/new`}
+        href={href}
         className="border-light-gray flex items-center justify-between rounded-2xl border bg-white p-3"
       >
         <div className="flex min-w-0 items-center gap-2">

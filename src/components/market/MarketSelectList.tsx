@@ -5,17 +5,19 @@ import MarketSelectItem from "./MarketSelectItem";
 interface MarketSelectListProps {
   markets: MarketSearchItem[];
   hasSearched: boolean;
+  getHref: (market: MarketSearchItem) => string;
+  emptyMessage?: string;
 }
 
 export default function MarketSelectList({
   markets,
   hasSearched,
+  getHref,
+  emptyMessage = "시장을 검색해주세요.",
 }: MarketSelectListProps) {
   if (!hasSearched) {
     return (
-      <p className="text-deep-gray py-16 text-center text-sm">
-        제보할 시장을 검색해주세요.
-      </p>
+      <p className="text-deep-gray py-16 text-center text-sm">{emptyMessage}</p>
     );
   }
 
@@ -30,7 +32,11 @@ export default function MarketSelectList({
   return (
     <ul className="flex flex-col gap-2">
       {markets.map((market) => (
-        <MarketSelectItem key={market.id} market={market} />
+        <MarketSelectItem
+          key={market.id}
+          market={market}
+          href={getHref(market)}
+        />
       ))}
     </ul>
   );

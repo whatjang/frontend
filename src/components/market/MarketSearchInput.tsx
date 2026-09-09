@@ -2,7 +2,7 @@
 
 import { Search, X } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface MarketSearchInputProps {
   initialKeyword: string;
@@ -14,6 +14,7 @@ export default function MarketSearchInput({
   initialKeyword,
 }: MarketSearchInputProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const [keyword, setKeyword] = useState(initialKeyword);
@@ -31,13 +32,13 @@ export default function MarketSearchInput({
       startTransition(() => {
         if (trimmedKeyword) {
           router.replace(
-            `/reports/new?q=${encodeURIComponent(trimmedKeyword)}`,
+            `${pathname}?q=${encodeURIComponent(trimmedKeyword)}`,
             {
               scroll: false,
             }
           );
         } else {
-          router.replace("/reports/new", {
+          router.replace(pathname, {
             scroll: false,
           });
         }
@@ -45,7 +46,7 @@ export default function MarketSearchInput({
     }, SEARCH_DELAY);
 
     return () => clearTimeout(timer);
-  }, [keyword, router, searchParams]);
+  }, [keyword, pathname, router, searchParams]);
 
   return (
     <div className="border-light-gray flex items-center gap-2 rounded-xl border bg-white px-3 py-2">
