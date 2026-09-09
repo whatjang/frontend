@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import {
   HEADER_LOGO_ITEM,
   HEADER_NOTICE_ITEM,

@@ -1,6 +1,9 @@
-import type { Metadata, Viewport } from "next";
-import { COLORS } from "@/src/constants/theme";
 import "./globals.css";
+
+import type { Metadata, Viewport } from "next";
+
+import { COLORS } from "@/src/constants/theme";
+
 import AuthInitializer from "../components/auth/AuthInitializer";
 
 export const metadata: Metadata = {

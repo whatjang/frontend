@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import type { NavbarItem } from "@/src/constants/navigation";
 
 type HomeNavItemProps = {

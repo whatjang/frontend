@@ -1,8 +1,8 @@
 "use client";
 
+import { MessageSquareText, ThumbsUp, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { MessageSquareText, ThumbsUp, TriangleAlert } from "lucide-react";
 
 interface ReportActionsProps {
   helpfulCount: number;

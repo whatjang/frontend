@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 
-import PlaceItem from "@/src/components/tour/PlaceItem";
-
+import TourPlaceItem from "@/src/components/tour/TourPlaceItem";
 import type { TourPlace } from "@/src/types/tour";
 
 interface LikedPlaceListProps {
@@ -30,7 +29,7 @@ export default function LikedPlaceList({
   return (
     <div className="flex flex-col gap-2">
       {places.map((place) => (
-        <PlaceItem
+        <TourPlaceItem
           key={place.id}
           place={place}
           liked

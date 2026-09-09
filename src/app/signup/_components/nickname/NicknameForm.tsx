@@ -1,13 +1,13 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { type FormEvent, useState } from "react";
 
-import SignupStepButtons from "../common/SignupStepButtons";
-import NicknameMessage from "./NicknameMessage";
-import NicknameInput from "./NicknameInput";
-import NicknameCompleteModal from "./NicknameCompleteModal";
 import useNickname from "../../_hooks/useNickname";
+import SignupStepButtons from "../common/SignupStepButtons";
+import NicknameCompleteModal from "./NicknameCompleteModal";
+import NicknameInput from "./NicknameInput";
+import NicknameMessage from "./NicknameMessage";
 
 export default function NicknameForm() {
   const router = useRouter();

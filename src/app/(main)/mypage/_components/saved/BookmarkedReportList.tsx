@@ -1,5 +1,4 @@
 import ReportCard from "@/src/components/reports/ReportCard";
-
 import type { BookmarkedReport } from "@/src/types/mypage";
 
 interface BookmarkedReportListProps {

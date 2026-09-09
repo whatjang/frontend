@@ -1,6 +1,5 @@
 import { getReportById } from "../mocks/market";
 import { getReportDetailMockById } from "../mocks/reportDetail";
-
 import type { ReportDetail } from "../types/report";
 
 export async function getReportDetail(

@@ -2,10 +2,10 @@
 
 import { MapPin, Star } from "lucide-react";
 
+import { BookmarkButton } from "@/src/components/reports/BookmarkButton";
 import type { ReportDetail } from "@/src/types/report";
 
 import { EditDeleteMenu } from "./EditDeleteMenu";
-import { BookmarkButton } from "@/src/components/reports/BookmarkButton";
 
 interface ReportCardProps {
   report: ReportDetail;

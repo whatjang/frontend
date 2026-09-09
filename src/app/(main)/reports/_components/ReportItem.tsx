@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { MapPin, Star } from "lucide-react";
-
-import type { MarketReport } from "@/src/types/market";
+import Link from "next/link";
 
 import { BookmarkButton } from "@/src/components/reports/BookmarkButton";
 import { ReportActions } from "@/src/components/reports/ReportActions";
+import type { MarketReport } from "@/src/types/market";
 
 interface ReportItemProps {
   marketName: string;

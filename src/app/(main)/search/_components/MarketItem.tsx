@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
   Apple,
@@ -11,6 +10,7 @@ import {
   MapPin,
   Navigation,
 } from "lucide-react";
+import Link from "next/link";
 
 import type { Market, MarketSpecialtyIcon } from "@/src/types/market";
 

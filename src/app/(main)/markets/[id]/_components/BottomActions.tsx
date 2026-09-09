@@ -1,9 +1,8 @@
 "use client";
 
+import { Compass, Star } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-
-import { Compass, Star } from "lucide-react";
 
 interface BottomActionsProps {
   marketId: number;
@@ -32,11 +31,11 @@ export default function BottomActions({
       </button>
 
       <Link
-        href={`/markets/${marketId}/tour`}
+        href={`/tour/${marketId}`}
         className="bg-green shadow-light-gray flex h-14 min-w-0 flex-1 items-center justify-center gap-2 rounded-3xl text-sm font-bold text-white shadow-xs"
       >
         <Compass size={18} strokeWidth={2.2} />
-        주변 관광 동선
+        주변 관광
       </Link>
     </div>
   );
