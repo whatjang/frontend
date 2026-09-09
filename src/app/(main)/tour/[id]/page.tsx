@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { getMarketById } from "@/src/mocks/market";
-import { mockTourData } from "@/src/mocks/tour";
+import { getMarketNearbyTourData } from "@/src/mocks/tour";
 
 import NearbyTourSection from "../_components/nearby/NearbyTourSection";
 
@@ -21,8 +21,9 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
   }
 
   const market = getMarketById(marketId);
+  const nearbyTourData = getMarketNearbyTourData(marketId);
 
-  if (!market) {
+  if (!market || !nearbyTourData) {
     notFound();
   }
 
@@ -30,7 +31,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
     <main className="flex flex-col gap-10 px-5">
       <h1 className="sr-only">{market.name} 주변 관광 정보</h1>
 
-      <NearbyTourSection data={mockTourData} />
+      <NearbyTourSection data={nearbyTourData} />
     </main>
   );
 }
