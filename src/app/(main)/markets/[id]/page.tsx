@@ -1,11 +1,12 @@
-import { getMarketById } from "@/src/mocks/market";
 import { notFound } from "next/navigation";
 
-import Intro from "./_components/Intro";
+import { getMarketById } from "@/src/mocks/market";
+
+import BottomActions from "./_components/BottomActions";
 import Facilities from "./_components/Facilities";
 import Food from "./_components/Food";
+import Intro from "./_components/Intro";
 import Reports from "./_components/Reports";
-import BottomActions from "./_components/BottomActions";
 
 interface MarketDetailPageProps {
   params: Promise<{

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import TermsDetailList from "@/src/app/signup/_components/terms/detail/TermsDetailList";
 import BackHeader from "@/src/components/header/BackHeader";
+
 import { findTermById, TERMS } from "../../_data/terms";
 
 type TermsDetailPageProps = {

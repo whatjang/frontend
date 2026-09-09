@@ -1,13 +1,13 @@
-import type { Market } from "@/src/types/market";
-
 import {
   Accessibility,
   Baby,
   CircleHelp,
   CircleParking,
-  Toilet,
   type LucideIcon,
+  Toilet,
 } from "lucide-react";
+
+import type { Market } from "@/src/types/market";
 
 interface FacilitiesProps {
   facilities: Market["facilities"];

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-import TourPlaceList from "@/src/components/tour/TourPlaceList";
 import TourMap from "@/src/components/tour/TourMap";
+import TourPlaceList from "@/src/components/tour/TourPlaceList";
 import type { Market } from "@/src/types/market";
 import type { MarketTourRoute } from "@/src/types/marketTour";
 

@@ -2,8 +2,8 @@ import { WEEKDAYS } from "@/src/constants/calendar";
 import { getMockHomeMarketsByDate } from "@/src/mocks/calendar";
 import type { CalendarDay } from "@/src/utils/calendar";
 
-import HomeCalendarItem from "./HomeCalendarItem";
 import type { CalendarView } from "../../_hooks/useCalendar";
+import HomeCalendarItem from "./HomeCalendarItem";
 
 interface HomeCalendarGridProps {
   view: CalendarView;

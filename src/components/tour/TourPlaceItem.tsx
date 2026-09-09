@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
-
 import { ExternalLink, Heart } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 import type { TourPlace } from "@/src/types/tour";

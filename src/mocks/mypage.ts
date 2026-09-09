@@ -1,4 +1,5 @@
 import { MyPageData } from "@/src/types/mypage";
+
 import { getBookmarkedReports } from "./market";
 import { marketTourRoutes } from "./marketTour";
 

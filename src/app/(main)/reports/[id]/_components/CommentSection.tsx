@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { UserRound } from "lucide-react";
+import { useState } from "react";
 
 import type { ReportComment } from "@/src/types/report";
 

@@ -1,11 +1,11 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  Search,
-  Map,
+  Bell,
   BookOpen,
   CircleUserRound,
   House,
-  Bell,
+  Map,
+  Search,
 } from "lucide-react";
 
 export const ROUTES = {

@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-
 import { LoaderCircle, LogOutIcon, Pencil, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import { useLogout } from "../../_hooks/useLogout";
 import type { Profile } from "@/src/types/mypage";
 
+import { useLogout } from "../../_hooks/useLogout";
 import DeleteModal from "./DeleteModal";
 import StatCard from "./StatCard";
 

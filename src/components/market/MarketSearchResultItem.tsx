@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ChevronRight, MapPin } from "lucide-react";
+import Link from "next/link";
 
 import type { MarketSearchItem } from "@/src/services/market";
 

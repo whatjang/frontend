@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { ChevronRight, Star, UserRound } from "lucide-react";
+import Link from "next/link";
 
 import type { ReportSummary } from "@/src/types/report";
 
