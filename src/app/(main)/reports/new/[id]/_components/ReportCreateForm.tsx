@@ -3,19 +3,19 @@
 import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-import useReportForm from "@/src/app/(main)/markets/[id]/_hooks/useReportForm";
+import useReportForm from "@/src/app/(main)/reports/new/[id]/_hooks/useReportForm";
 
-import ReportRating from "@/src/app/(main)/markets/[id]/_components/report/ReportRating";
-import ReportCategory from "@/src/app/(main)/markets/[id]/_components/report/ReportCategory";
-import ReportContent from "@/src/app/(main)/markets/[id]/_components/report/ReportContent";
-import ReportImageUpload from "@/src/app/(main)/markets/[id]/_components/report/image-upload/ReportImageUpload";
-import ReportSubmitButton from "@/src/app/(main)/markets/[id]/_components/report/ReportSubmitButton";
+import ReportRating from "@/src/app/(main)/reports/new/[id]/_components/ReportRating";
+import ReportCategory from "@/src/app/(main)/reports/new/[id]/_components/ReportCategory";
+import ReportContent from "@/src/app/(main)/reports/new/[id]/_components/ReportContent";
+import ReportImageUpload from "@/src/app/(main)/reports/new/[id]/_components/image-upload/ReportImageUpload";
+import ReportSubmitButton from "@/src/app/(main)/reports/new/[id]/_components/ReportSubmitButton";
 
-interface MarketReportFormProps {
+interface ReportCreateFormProps {
   marketId: number;
 }
 
-export default function MarketReportForm({ marketId }: MarketReportFormProps) {
+export default function ReportCreateForm({ marketId }: ReportCreateFormProps) {
   const router = useRouter();
 
   const {

@@ -23,7 +23,7 @@ export default async function ReportMarketSelectPage({
         description="현장 소식을 제보할 시장을 검색해주세요."
         keyword={keyword}
         markets={markets}
-        getHref={(market) => `/markets/${market.id}/new`}
+        getHref={(market) => `/reports/new/${market.id}`}
       />
     </main>
   );
