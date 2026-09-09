@@ -1,6 +1,6 @@
-import NoticeList from "./_components/NoticeList";
-
 import { mockNotices } from "@/src/mocks/notice";
+
+import NoticeList from "./_components/NoticeList";
 
 export default function NoticePage() {
   return (

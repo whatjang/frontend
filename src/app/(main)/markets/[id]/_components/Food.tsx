@@ -1,5 +1,3 @@
-import type { Market } from "@/src/types/market";
-
 import {
   Apple,
   Beef,
@@ -7,9 +5,11 @@ import {
   CircleHelp,
   Drumstick,
   Fish,
-  Utensils,
   type LucideIcon,
+  Utensils,
 } from "lucide-react";
+
+import type { Market } from "@/src/types/market";
 
 interface FoodProps {
   specialties: Market["specialties"];

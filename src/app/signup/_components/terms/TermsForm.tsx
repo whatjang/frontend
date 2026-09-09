@@ -1,11 +1,11 @@
 "use client";
 
-import { type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { type FormEvent } from "react";
 
+import { useSignupForm } from "../../_providers/SignupFormProvider";
 import SignupStepButtons from "../common/SignupStepButtons";
 import TermsAgreementList from "./TermsAgreementList";
-import { useSignupForm } from "../../_providers/SignupFormProvider";
 
 type TermsFormProps = {
   nextHref: string;

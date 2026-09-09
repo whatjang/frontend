@@ -1,4 +1,5 @@
 import type { TrendMarket } from "@/src/types/trend";
+
 import TrendMarketItem from "./TrendMarketItem";
 
 interface TrendMarketListProps {

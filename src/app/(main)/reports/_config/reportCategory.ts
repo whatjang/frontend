@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import {
   Clock3,
   Ellipsis,
@@ -6,8 +7,6 @@ import {
   UsersRound,
   Utensils,
 } from "lucide-react";
-
-import type { LucideIcon } from "lucide-react";
 
 import type { ReportTag } from "@/src/types/report";
 

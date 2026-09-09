@@ -1,8 +1,8 @@
 "use client";
 
+import { TrendingUp } from "lucide-react";
 import { useState } from "react";
 
-import { TrendingUp } from "lucide-react";
 import type { TrendInsight } from "@/src/types/trend";
 
 interface TrendInsightCardProps {

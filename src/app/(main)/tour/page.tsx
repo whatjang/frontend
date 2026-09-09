@@ -1,6 +1,5 @@
-import { searchMarkets } from "@/src/services/market";
-
 import MarketSearchSection from "@/src/components/market/MarketSearchSection";
+import { searchMarkets } from "@/src/services/market";
 
 interface TourPageProps {
   searchParams: Promise<{

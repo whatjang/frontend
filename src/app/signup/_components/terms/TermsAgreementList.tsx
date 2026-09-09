@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
-import { TERMS, type TermId } from "../../_data/terms";
+import { type TermId, TERMS } from "../../_data/terms";
 import CustomCheckbox from "../common/CustomCheckbox";
 
 type TermsAgreementListProps = {

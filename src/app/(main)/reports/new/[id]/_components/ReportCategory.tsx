@@ -1,9 +1,8 @@
 "use client";
 
+import { REPORT_CATEGORY_ICONS } from "@/src/app/(main)/reports/_config/reportCategory";
 import { REPORT_TAGS } from "@/src/constants/report";
 import type { ReportTag } from "@/src/types/report";
-
-import { REPORT_CATEGORY_ICONS } from "@/src/app/(main)/reports/_config/reportCategory";
 
 interface ReportCategoryProps {
   value: ReportTag | null;

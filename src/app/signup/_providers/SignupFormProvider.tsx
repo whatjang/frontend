@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { TERMS, type TermId } from "../_data/terms";
+import { type TermId, TERMS } from "../_data/terms";
 
 type CheckedTerms = Record<TermId, boolean>;
 

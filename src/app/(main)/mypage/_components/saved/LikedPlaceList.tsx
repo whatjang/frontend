@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import TourPlaceItem from "@/src/components/tour/TourPlaceItem";
-
 import type { TourPlace } from "@/src/types/tour";
 
 interface LikedPlaceListProps {

@@ -1,5 +1,6 @@
-import MarketItem from "./MarketItem";
 import { markets } from "@/src/mocks/market";
+
+import MarketItem from "./MarketItem";
 
 export default function MarketList() {
   if (markets.length === 0) {

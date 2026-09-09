@@ -1,8 +1,8 @@
 import { mockTrendData } from "@/src/mocks/trend";
 
 import TrendInsightCard from "./_components/TrendInsightCard";
-import TrendNotice from "./_components/TrendNotice";
 import TrendMarketList from "./_components/TrendMarketList";
+import TrendNotice from "./_components/TrendNotice";
 
 export default function TrendPage() {
   const { insight, trendMarkets } = mockTrendData;

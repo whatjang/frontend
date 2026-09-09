@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import HomeTrendFoodItem from "./HomeTrendFoodItem";
-
 import type { HomeTrendMarket } from "@/src/types/trend";
+
+import HomeTrendFoodItem from "./HomeTrendFoodItem";
 
 interface HomeTrendFoodListProps {
   trends: HomeTrendMarket[];

@@ -1,5 +1,6 @@
+import { InfoIcon, MapPin } from "lucide-react";
+
 import type { Market } from "@/src/types/market";
-import { MapPin, InfoIcon } from "lucide-react";
 
 interface IntroProps {
   market: Market;

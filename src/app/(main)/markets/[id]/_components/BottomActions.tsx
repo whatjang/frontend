@@ -1,9 +1,8 @@
 "use client";
 
+import { Compass, Star } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-
-import { Compass, Star } from "lucide-react";
 
 interface BottomActionsProps {
   marketId: number;

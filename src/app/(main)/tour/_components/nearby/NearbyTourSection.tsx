@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 
-import TourPlaceList from "@/src/components/tour/TourPlaceList";
 import TourMap from "@/src/components/tour/TourMap";
+import TourPlaceList from "@/src/components/tour/TourPlaceList";
 import type { NearbyTourData, TourCategoryId } from "@/src/types/tour";
 
 import TourCategoryFilter from "./TourCategoryFilter";

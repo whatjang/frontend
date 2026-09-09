@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
-
+import { MapPin, Star } from "lucide-react";
 import Link from "next/link";
-import { Star, MapPin } from "lucide-react";
+import { useState } from "react";
 
 import type { TrendMarket } from "@/src/types/trend";
 
