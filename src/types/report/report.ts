@@ -38,12 +38,3 @@ export interface ReportDetail extends ReportSummary {
   location?: string;
   comments: ReportComment[];
 }
-
-export interface ReportFormValues {
-  rating: number;
-  category: ReportTag | null;
-  content: string;
-  images: File[];
-}
-
-export type ReportFormInitialValues = Partial<ReportFormValues>;
