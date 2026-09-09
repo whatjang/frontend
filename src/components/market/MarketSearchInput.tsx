@@ -2,7 +2,7 @@
 
 import { Search, X } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface MarketSearchInputProps {
   initialKeyword: string;
@@ -14,6 +14,7 @@ export default function MarketSearchInput({
   initialKeyword,
 }: MarketSearchInputProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const [keyword, setKeyword] = useState(initialKeyword);
@@ -28,35 +29,43 @@ export default function MarketSearchInput({
         return;
       }
 
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (trimmedKeyword) {
+        params.set("q", trimmedKeyword);
+      } else {
+        params.delete("q");
+      }
+
+      const queryString = params.toString();
+
       startTransition(() => {
-        if (trimmedKeyword) {
-          router.replace(
-            `/reports/new?q=${encodeURIComponent(trimmedKeyword)}`,
-            {
-              scroll: false,
-            }
-          );
-        } else {
-          router.replace("/reports/new", {
-            scroll: false,
-          });
-        }
+        router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
+          scroll: false,
+        });
       });
     }, SEARCH_DELAY);
 
     return () => clearTimeout(timer);
-  }, [keyword, router, searchParams]);
+  }, [keyword, pathname, router, searchParams]);
 
   return (
-    <div className="border-light-gray flex items-center gap-2 rounded-xl border bg-white px-3 py-2">
-      <Search size={18} className="text-deep-gray" />
+    <div
+      role="search"
+      aria-label="시장 검색"
+      aria-busy={isPending}
+      className="border-light-gray flex items-center gap-2 rounded-xl border bg-white px-3 py-2"
+    >
+      <Search size={18} aria-hidden="true" className="text-deep-gray" />
 
       <input
-        type="text"
+        type="search"
+        name="q"
+        aria-label="시장명"
         value={keyword}
         onChange={(event) => setKeyword(event.target.value)}
         placeholder="시장명을 검색해주세요."
-        className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+        className="min-w-0 flex-1 bg-transparent text-sm outline-none [&::-webkit-search-cancel-button]:appearance-none"
       />
 
       {keyword && (
@@ -66,11 +75,19 @@ export default function MarketSearchInput({
           onClick={() => setKeyword("")}
           className="text-deep-gray flex cursor-pointer items-center justify-center"
         >
-          <X size={17} />
+          <X size={17} aria-hidden="true" />
         </button>
       )}
 
-      {isPending && <span className="text-deep-gray text-xs">검색 중</span>}
+      {isPending && (
+        <span
+          role="status"
+          aria-live="polite"
+          className="text-deep-gray text-xs"
+        >
+          검색 중
+        </span>
+      )}
     </div>
   );
 }

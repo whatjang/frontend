@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { useState } from "react";
 
-interface RouteOrderItemProps {
+interface RouteStopItemProps {
   order: number;
   image?: string | null;
   name: string;
@@ -13,14 +13,14 @@ interface RouteOrderItemProps {
   onClick?: () => void;
 }
 
-export default function RouteOrderItem({
+export default function RouteStopItem({
   order,
   image,
   name,
   label,
   isStart = false,
   onClick,
-}: RouteOrderItemProps) {
+}: RouteStopItemProps) {
   const [failedImage, setFailedImage] = useState<string | null>(null);
 
   const imageSrc = image && failedImage !== image ? image : null;

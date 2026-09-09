@@ -20,6 +20,7 @@ export default function TourMap({
   onSelectPlace,
 }: TourMapProps) {
   const isRoute = mode === "route";
+
   const routePoints = [
     "50,50",
     ...places.map(
@@ -28,14 +29,34 @@ export default function TourMap({
   ].join(" ");
 
   return (
-    <section className="relative mx-auto aspect-square w-full max-w-77">
-      <div className="border-light-gray absolute inset-0 rounded-full border bg-white/70" />
-      <div className="border-deep-gray absolute inset-5.5 rounded-full border border-dashed" />
-      <div className="border-green/30 absolute top-[10%] left-[9%] h-[58%] w-[58%] rounded-full border" />
-      <div className="border-green/30 absolute right-[5%] bottom-[9%] h-[52%] w-[52%] rounded-full border" />
+    <div
+      role="group"
+      aria-label={isRoute ? "추천 관광 동선 지도" : "시장 주변 장소 지도"}
+      className="relative mx-auto aspect-square w-full max-w-77"
+    >
+      <div
+        aria-hidden="true"
+        className="border-light-gray absolute inset-0 rounded-full border bg-white/70"
+      />
+
+      <div
+        aria-hidden="true"
+        className="border-deep-gray absolute inset-5.5 rounded-full border border-dashed"
+      />
+
+      <div
+        aria-hidden="true"
+        className="border-green/30 absolute top-[10%] left-[9%] h-[58%] w-[58%] rounded-full border"
+      />
+
+      <div
+        aria-hidden="true"
+        className="border-green/30 absolute right-[5%] bottom-[9%] h-[52%] w-[52%] rounded-full border"
+      />
 
       {isRoute && (
         <svg
+          aria-hidden="true"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
           className="pointer-events-none absolute inset-0 size-full"
@@ -60,6 +81,7 @@ export default function TourMap({
             key={place.id}
             type="button"
             aria-label={`${place.name} 선택`}
+            aria-pressed={selected}
             onClick={() => onSelectPlace(place.id)}
             className="absolute z-10 cursor-pointer"
             style={{
@@ -80,6 +102,7 @@ export default function TourMap({
               </span>
             ) : (
               <MapPin
+                aria-hidden="true"
                 className={
                   selected
                     ? "fill-green/80 text-green"
@@ -91,17 +114,24 @@ export default function TourMap({
         );
       })}
 
-      <div className="bg-green absolute top-1/2 left-1/2 z-10 flex size-14.5 -translate-x-1/2 -translate-y-1/2 rotate-45 items-center justify-center rounded-2xl shadow-lg">
-        <div className="flex size-4.5 -rotate-45 items-center justify-center rounded-full bg-white">
+      <div
+        role="img"
+        aria-label="시장 위치"
+        className="bg-green absolute top-1/2 left-1/2 z-10 flex size-14.5 -translate-x-1/2 -translate-y-1/2 rotate-45 items-center justify-center rounded-2xl shadow-lg"
+      >
+        <div
+          aria-hidden="true"
+          className="flex size-4.5 -rotate-45 items-center justify-center rounded-full bg-white"
+        >
           <div className="bg-green size-1 rounded-full" />
         </div>
       </div>
 
-      {!isRoute && radiusKm && (
+      {!isRoute && radiusKm !== undefined && (
         <div className="text-green absolute bottom-[11%] left-1/2 -translate-x-1/2 rounded-full bg-white px-5 py-2 text-xs font-bold shadow-xs">
           반경 {radiusKm} km
         </div>
       )}
-    </section>
+    </div>
   );
 }

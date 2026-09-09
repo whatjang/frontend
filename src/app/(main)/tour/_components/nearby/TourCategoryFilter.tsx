@@ -1,18 +1,22 @@
-import type { TourCategory } from "@/src/types/tour";
+import type { NearbyTourCategory, TourCategoryId } from "@/src/types/tour";
 
-interface CategoryTabsProps {
-  categories: TourCategory[];
-  selectedCategory: string;
-  onChange: (categoryId: string) => void;
+interface TourCategoryFilterProps {
+  categories: NearbyTourCategory[];
+  selectedCategory: TourCategoryId | "";
+  onChange: (categoryId: TourCategoryId) => void;
 }
 
-export default function CategoryTabs({
+export default function TourCategoryFilter({
   categories,
   selectedCategory,
   onChange,
-}: CategoryTabsProps) {
+}: TourCategoryFilterProps) {
   return (
-    <div className="flex items-center gap-1">
+    <div
+      role="group"
+      aria-label="주변 장소 카테고리"
+      className="flex items-center gap-1"
+    >
       {categories.map((category) => {
         const isSelected = selectedCategory === category.id;
 
@@ -20,6 +24,7 @@ export default function CategoryTabs({
           <button
             key={category.id}
             type="button"
+            aria-pressed={isSelected}
             onClick={() => onChange(category.id)}
             className={[
               "cursor-pointer rounded-full px-5 py-2 text-xs font-semibold transition",
