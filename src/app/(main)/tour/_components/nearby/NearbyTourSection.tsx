@@ -2,14 +2,14 @@
 
 import { useMemo, useState } from "react";
 
-import PlaceList from "@/src/components/tour/TourPlaceList";
+import TourPlaceList from "@/src/components/tour/TourPlaceList";
 import TourMap from "@/src/components/tour/TourMap";
-import type { TourData } from "@/src/types/tour";
+import type { NearbyTourData, TourCategoryId } from "@/src/types/tour";
 
 import TourCategoryFilter from "./TourCategoryFilter";
 
 interface NearbyTourSectionProps {
-  data: TourData;
+  data: NearbyTourData;
 }
 
 export default function NearbyTourSection({ data }: NearbyTourSectionProps) {
@@ -26,7 +26,7 @@ export default function NearbyTourSection({ data }: NearbyTourSectionProps) {
     [places, selectedCategory]
   );
 
-  const handleCategoryChange = (categoryId: string) => {
+  const handleCategoryChange = (categoryId: TourCategoryId) => {
     setSelectedCategory(categoryId);
     setSelectedPlaceId(null);
   };
@@ -68,11 +68,7 @@ export default function NearbyTourSection({ data }: NearbyTourSectionProps) {
         onSelectPlace={handleSelectPlace}
       />
 
-      <p className="sr-only" aria-live="polite">
-        {filteredPlaces.length}개의 장소가 있습니다.
-      </p>
-
-      <PlaceList
+      <TourPlaceList
         places={filteredPlaces}
         selectedPlaceId={selectedPlaceId}
         onSelectPlace={handleSelectPlace}

@@ -1,12 +1,9 @@
-export interface TourCategory {
-  id: string;
-  label: string;
-}
+export type TourCategoryId = "restaurant" | "attraction" | "cafe";
 
 export interface TourPlace {
   id: number;
   name: string;
-  category: string;
+  category: TourCategoryId;
   categoryLabel: string;
   distance: string;
   image: string;
@@ -16,10 +13,4 @@ export interface TourPlace {
     top: string;
     left: string;
   };
-}
-
-export interface TourData {
-  radiusKm: number;
-  categories: TourCategory[];
-  places: TourPlace[];
 }

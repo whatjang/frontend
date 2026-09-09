@@ -1,9 +1,9 @@
-import type { TourCategory } from "@/src/types/tour";
+import type { NearbyTourCategory, TourCategoryId } from "@/src/types/tour";
 
 interface TourCategoryFilterProps {
-  categories: TourCategory[];
-  selectedCategory: string;
-  onChange: (categoryId: string) => void;
+  categories: NearbyTourCategory[];
+  selectedCategory: TourCategoryId | "";
+  onChange: (categoryId: TourCategoryId) => void;
 }
 
 export default function TourCategoryFilter({

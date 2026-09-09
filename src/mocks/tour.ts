@@ -1,3 +1,5 @@
+import type { NearbyTourData } from "@/src/types/tour";
+
 export const mockTourData = {
   radiusKm: 5,
 
@@ -69,4 +71,4 @@ export const mockTourData = {
       },
     },
   ],
-};
+} satisfies NearbyTourData;
