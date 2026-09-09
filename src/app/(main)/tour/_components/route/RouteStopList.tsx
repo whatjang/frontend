@@ -17,15 +17,22 @@ export default function RouteStopList({
   onSelectPlace,
 }: RouteStopListProps) {
   return (
-    <section className="flex flex-col gap-2">
-      <h2 className="text-green text-sm font-bold">추천 이동 순서</h2>
+    <section aria-labelledby="route-stop-title" className="flex flex-col gap-2">
+      <h3 id="route-stop-title" className="text-green text-sm font-bold">
+        추천 이동 순서
+      </h3>
 
-      <div className="flex scrollbar-none items-center gap-2 overflow-x-auto">
-        <RouteStopItem order={1} name={market.name} label="출발지" isStart />
+      <ol className="flex scrollbar-none items-center gap-2 overflow-x-auto">
+        <li className="shrink-0">
+          <RouteStopItem order={1} name={market.name} label="출발지" isStart />
+        </li>
 
         {places.map((place, index) => (
-          <div key={place.id} className="flex items-center gap-2">
-            <ChevronRight className="text-deep-gray size-4" />
+          <li key={place.id} className="flex shrink-0 items-center gap-2">
+            <ChevronRight
+              aria-hidden="true"
+              className="text-deep-gray size-4"
+            />
 
             <RouteStopItem
               order={index + 2}
@@ -34,9 +41,9 @@ export default function RouteStopList({
               label={place.categoryLabel}
               onClick={() => onSelectPlace(place.id)}
             />
-          </div>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   );
 }

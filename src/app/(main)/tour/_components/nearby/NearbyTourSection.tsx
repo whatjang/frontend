@@ -2,11 +2,11 @@
 
 import { useMemo, useState } from "react";
 
-import PlaceList from "@/src/components/tour/PlaceList";
+import PlaceList from "@/src/components/tour/TourPlaceList";
 import TourMap from "@/src/components/tour/TourMap";
 import type { TourData } from "@/src/types/tour";
 
-import TourCategoryTabs from "./TourCategoryTabs";
+import TourCategoryFilter from "./TourCategoryFilter";
 
 interface NearbyTourSectionProps {
   data: TourData;
@@ -41,16 +41,21 @@ export default function NearbyTourSection({ data }: NearbyTourSectionProps) {
   };
 
   return (
-    <section className="flex flex-col gap-6">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-green text-lg font-bold">시장 주변 추천</h2>
+    <section
+      aria-labelledby="nearby-tour-title"
+      className="flex flex-col gap-6"
+    >
+      <header className="flex flex-col gap-1">
+        <h2 id="nearby-tour-title" className="text-green text-lg font-bold">
+          시장 주변 추천
+        </h2>
 
         <p className="text-deep-gray text-xs">
           시장과 함께 둘러보기 좋은 주변 장소를 확인해보세요.
         </p>
-      </div>
+      </header>
 
-      <TourCategoryTabs
+      <TourCategoryFilter
         categories={categories}
         selectedCategory={selectedCategory}
         onChange={handleCategoryChange}
@@ -62,6 +67,10 @@ export default function NearbyTourSection({ data }: NearbyTourSectionProps) {
         selectedPlaceId={selectedPlaceId}
         onSelectPlace={handleSelectPlace}
       />
+
+      <p className="sr-only" aria-live="polite">
+        {filteredPlaces.length}개의 장소가 있습니다.
+      </p>
 
       <PlaceList
         places={filteredPlaces}

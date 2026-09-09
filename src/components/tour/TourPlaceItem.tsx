@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import type { TourPlace } from "@/src/types/tour";
 
-interface PlaceItemProps {
+interface TourPlaceItemProps {
   place: TourPlace;
   selected?: boolean;
   onSelect?: () => void;
@@ -16,14 +16,14 @@ interface PlaceItemProps {
   eager?: boolean;
 }
 
-export default function PlaceItem({
+export default function TourPlaceItem({
   place,
   selected = false,
   onSelect,
   liked: controlledLiked,
   onLikeToggle,
   eager = false,
-}: PlaceItemProps) {
+}: TourPlaceItemProps) {
   const [internalLiked, setInternalLiked] = useState(false);
 
   const liked = controlledLiked ?? internalLiked;
@@ -47,12 +47,28 @@ export default function PlaceItem({
     event.stopPropagation();
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (!onSelect || event.target !== event.currentTarget) {
+      return;
+    }
+
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onSelect();
+    }
+  };
+
   return (
     <article
       id={`place-${place.id}`}
       onClick={onSelect}
+      onKeyDown={handleKeyDown}
+      tabIndex={onSelect ? 0 : undefined}
       className={[
-        "flex cursor-pointer items-center gap-4 rounded-2xl border bg-white p-3 shadow-xs transition",
+        "flex items-center gap-4 rounded-2xl border bg-white p-3 shadow-xs transition",
+        onSelect
+          ? "cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2"
+          : "",
         selected ? "border-green" : "border-light-gray shadow-light-gray",
       ].join(" ")}
     >
@@ -74,11 +90,15 @@ export default function PlaceItem({
 
             <button
               type="button"
-              aria-label={`${place.name} 찜하기`}
+              aria-label={
+                liked ? `${place.name} 찜 해제` : `${place.name} 찜하기`
+              }
+              aria-pressed={liked}
               onClick={handleLikeClick}
               className="flex size-5 shrink-0 cursor-pointer items-center justify-center"
             >
               <Heart
+                aria-hidden="true"
                 className={
                   liked
                     ? "fill-green text-green size-5"
@@ -101,7 +121,7 @@ export default function PlaceItem({
           className="text-green flex w-fit items-center gap-1 text-xs font-semibold whitespace-nowrap"
         >
           지도에서 보기
-          <ExternalLink className="size-3.5" />
+          <ExternalLink aria-hidden="true" className="size-3.5" />
         </a>
       </div>
     </article>
