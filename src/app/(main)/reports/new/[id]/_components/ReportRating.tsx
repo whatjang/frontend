@@ -2,12 +2,12 @@
 
 import { Star } from "lucide-react";
 
+import { MAX_REPORT_RATING } from "@/src/constants/report";
+
 interface ReportRatingProps {
   value: number;
   onChange: (rating: number) => void;
 }
-
-const MAX_RATING = 5;
 
 export default function ReportRating({ value, onChange }: ReportRatingProps) {
   return (
@@ -16,7 +16,7 @@ export default function ReportRating({ value, onChange }: ReportRatingProps) {
 
       <div className="flex items-center gap-2">
         <div className="flex gap-1">
-          {Array.from({ length: MAX_RATING }, (_, index) => {
+          {Array.from({ length: MAX_REPORT_RATING }, (_, index) => {
             const rating = index + 1;
             const isSelected = rating <= value;
 

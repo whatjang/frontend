@@ -1,5 +1,6 @@
-export type ReportTag =
-  "혼잡도" | "운영 여부" | "새로운 먹거리" | "이벤트/축제" | "기타";
+import type { REPORT_TAGS } from "@/src/constants/report";
+
+export type ReportTag = (typeof REPORT_TAGS)[number];
 
 export interface ReportSummary {
   id: number;

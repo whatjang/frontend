@@ -1,39 +1,14 @@
 "use client";
 
-import { Clock3, Ellipsis, Ticket, UsersRound, Utensils } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { REPORT_TAGS } from "@/src/constants/report";
 import type { ReportTag } from "@/src/types/report";
+
+import { REPORT_CATEGORY_ICONS } from "@/src/app/(main)/reports/_config/reportCategory";
 
 interface ReportCategoryProps {
   value: ReportTag | null;
   onChange: (category: ReportTag) => void;
 }
-
-const categories: {
-  label: ReportTag;
-  icon: LucideIcon;
-}[] = [
-  {
-    label: "혼잡도",
-    icon: UsersRound,
-  },
-  {
-    label: "운영 여부",
-    icon: Clock3,
-  },
-  {
-    label: "새로운 먹거리",
-    icon: Utensils,
-  },
-  {
-    label: "이벤트/축제",
-    icon: Ticket,
-  },
-  {
-    label: "기타",
-    icon: Ellipsis,
-  },
-];
 
 export default function ReportCategory({
   value,
@@ -46,15 +21,16 @@ export default function ReportCategory({
       </legend>
 
       <div className="flex flex-wrap gap-2">
-        {categories.map(({ label, icon: Icon }) => {
-          const isSelected = value === label;
+        {REPORT_TAGS.map((tag) => {
+          const Icon = REPORT_CATEGORY_ICONS[tag];
+          const isSelected = value === tag;
 
           return (
             <button
-              key={label}
+              key={tag}
               type="button"
               aria-pressed={isSelected}
-              onClick={() => onChange(label)}
+              onClick={() => onChange(tag)}
               className={[
                 "flex items-center gap-2 rounded-full border px-3 py-1",
                 "cursor-pointer text-sm font-medium transition-colors",
@@ -64,7 +40,8 @@ export default function ReportCategory({
               ].join(" ")}
             >
               <Icon size={17} strokeWidth={1.8} aria-hidden="true" />
-              {label}
+
+              {tag}
             </button>
           );
         })}

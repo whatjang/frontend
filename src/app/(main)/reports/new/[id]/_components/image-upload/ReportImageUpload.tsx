@@ -3,6 +3,8 @@
 import { Lightbulb } from "lucide-react";
 import type { ChangeEvent } from "react";
 
+import { MAX_REPORT_IMAGES } from "@/src/constants/report";
+
 import ReportImagePreview from "./ReportImagePreview";
 import ReportImageUploadButton from "./ReportImageUploadButton";
 
@@ -11,20 +13,18 @@ interface ReportImageUploadProps {
   onChange: (images: File[]) => void;
 }
 
-const MAX_IMAGES = 3;
-
 export default function ReportImageUpload({
   images,
   onChange,
 }: ReportImageUploadProps) {
-  const canAddImage = images.length < MAX_IMAGES;
+  const canAddImage = images.length < MAX_REPORT_IMAGES;
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files ?? []);
 
     if (selectedFiles.length === 0) return;
 
-    const remainingCount = MAX_IMAGES - images.length;
+    const remainingCount = MAX_REPORT_IMAGES - images.length;
     const filesToAdd = selectedFiles.slice(0, remainingCount);
 
     onChange([...images, ...filesToAdd]);
@@ -67,11 +67,11 @@ function ImageUploadHeader({ count }: { count: number }) {
     <div className="flex items-center justify-between px-5">
       <p className="text-deep-gray text-sm font-semibold">
         사진 첨부{" "}
-        <span className="text-gray text-xs">(최대 {MAX_IMAGES}장)</span>
+        <span className="text-gray text-xs">(최대 {MAX_REPORT_IMAGES}장)</span>
       </p>
 
       <p className="text-deep-gray text-xs font-medium">
-        {count} / {MAX_IMAGES}
+        {count} / {MAX_REPORT_IMAGES}
       </p>
     </div>
   );
