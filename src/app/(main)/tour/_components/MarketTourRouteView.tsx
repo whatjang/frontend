@@ -2,22 +2,22 @@
 
 import { useState } from "react";
 
-import TourMap from "@/src/components/tour/TourMap";
 import PlaceList from "@/src/components/tour/PlaceList";
+import TourMap from "@/src/components/tour/TourMap";
 import type { Market } from "@/src/types/market";
 import type { MarketTourRoute } from "@/src/types/marketTour";
 
-import RouteOrderList from "./RouteOrderList";
+import RouteStopList from "./RouteStopList";
 
-interface MarketTourContentProps {
+interface MarketTourRouteViewProps {
   market: Market;
   route: MarketTourRoute;
 }
 
-export default function MarketTourContent({
+export default function MarketTourRouteView({
   market,
   route,
-}: MarketTourContentProps) {
+}: MarketTourRouteViewProps) {
   const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
 
   const handleSelectPlace = (placeId: number) => {
@@ -54,7 +54,7 @@ export default function MarketTourContent({
         </span>
       </div>
 
-      <RouteOrderList
+      <RouteStopList
         market={market}
         places={route.places}
         onSelectPlace={handleSelectPlace}

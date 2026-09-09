@@ -21,7 +21,7 @@ export default async function TourPage({ searchParams }: TourPageProps) {
         description="주변 관광 정보를 확인할 시장을 검색해주세요."
         keyword={keyword}
         markets={markets}
-        getHref={(market) => `/tour?marketId=${market.id}`}
+        getHref={(market) => `/tour/${market.id}`}
       />
     </main>
   );

@@ -3,16 +3,17 @@ import { notFound } from "next/navigation";
 import { getMarketById } from "@/src/mocks/market";
 import { getMarketTourRoute } from "@/src/mocks/marketTour";
 
-import MarketTourContent from "./_components/MarketTourContent";
+import MarketTourRouteView from "../_components/MarketTourRouteView";
 
-interface MarketTourPageProps {
+interface TourDetailPageProps {
   params: Promise<{
     id: string;
   }>;
 }
 
-export default async function MarketTourPage({ params }: MarketTourPageProps) {
+export default async function TourDetailPage({ params }: TourDetailPageProps) {
   const { id } = await params;
+
   const marketId = Number(id);
 
   if (!Number.isInteger(marketId)) {
@@ -28,7 +29,7 @@ export default async function MarketTourPage({ params }: MarketTourPageProps) {
 
   return (
     <main className="px-5">
-      <MarketTourContent market={market} route={route} />
+      <MarketTourRouteView market={market} route={route} />
     </main>
   );
 }

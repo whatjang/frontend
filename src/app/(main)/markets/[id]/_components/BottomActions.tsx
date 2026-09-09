@@ -32,7 +32,7 @@ export default function BottomActions({
       </button>
 
       <Link
-        href={`/markets/${marketId}/tour`}
+        href={`/tour/${marketId}`}
         className="bg-green shadow-light-gray flex h-14 min-w-0 flex-1 items-center justify-center gap-2 rounded-3xl text-sm font-bold text-white shadow-xs"
       >
         <Compass size={18} strokeWidth={2.2} />
