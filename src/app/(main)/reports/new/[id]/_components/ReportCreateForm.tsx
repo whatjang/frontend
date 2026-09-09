@@ -3,13 +3,14 @@
 import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-import useReportForm from "@/src/app/(main)/reports/new/[id]/_hooks/useReportForm";
+import useReportForm from "../_hooks/useReportForm";
+import { validateReportForm } from "../_utils/validateReportForm";
 
-import ReportRating from "@/src/app/(main)/reports/new/[id]/_components/ReportRating";
-import ReportCategory from "@/src/app/(main)/reports/new/[id]/_components/ReportCategory";
-import ReportContent from "@/src/app/(main)/reports/new/[id]/_components/ReportContent";
-import ReportImageUpload from "@/src/app/(main)/reports/new/[id]/_components/image-upload/ReportImageUpload";
-import ReportSubmitButton from "@/src/app/(main)/reports/new/[id]/_components/ReportSubmitButton";
+import ReportCategory from "./ReportCategory";
+import ReportContent from "./ReportContent";
+import ReportImageUpload from "./image-upload/ReportImageUpload";
+import ReportRating from "./ReportRating";
+import ReportSubmitButton from "./ReportSubmitButton";
 
 interface ReportCreateFormProps {
   marketId: number;
@@ -32,22 +33,19 @@ export default function ReportCreateForm({ marketId }: ReportCreateFormProps) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (rating === 0) {
-      alert("별점을 선택해주세요.");
-      return;
-    }
+    const errorMessage = validateReportForm({
+      rating,
+      category,
+      content,
+    });
 
-    if (!category) {
-      alert("제보 카테고리를 선택해주세요.");
-      return;
-    }
-
-    if (!content.trim()) {
-      alert("제보 내용을 입력해주세요.");
+    if (errorMessage) {
+      alert(errorMessage);
       return;
     }
 
     alert("제보 등록이 완료되었습니다.");
+
     router.replace(`/markets/${marketId}`);
   };
 
@@ -55,10 +53,14 @@ export default function ReportCreateForm({ marketId }: ReportCreateFormProps) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <div className="flex flex-col gap-6 px-5">
         <ReportRating value={rating} onChange={setRating} />
+
         <ReportCategory value={category} onChange={setCategory} />
+
         <ReportContent value={content} onChange={setContent} />
       </div>
+
       <ReportImageUpload images={images} onChange={setImages} />
+
       <div className="px-5">
         <ReportSubmitButton />
       </div>
