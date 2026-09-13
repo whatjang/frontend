@@ -1,42 +1,76 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-export interface Coordinates {
-  latitude: number;
-  longitude: number;
+import {
+  type Coordinates,
+  getCurrentCoordinates,
+  watchLocationPermission,
+} from "@/src/lib/browser/geolocation";
+
+interface UseCurrentLocationOptions {
+  onLocationChange?: (coordinates: Coordinates | null) => void;
 }
 
-export function useCurrentLocation() {
+export function useCurrentLocation({
+  onLocationChange,
+}: UseCurrentLocationOptions = {}) {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const requestLocation = useCallback(() => {
-    if (!navigator.geolocation) {
-      setError("현재 위치를 지원하지 않는 브라우저입니다.");
-      return;
+  const onLocationChangeRef = useRef(onLocationChange);
+
+  useEffect(() => {
+    onLocationChangeRef.current = onLocationChange;
+  }, [onLocationChange]);
+
+  const requestLocation = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const nextCoordinates = await getCurrentCoordinates();
+
+      setCoordinates(nextCoordinates);
+      onLocationChangeRef.current?.(nextCoordinates);
+
+      return nextCoordinates;
+    } catch (error) {
+      setCoordinates(null);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "현재 위치를 가져올 수 없습니다."
+      );
+
+      onLocationChangeRef.current?.(null);
+
+      return null;
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(true);
-    setError(null);
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setCoordinates({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-
-        setIsLoading(false);
-      },
-      () => {
-        setCoordinates(null);
-        setError("현재 위치를 가져올 수 없습니다.");
-        setIsLoading(false);
-      }
-    );
   }, []);
+
+  useEffect(() => {
+    let cleanup: (() => void) | undefined;
+
+    void watchLocationPermission((state) => {
+      if (state === "granted") {
+        void requestLocation();
+      }
+
+      if (state === "denied") {
+        setCoordinates(null);
+        setError("현재 위치를 확인할 수 없습니다.");
+        onLocationChangeRef.current?.(null);
+      }
+    }).then((unsubscribe) => {
+      cleanup = unsubscribe;
+    });
+
+    return () => cleanup?.();
+  }, [requestLocation]);
 
   return {
     coordinates,

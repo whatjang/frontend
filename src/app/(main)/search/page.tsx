@@ -10,11 +10,6 @@ import { useMarketSearch } from "./_hooks/useMarketSearch";
 
 export default function SearchPage() {
   const {
-    coordinates,
-    error: locationError,
-    requestLocation,
-  } = useCurrentLocation();
-  const {
     markets,
     totalCount,
     isLoading,
@@ -23,10 +18,19 @@ export default function SearchPage() {
     errorMessage,
     search,
     loadMore,
-  } = useMarketSearch(coordinates);
+    updateCoordinates,
+  } = useMarketSearch();
+
+  const {
+    isLoading: isLocationLoading,
+    error: locationError,
+    requestLocation,
+  } = useCurrentLocation({
+    onLocationChange: updateCoordinates,
+  });
 
   useEffect(() => {
-    requestLocation();
+    void requestLocation();
   }, [requestLocation]);
 
   return (
@@ -34,9 +38,20 @@ export default function SearchPage() {
       <SearchBar onSearch={search} />
 
       {locationError && (
-        <p className="text-deep-gray text-center text-xs">
-          현재 위치를 확인할 수 없어 시장명순으로 검색됩니다.
-        </p>
+        <div className="flex items-center justify-center gap-2 text-xs">
+          <span className="text-deep-gray">
+            현재 위치를 확인할 수 없어 시장명순으로 검색됩니다.
+          </span>
+
+          <button
+            type="button"
+            onClick={() => void requestLocation()}
+            disabled={isLocationLoading}
+            className="text-green shrink-0 font-semibold disabled:opacity-50"
+          >
+            {isLocationLoading ? "확인 중..." : "다시 시도"}
+          </button>
+        </div>
       )}
 
       {errorMessage && (

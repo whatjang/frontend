@@ -1,14 +1,13 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
-import type { Coordinates } from "@/src/hooks/useCurrentLocation";
 import { searchMarkets } from "@/src/lib/api/market/search";
+import type { Coordinates } from "@/src/lib/browser/geolocation";
 import type { MarketSearchItem } from "@/src/types/market/marketSearch";
 
-export function useMarketSearch(coordinates: Coordinates | null) {
+export function useMarketSearch() {
   const [markets, setMarkets] = useState<MarketSearchItem[]>([]);
-  const [keyword, setKeyword] = useState("");
   const [page, setPage] = useState(0);
   const [hasNext, setHasNext] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,11 +15,15 @@ export function useMarketSearch(coordinates: Coordinates | null) {
   const [errorMessage, setErrorMessage] = useState("");
   const [totalCount, setTotalCount] = useState(0);
 
+  const keywordRef = useRef("");
+  const coordinatesRef = useRef<Coordinates | null>(null);
+
   const search = useCallback(
-    async (keyword: string) => {
-      if (!keyword) {
+    async (searchKeyword: string, searchCoordinates?: Coordinates | null) => {
+      if (!searchKeyword) {
+        keywordRef.current = "";
+
         setMarkets([]);
-        setKeyword("");
         setPage(0);
         setHasNext(false);
         setHasSearched(false);
@@ -29,28 +32,37 @@ export function useMarketSearch(coordinates: Coordinates | null) {
         return;
       }
 
+      if (searchCoordinates !== undefined) {
+        coordinatesRef.current = searchCoordinates;
+      }
+
+      keywordRef.current = searchKeyword;
+
       try {
         setIsLoading(true);
         setHasSearched(true);
         setMarkets([]);
+        setPage(0);
+        setHasNext(false);
+        setTotalCount(0);
         setErrorMessage("");
 
         const response = await searchMarkets({
-          keyword,
+          keyword: searchKeyword,
           page: 0,
-          ...(coordinates && {
-            latitude: coordinates.latitude,
-            longitude: coordinates.longitude,
+          ...(coordinatesRef.current && {
+            latitude: coordinatesRef.current.latitude,
+            longitude: coordinatesRef.current.longitude,
           }),
         });
 
         setMarkets(response.result.markets);
         setTotalCount(response.result.total_count);
-        setKeyword(keyword);
-        setPage(0);
         setHasNext(response.result.has_next);
       } catch (error) {
+        setMarkets([]);
         setTotalCount(0);
+        setHasNext(false);
 
         setErrorMessage(
           error instanceof Error
@@ -61,25 +73,43 @@ export function useMarketSearch(coordinates: Coordinates | null) {
         setIsLoading(false);
       }
     },
-    [coordinates]
+    []
+  );
+
+  const updateCoordinates = useCallback(
+    async (nextCoordinates: Coordinates | null) => {
+      coordinatesRef.current = nextCoordinates;
+
+      const currentKeyword = keywordRef.current;
+
+      if (!currentKeyword) {
+        return;
+      }
+
+      await search(currentKeyword, nextCoordinates);
+    },
+    [search]
   );
 
   const loadMore = useCallback(async () => {
-    if (!keyword || !hasNext || isLoading) {
+    const currentKeyword = keywordRef.current;
+
+    if (!currentKeyword || !hasNext || isLoading) {
       return;
     }
 
     try {
       setIsLoading(true);
+      setErrorMessage("");
 
       const nextPage = page + 1;
 
       const response = await searchMarkets({
-        keyword,
+        keyword: currentKeyword,
         page: nextPage,
-        ...(coordinates && {
-          latitude: coordinates.latitude,
-          longitude: coordinates.longitude,
+        ...(coordinatesRef.current && {
+          latitude: coordinatesRef.current.latitude,
+          longitude: coordinatesRef.current.longitude,
         }),
       });
 
@@ -95,7 +125,7 @@ export function useMarketSearch(coordinates: Coordinates | null) {
     } finally {
       setIsLoading(false);
     }
-  }, [keyword, page, hasNext, isLoading, coordinates]);
+  }, [page, hasNext, isLoading]);
 
   return {
     markets,
@@ -106,5 +136,6 @@ export function useMarketSearch(coordinates: Coordinates | null) {
     errorMessage,
     search,
     loadMore,
+    updateCoordinates,
   };
 }
