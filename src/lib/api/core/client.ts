@@ -23,9 +23,6 @@ axiosInstance.interceptors.request.use((config) => {
 
   const access_token = useAuthStore.getState().access_token;
 
-  console.log("요청 URL:", config.url);
-  console.log("access token 존재:", Boolean(access_token));
-
   if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`;
   }
@@ -79,46 +76,65 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+async function request<T>(config: AxiosRequestConfig): Promise<T> {
+  const { data } = await axiosInstance.request<T>(config);
+
+  return data;
+}
+
 export const apiClient = {
-  async get<T>(endpoint: string, options?: AxiosRequestConfig): Promise<T> {
-    const { data } = await axiosInstance.get<T>(endpoint, options);
-
-    return data;
+  get<T>(endpoint: string, options?: AxiosRequestConfig) {
+    return request<T>({
+      ...options,
+      method: "GET",
+      url: endpoint,
+    });
   },
 
-  async post<T, B = unknown>(
+  post<T, B = unknown>(
     endpoint: string,
     body?: B,
     options?: AxiosRequestConfig
-  ): Promise<T> {
-    const { data } = await axiosInstance.post<T>(endpoint, body, options);
-
-    return data;
+  ) {
+    return request<T>({
+      ...options,
+      method: "POST",
+      url: endpoint,
+      data: body,
+    });
   },
 
-  async put<T, B = unknown>(
+  put<T, B = unknown>(
     endpoint: string,
     body?: B,
     options?: AxiosRequestConfig
-  ): Promise<T> {
-    const { data } = await axiosInstance.put<T>(endpoint, body, options);
-
-    return data;
+  ) {
+    return request<T>({
+      ...options,
+      method: "PUT",
+      url: endpoint,
+      data: body,
+    });
   },
 
-  async patch<T, B = unknown>(
+  patch<T, B = unknown>(
     endpoint: string,
     body?: B,
     options?: AxiosRequestConfig
-  ): Promise<T> {
-    const { data } = await axiosInstance.patch<T>(endpoint, body, options);
-
-    return data;
+  ) {
+    return request<T>({
+      ...options,
+      method: "PATCH",
+      url: endpoint,
+      data: body,
+    });
   },
 
-  async delete<T>(endpoint: string, options?: AxiosRequestConfig): Promise<T> {
-    const { data } = await axiosInstance.delete<T>(endpoint, options);
-
-    return data;
+  delete<T>(endpoint: string, options?: AxiosRequestConfig) {
+    return request<T>({
+      ...options,
+      method: "DELETE",
+      url: endpoint,
+    });
   },
 };
