@@ -7,6 +7,8 @@ import { loginWithKakao } from "@/src/lib/api/auth";
 import { useAuthStore } from "@/src/stores/authStore";
 
 const LOGIN_PATH = "/login";
+const SIGNUP_TERMS_PATH = "/signup/terms";
+const HOME_PATH = "/home";
 
 function getRedirectUri() {
   return `${window.location.origin}${LOGIN_PATH}`;
@@ -46,7 +48,9 @@ export function useKakaoLogin() {
       return;
     }
 
-    if (!code || isLoginRequested.current) return;
+    if (!code || isLoginRequested.current) {
+      return;
+    }
 
     isLoginRequested.current = true;
 
@@ -59,13 +63,18 @@ export function useKakaoLogin() {
           redirect_uri: getRedirectUri(),
         });
 
-        const { member_id, access_token } = response.result;
+        const { member_id, access_token, signup_status } = response.result;
 
         setAuth(member_id, access_token);
 
         window.history.replaceState({}, "", LOGIN_PATH);
 
-        router.replace("/home");
+        if (signup_status === "PENDING") {
+          router.replace(SIGNUP_TERMS_PATH);
+          return;
+        }
+
+        router.replace(HOME_PATH);
       } catch (error) {
         console.error("카카오 로그인 실패:", error);
 
