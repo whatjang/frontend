@@ -1,16 +1,8 @@
-import type { SignupStatus } from "@/src/types/auth";
-
-export type ConsentType = "SERVICE" | "PRIVACY" | "LOCATION" | "MARKETING";
+import type { ConsentType, MemberInfo } from "./member";
 
 export interface OnboardingRequest {
   nickname: string;
   consents: ConsentType[];
 }
 
-export interface OnboardingResult {
-  member_id: number;
-  name: string;
-  nickname: string;
-  signup_status: SignupStatus;
-  consents: ConsentType[];
-}
+export type OnboardingResult = MemberInfo;
