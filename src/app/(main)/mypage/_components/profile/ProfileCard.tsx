@@ -3,6 +3,8 @@
 import { LoaderCircle, LogOutIcon, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 
+import { useAuthStore } from "@/src/stores/authStore";
+import { useMemberStore } from "@/src/stores/memberStore";
 import type { Profile } from "@/src/types/mypage";
 
 import { useLogout } from "../../_hooks/useLogout";
@@ -16,6 +18,9 @@ interface ProfileCardProps {
 
 export default function ProfileCard({ profile }: ProfileCardProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const nickname = useMemberStore((state) => state.member?.nickname);
 
   const { logout, isLoggingOut } = useLogout();
   const { withdraw, isWithdrawing } = useWithdraw();
@@ -35,7 +40,11 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
               </div>
 
               <div>
-                <h2 className="text-lg font-bold">{profile.nickname} 님</h2>
+                {!isInitialized || !nickname ? (
+                  <div className="bg-light-gray h-6 w-20 animate-pulse rounded" />
+                ) : (
+                  <h2 className="text-lg font-bold">{nickname} 님</h2>
+                )}
               </div>
             </div>
 
