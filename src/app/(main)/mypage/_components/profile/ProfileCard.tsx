@@ -1,12 +1,12 @@
 "use client";
 
 import { LoaderCircle, LogOutIcon, Pencil, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import type { Profile } from "@/src/types/mypage";
 
 import { useLogout } from "../../_hooks/useLogout";
+import { useWithdraw } from "../../_hooks/useWithdraw";
 import DeleteModal from "./DeleteModal";
 import StatCard from "./StatCard";
 
@@ -15,17 +15,10 @@ interface ProfileCardProps {
 }
 
 export default function ProfileCard({ profile }: ProfileCardProps) {
-  const router = useRouter();
-
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { logout, isLoggingOut } = useLogout();
-
-  const handleDeleteAccount = () => {
-    alert("회원 탈퇴가 완료되었습니다.");
-    setIsDeleteModalOpen(false);
-    router.replace("/");
-  };
+  const { withdraw, isWithdrawing } = useWithdraw();
 
   return (
     <>
@@ -65,7 +58,8 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
               <button
                 type="button"
                 onClick={() => setIsDeleteModalOpen(true)}
-                className="text-red flex cursor-pointer items-center gap-1 text-xs font-medium"
+                disabled={isWithdrawing}
+                className="text-red flex cursor-pointer items-center gap-1 text-xs font-medium disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Trash2 size={13} />
                 회원탈퇴
@@ -92,8 +86,9 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
 
       <DeleteModal
         isOpen={isDeleteModalOpen}
+        isLoading={isWithdrawing}
         onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={handleDeleteAccount}
+        onConfirm={withdraw}
         title="정말 탈퇴하시겠어요?"
         description="탈퇴하면 계정 정보와 작성한 기록을 복구하기 어려울 수 있어요."
       />
