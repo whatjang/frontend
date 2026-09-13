@@ -1,6 +1,7 @@
 export const TERMS = [
   {
     id: "service",
+    consent: "SERVICE",
     title: "왓장 서비스 이용약관",
     label: "왓장 서비스 이용약관 동의",
     required: true,
@@ -21,6 +22,7 @@ export const TERMS = [
   },
   {
     id: "privacy",
+    consent: "PRIVACY",
     title: "개인정보 수집 및 이용 동의",
     label: "개인정보 수집 및 이용 동의",
     required: true,
@@ -41,6 +43,7 @@ export const TERMS = [
   },
   {
     id: "location",
+    consent: "LOCATION",
     title: "위치기반 서비스 이용약관",
     label: "위치기반 서비스 이용약관 동의",
     required: true,
@@ -57,6 +60,7 @@ export const TERMS = [
   },
   {
     id: "marketing",
+    consent: "MARKETING",
     title: "마케팅 정보 수신 동의",
     label: "마케팅 정보 수신 동의",
     required: false,

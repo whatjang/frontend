@@ -8,4 +8,9 @@ export const API_ENDPOINTS = {
   MARKET: {
     SEARCH: "/api/markets/search",
   },
+
+  MEMBER: {
+    ONBOARDING: "/api/members/me/onboarding",
+    ME: "/api/members/me",
+  },
 } as const;

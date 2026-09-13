@@ -7,11 +7,11 @@ import HomeLiveMarketList from "./_components/live/HomeLiveMarketList";
 import HomeTrendFoodList from "./_components/trend/HomeTrendFoodList";
 
 export default function HomePage() {
-  const { user, liveMarkets, favoriteMarkets, trendFood } = mockHomeData;
+  const { liveMarkets, favoriteMarkets, trendFood } = mockHomeData;
 
   return (
     <main className="flex flex-col gap-8">
-      <HomeHeader userName={user.name} />
+      <HomeHeader />
 
       <section className="flex flex-col gap-2">
         <HomeLiveMarketList markets={liveMarkets} />

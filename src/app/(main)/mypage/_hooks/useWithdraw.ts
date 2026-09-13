@@ -3,42 +3,44 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { logoutUser } from "@/src/lib/api/auth";
+import { withdrawMember } from "@/src/lib/api/member";
 import { useAuthStore } from "@/src/stores/authStore";
 import { useMemberStore } from "@/src/stores/memberStore";
 
-export function useLogout() {
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+export function useWithdraw() {
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
 
   const router = useRouter();
   const clearAuth = useAuthStore((state) => state.clearAuth);
   const clearMember = useMemberStore((state) => state.clearMember);
 
-  const logout = async () => {
+  const withdraw = async () => {
     try {
-      setIsLoggingOut(true);
+      setIsWithdrawing(true);
 
-      await logoutUser();
+      await withdrawMember();
 
       clearAuth();
       clearMember();
 
+      alert("회원 탈퇴가 완료되었습니다.");
+
       router.replace("/");
     } catch (error) {
-      console.error("로그아웃 실패:", error);
+      console.error("회원 탈퇴 실패:", error);
 
       alert(
         error instanceof Error
           ? error.message
-          : "로그아웃 중 오류가 발생했습니다."
+          : "회원 탈퇴 중 오류가 발생했습니다."
       );
     } finally {
-      setIsLoggingOut(false);
+      setIsWithdrawing(false);
     }
   };
 
   return {
-    logout,
-    isLoggingOut,
+    withdraw,
+    isWithdrawing,
   };
 }

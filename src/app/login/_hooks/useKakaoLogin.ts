@@ -4,9 +4,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { loginWithKakao } from "@/src/lib/api/auth";
+import { getMyInfo } from "@/src/lib/api/member";
 import { useAuthStore } from "@/src/stores/authStore";
+import { useMemberStore } from "@/src/stores/memberStore";
 
 const LOGIN_PATH = "/login";
+const SIGNUP_TERMS_PATH = "/signup/terms";
+const HOME_PATH = "/home";
 
 function getRedirectUri() {
   return `${window.location.origin}${LOGIN_PATH}`;
@@ -25,6 +29,7 @@ function getKakaoAuthUrl(restApiKey: string) {
 export function useKakaoLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const isLoginRequested = useRef(false);
+  const setMember = useMemberStore((state) => state.setMember);
 
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -46,7 +51,9 @@ export function useKakaoLogin() {
       return;
     }
 
-    if (!code || isLoginRequested.current) return;
+    if (!code || isLoginRequested.current) {
+      return;
+    }
 
     isLoginRequested.current = true;
 
@@ -59,13 +66,22 @@ export function useKakaoLogin() {
           redirect_uri: getRedirectUri(),
         });
 
-        const { member_id, access_token } = response.result;
+        const { member_id, access_token, signup_status } = response.result;
 
         setAuth(member_id, access_token);
 
         window.history.replaceState({}, "", LOGIN_PATH);
 
-        router.replace("/home");
+        if (signup_status === "PENDING") {
+          router.replace(SIGNUP_TERMS_PATH);
+          return;
+        }
+
+        const memberResponse = await getMyInfo();
+
+        setMember(memberResponse.result);
+
+        router.replace(HOME_PATH);
       } catch (error) {
         console.error("카카오 로그인 실패:", error);
 
@@ -83,7 +99,7 @@ export function useKakaoLogin() {
     };
 
     login();
-  }, [router, setAuth]);
+  }, [router, setAuth, setMember]);
 
   const startKakaoLogin = () => {
     const restApiKey = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
