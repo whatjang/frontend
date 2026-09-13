@@ -1,16 +1,39 @@
-import { markets } from "@/src/mocks/market";
+import Spinner from "@/src/components/common/Spinner";
+import type { MarketSearchItem } from "@/src/types/market/marketSearch";
 
 import MarketItem from "./MarketItem";
 
-export default function MarketList() {
+interface MarketListProps {
+  markets: MarketSearchItem[];
+  isLoading: boolean;
+  hasSearched: boolean;
+}
+
+export default function MarketList({
+  markets,
+  isLoading,
+  hasSearched,
+}: MarketListProps) {
+  if (isLoading) {
+    return (
+      <div className="flex w-full justify-center py-10">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!hasSearched) {
+    return null;
+  }
+
   if (markets.length === 0) {
-    return <p className="text-center text-sm">검색된 데이터가 없습니다.</p>;
+    return <p className="py-10 text-center text-xs">검색된 시장이 없습니다.</p>;
   }
 
   return (
     <ul className="flex w-full flex-col gap-4">
       {markets.map((market) => (
-        <MarketItem key={market.id} market={market} />
+        <MarketItem key={market.market_id} market={market} />
       ))}
     </ul>
   );

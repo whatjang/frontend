@@ -12,29 +12,39 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-import type { Market, MarketSpecialtyIcon } from "@/src/types/market";
+import type { MarketSearchItem } from "@/src/types/market/marketSearch";
 
 interface MarketItemProps {
-  market: Market;
+  market: MarketSearchItem;
 }
 
-const specialtyIcons: Record<MarketSpecialtyIcon, LucideIcon> = {
-  seafood: Fish,
-  "fried-chicken": Drumstick,
-  vegetable: Carrot,
-  meat: Beef,
-  fruit: Apple,
-  food: CookingPot,
+const productIcons: Record<string, LucideIcon> = {
+  수산물: Fish,
+  닭강정: Drumstick,
+  농산물: Carrot,
+  축산물: Beef,
+  과일: Apple,
+  먹거리: CookingPot,
 };
 
+function isToday(date: string) {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return date === `${year}-${month}-${day}`;
+}
+
 export default function MarketItem({ market }: MarketItemProps) {
-  const marketDayText = market.marketDays.join(", ");
+  const marketDayText = market.open_day_numbers.join(", ");
+  const isOpenToday = isToday(market.next_open_date);
 
   return (
     <li className="min-w-full">
       <article className="group overflow-hidden rounded-3xl bg-white">
         <div className="bg-light-gray relative aspect-2/1 min-h-40">
-          {market.isOpenToday && (
+          {isOpenToday && (
             <span className="bg-green absolute top-4 left-4 rounded-full px-3 py-1 text-sm font-bold text-white shadow-sm">
               오늘 장날 (Today)
             </span>
@@ -53,28 +63,28 @@ export default function MarketItem({ market }: MarketItemProps) {
           <div className="flex items-center gap-1">
             <MapPin className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
 
-            <p className="text-xs font-semibold">{market.address}</p>
+            <p className="text-xs font-semibold">{market.road_address}</p>
           </div>
 
           <ul
             className="mt-2 flex flex-wrap items-center gap-2"
             aria-label={`${market.name} 대표 상품`}
           >
-            {market.specialties.map((specialty) => {
-              const SpecialtyIcon = specialtyIcons[specialty.icon];
+            {market.products.map((product) => {
+              const ProductIcon = productIcons[product] ?? CookingPot;
 
               return (
                 <li
-                  key={`${market.id}-${specialty.label}`}
+                  key={`${market.market_id}-${product}`}
                   className="flex items-center gap-1 text-xs font-semibold"
                 >
-                  <SpecialtyIcon
+                  <ProductIcon
                     className="text-green h-4 w-4"
                     strokeWidth={2}
                     aria-hidden="true"
                   />
 
-                  <span>{specialty.label}</span>
+                  <span>{product}</span>
                 </li>
               );
             })}
@@ -82,17 +92,21 @@ export default function MarketItem({ market }: MarketItemProps) {
 
           <div className="border-deep-gray text-green mt-2 border-t py-3 font-bold">
             <Link
-              href={`/markets/${market.id}`}
+              href={`/markets/${market.market_id}`}
               className="flex items-center justify-between text-xs"
               aria-label={`${market.name} 상세보기`}
             >
               <span className="flex items-center gap-1">
-                <Navigation
-                  className="h-4 w-4"
-                  strokeWidth={2}
-                  aria-hidden="true"
-                />
-                {market.distanceKm.toFixed(1)}km 인근
+                {market.distance_km !== null && (
+                  <>
+                    <Navigation
+                      className="h-4 w-4"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                    {market.distance_km.toFixed(1)}km 인근
+                  </>
+                )}
               </span>
 
               <span className="flex items-center">

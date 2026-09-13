@@ -4,4 +4,8 @@ export const API_ENDPOINTS = {
     REFRESH_TOKEN: "/api/auth/refresh-token",
     LOGOUT: "/api/auth/logout",
   },
+
+  MARKET: {
+    SEARCH: "/api/markets/search",
+  },
 } as const;
