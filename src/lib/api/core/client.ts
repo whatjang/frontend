@@ -23,6 +23,9 @@ axiosInstance.interceptors.request.use((config) => {
 
   const access_token = useAuthStore.getState().access_token;
 
+  console.log("요청 URL:", config.url);
+  console.log("access token 존재:", Boolean(access_token));
+
   if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`;
   }
@@ -89,6 +92,16 @@ export const apiClient = {
     options?: AxiosRequestConfig
   ): Promise<T> {
     const { data } = await axiosInstance.post<T>(endpoint, body, options);
+
+    return data;
+  },
+
+  async put<T, B = unknown>(
+    endpoint: string,
+    body?: B,
+    options?: AxiosRequestConfig
+  ): Promise<T> {
+    const { data } = await axiosInstance.put<T>(endpoint, body, options);
 
     return data;
   },

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
+import useCompleteOnboarding from "../../_hooks/useCompleteOnboarding";
 import useNickname from "../../_hooks/useNickname";
 import SignupStepButtons from "../common/SignupStepButtons";
 import NicknameCompleteModal from "./NicknameCompleteModal";
@@ -22,12 +23,26 @@ export default function NicknameForm() {
     maxLength,
   } = useNickname();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const { submitOnboarding, isSubmitting } = useCompleteOnboarding();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!isValidNickname) return;
+    if (!isValidNickname || isSubmitting) return;
 
-    setIsModalOpen(true);
+    try {
+      await submitOnboarding(nickname);
+
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("회원가입 완료 실패:", error);
+
+      alert(
+        error instanceof Error
+          ? error.message
+          : "회원가입 처리 중 오류가 발생했습니다."
+      );
+    }
   };
 
   const handleStart = () => {
@@ -52,8 +67,8 @@ export default function NicknameForm() {
 
         <SignupStepButtons
           prevHref="/signup/terms"
-          nextLabel="완료"
-          nextDisabled={!isValidNickname}
+          nextLabel={isSubmitting ? "처리 중..." : "완료"}
+          nextDisabled={!isValidNickname || isSubmitting}
         />
       </form>
 
