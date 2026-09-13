@@ -50,7 +50,7 @@ export default function MarketItem({ market }: MarketItemProps) {
             </span>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-start gap-1">
             <MapPin className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
 
             <p className="text-xs font-semibold">
