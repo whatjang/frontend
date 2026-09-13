@@ -3,6 +3,9 @@
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
+import { useMemberStore } from "@/src/stores/memberStore";
+import type { MemberInfo } from "@/src/types/member";
+
 import useCompleteOnboarding from "../../_hooks/useCompleteOnboarding";
 import useNickname from "../../_hooks/useNickname";
 import SignupStepButtons from "../common/SignupStepButtons";
@@ -12,7 +15,13 @@ import NicknameMessage from "./NicknameMessage";
 
 export default function NicknameForm() {
   const router = useRouter();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [completedMember, setCompletedMember] = useState<MemberInfo | null>(
+    null
+  );
+
+  const setMember = useMemberStore((state) => state.setMember);
 
   const {
     nickname,
@@ -31,8 +40,9 @@ export default function NicknameForm() {
     if (!isValidNickname || isSubmitting) return;
 
     try {
-      await submitOnboarding(nickname);
+      const response = await submitOnboarding(nickname);
 
+      setCompletedMember(response.result);
       setIsModalOpen(true);
     } catch (error) {
       console.error("회원가입 완료 실패:", error);
@@ -46,6 +56,11 @@ export default function NicknameForm() {
   };
 
   const handleStart = () => {
+    if (!completedMember) {
+      return;
+    }
+
+    setMember(completedMember);
     router.replace("/home");
   };
 

@@ -5,6 +5,10 @@ export const API_ENDPOINTS = {
     LOGOUT: "/api/auth/logout",
   },
 
+  MARKET: {
+    SEARCH: "/api/markets/search",
+  },
+
   MEMBER: {
     ONBOARDING: "/api/members/me/onboarding",
     ME: "/api/members/me",

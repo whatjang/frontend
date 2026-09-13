@@ -1,22 +1,54 @@
 "use client";
 
 import { Search, X } from "lucide-react";
-import { useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
+
+import { useDebounce } from "@/src/hooks/useDebounce";
 
 interface SearchBarProps {
   placeholder?: string;
   defaultValue?: string;
+  onSearch?: (keyword: string) => void;
 }
 
 export default function SearchBar({
   placeholder = "시장명 또는 강원 지역명을 검색하세요.",
   defaultValue = "",
+  onSearch,
 }: SearchBarProps) {
   const [keyword, setKeyword] = useState(defaultValue);
+
+  const debouncedKeyword = useDebounce(keyword, 400);
+  const lastSearchedKeyword = useRef("");
+
+  useEffect(() => {
+    const trimmedKeyword = debouncedKeyword.trim();
+
+    if (trimmedKeyword === lastSearchedKeyword.current) {
+      return;
+    }
+
+    lastSearchedKeyword.current = trimmedKeyword;
+    onSearch?.(trimmedKeyword);
+  }, [debouncedKeyword, onSearch]);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const trimmedKeyword = keyword.trim();
+
+    if (trimmedKeyword === lastSearchedKeyword.current) {
+      return;
+    }
+
+    lastSearchedKeyword.current = trimmedKeyword;
+    onSearch?.(trimmedKeyword);
+  };
 
   return (
     <form
       role="search"
+      onSubmit={handleSubmit}
       className="border-deep-gray/30 flex w-full items-center gap-3 rounded-3xl border bg-white p-3.5 shadow-xl"
     >
       <Search
