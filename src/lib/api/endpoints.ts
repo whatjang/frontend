@@ -7,6 +7,6 @@ export const API_ENDPOINTS = {
 
   MEMBER: {
     ONBOARDING: "/api/members/me/onboarding",
-    WITHDRAW: "/api/members/me",
+    ME: "/api/members/me",
   },
 } as const;

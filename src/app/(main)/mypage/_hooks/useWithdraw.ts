@@ -5,12 +5,14 @@ import { useState } from "react";
 
 import { withdrawMember } from "@/src/lib/api/member";
 import { useAuthStore } from "@/src/stores/authStore";
+import { useMemberStore } from "@/src/stores/memberStore";
 
 export function useWithdraw() {
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
   const router = useRouter();
   const clearAuth = useAuthStore((state) => state.clearAuth);
+  const clearMember = useMemberStore((state) => state.clearMember);
 
   const withdraw = async () => {
     try {
@@ -19,6 +21,7 @@ export function useWithdraw() {
       await withdrawMember();
 
       clearAuth();
+      clearMember();
 
       alert("회원 탈퇴가 완료되었습니다.");
 

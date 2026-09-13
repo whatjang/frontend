@@ -4,7 +4,9 @@ import { useEffect, useRef } from "react";
 
 import { AUTH_SKIP_PATHS } from "@/src/constants/auth";
 import { renewAccessToken } from "@/src/lib/api/core/refresh";
+import { getMyInfo } from "@/src/lib/api/member";
 import { useAuthStore } from "@/src/stores/authStore";
+import { useMemberStore } from "@/src/stores/memberStore";
 
 export default function AuthInitializer() {
   const initializedRef = useRef(false);
@@ -16,7 +18,6 @@ export default function AuthInitializer() {
 
     const initializeAuth = async () => {
       const { access_token, setInitialized } = useAuthStore.getState();
-
       const pathname = window.location.pathname;
 
       if (AUTH_SKIP_PATHS.includes(pathname)) {
@@ -24,19 +25,21 @@ export default function AuthInitializer() {
         return;
       }
 
-      if (access_token) {
-        setInitialized(true);
-        return;
-      }
-
       try {
-        await renewAccessToken();
+        if (!access_token) {
+          await renewAccessToken();
+        }
+
+        const response = await getMyInfo();
+
+        useMemberStore.getState().setMember(response.result);
       } catch (error) {
         console.error("인증 초기화 실패:", error);
 
         useAuthStore.getState().clearAuth();
+        useMemberStore.getState().clearMember();
       } finally {
-        useAuthStore.getState().setInitialized(true);
+        setInitialized(true);
       }
     };
 
