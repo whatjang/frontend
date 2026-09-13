@@ -31,7 +31,8 @@ export default function MemberRouteGuard({ children }: MemberRouteGuardProps) {
     }
 
     const isSignupPath = SIGNUP_PATHS.some(
-      (signupPath) => signupPath === pathname
+      (signupPath) =>
+        pathname === signupPath || pathname.startsWith(`${signupPath}/`)
     );
 
     if (member.signup_status === "PENDING") {

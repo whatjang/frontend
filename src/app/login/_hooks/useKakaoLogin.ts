@@ -66,20 +66,20 @@ export function useKakaoLogin() {
           redirect_uri: getRedirectUri(),
         });
 
-        const { member_id, access_token, signup_status } = response.result;
+        const { member_id, access_token } = response.result;
 
         setAuth(member_id, access_token);
 
         window.history.replaceState({}, "", LOGIN_PATH);
 
-        if (signup_status === "PENDING") {
-          router.replace(SIGNUP_TERMS_PATH);
-          return;
-        }
-
         const memberResponse = await getMyInfo();
 
         setMember(memberResponse.result);
+
+        if (memberResponse.result.signup_status === "PENDING") {
+          router.replace(SIGNUP_TERMS_PATH);
+          return;
+        }
 
         router.replace(HOME_PATH);
       } catch (error) {
