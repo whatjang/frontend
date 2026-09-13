@@ -8,6 +8,7 @@ import MarketItem from "./MarketItem";
 
 interface MarketListProps {
   markets: MarketSearchItem[];
+  totalCount: number;
   isLoading: boolean;
   hasSearched: boolean;
   hasNext: boolean;
@@ -16,6 +17,7 @@ interface MarketListProps {
 
 export default function MarketList({
   markets,
+  totalCount,
   isLoading,
   hasSearched,
   hasNext,
@@ -45,6 +47,14 @@ export default function MarketList({
 
   return (
     <>
+      <div className="flex items-center justify-between">
+        <p className="text-deep-gray text-sm font-bold">검색 결과</p>
+
+        <span className="bg-green/10 text-green rounded-full px-2.5 py-1 text-xs font-bold">
+          {totalCount}건
+        </span>
+      </div>
+
       <ul className="flex w-full flex-col gap-4">
         {markets.map((market) => (
           <MarketItem key={market.market_id} market={market} />
