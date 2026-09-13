@@ -35,24 +35,30 @@ export default function SearchPage() {
 
   return (
     <main className="flex flex-col gap-6 px-5">
-      <SearchBar onSearch={search} />
+      <div className="flex flex-col gap-3">
+        <SearchBar onSearch={search} />
 
-      {locationError && (
-        <div className="flex items-center justify-center gap-2 text-xs">
-          <span className="text-deep-gray">
-            현재 위치를 확인할 수 없어 시장명순으로 검색됩니다.
-          </span>
+        {locationError && (
+          <div className="bg-light-gray/50 flex items-center justify-between rounded-xl px-4 py-3">
+            <div className="flex flex-col gap-0.5">
+              <p className="text-deep-gray text-xs font-semibold">
+                위치 정보를 사용할 수 없어요
+              </p>
 
-          <button
-            type="button"
-            onClick={() => void requestLocation()}
-            disabled={isLocationLoading}
-            className="text-green shrink-0 font-semibold disabled:opacity-50"
-          >
-            {isLocationLoading ? "확인 중..." : "다시 시도"}
-          </button>
-        </div>
-      )}
+              <p className="text-deep-gray text-xs">시장명순으로 검색됩니다.</p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => void requestLocation()}
+              disabled={isLocationLoading}
+              className="text-green shrink-0 text-xs font-bold disabled:opacity-50"
+            >
+              {isLocationLoading ? "확인 중..." : "다시 시도"}
+            </button>
+          </div>
+        )}
+      </div>
 
       {errorMessage && (
         <p className="text-red text-center text-xs">{errorMessage}</p>

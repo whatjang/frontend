@@ -47,7 +47,7 @@ export default function MarketList({
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="border-green flex items-center justify-between border-b pb-2">
         <p className="text-deep-gray text-sm font-bold">검색 결과</p>
 
         <span className="bg-green/10 text-green rounded-full px-2.5 py-1 text-xs font-bold">
