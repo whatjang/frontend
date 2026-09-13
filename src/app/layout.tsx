@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata, Viewport } from "next";
 
+import MemberRouteGuard from "@/src/components/auth/MemberRouteGuard";
 import { COLORS } from "@/src/constants/theme";
 
 import AuthInitializer from "../components/auth/AuthInitializer";
@@ -51,7 +52,8 @@ export default function RootLayout({
     <html lang="ko" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
         <AuthInitializer />
-        {children}
+
+        <MemberRouteGuard>{children}</MemberRouteGuard>
       </body>
     </html>
   );
