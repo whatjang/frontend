@@ -2,14 +2,14 @@ import { SquarePen } from "lucide-react";
 import Link from "next/link";
 
 import ReportCard from "@/src/components/reports/ReportCard";
-import type { Market } from "@/src/types/market";
+import type { MarketReport } from "@/src/types/market";
 
 interface ReportsProps {
-  reports: Market["reports"];
+  reports: MarketReport[];
   marketId: number;
 }
 
-type Report = Market["reports"][number];
+type Report = MarketReport;
 
 const ITEMS_PER_PAGE = 3;
 
@@ -47,7 +47,7 @@ export default function Reports({ reports, marketId }: ReportsProps) {
       </div>
 
       {reports.length === 0 ? (
-        <p className="text-deep-gray text-center text-sm">
+        <p className="text-deep-gray text-center text-xs">
           아직 등록된 제보가 없어요.
         </p>
       ) : (

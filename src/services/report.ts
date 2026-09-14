@@ -1,17 +1,15 @@
-import { getReportById } from "../mocks/market";
+import { getReportById } from "../mocks/marketReports";
 import { getReportDetailMockById } from "../mocks/reportDetail";
 import type { ReportDetail } from "../types/report";
 
 export async function getReportDetail(
   reportId: number
 ): Promise<ReportDetail | undefined> {
-  const result = getReportById(reportId);
+  const report = getReportById(reportId);
 
-  if (!result) {
+  if (!report) {
     return undefined;
   }
-
-  const { market, report } = result;
 
   const detail = getReportDetailMockById(reportId);
 
@@ -22,11 +20,14 @@ export async function getReportDetail(
     rating: report.rating,
     content: report.content,
     imageUrl: report.imageUrl,
+
     author: {
       id: 0,
       nickname: report.author,
     },
-    location: market.name,
+
+    location: report.marketName,
+
     isBookmarked: detail?.isBookmarked ?? false,
     helpfulCount: detail?.helpfulCount ?? 0,
     commentCount: detail?.comments.length ?? 0,

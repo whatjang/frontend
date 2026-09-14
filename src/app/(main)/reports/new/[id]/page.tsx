@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { getMarketById } from "@/src/mocks/market";
+import { getMarketDetail } from "@/src/lib/api/market/detail";
 
 import ReportCreateForm from "./_components/ReportCreateForm";
 
@@ -14,16 +14,18 @@ export default async function ReportCreatePage({
   params,
 }: ReportCreatePageProps) {
   const { id } = await params;
-
   const marketId = Number(id);
 
   if (!Number.isInteger(marketId)) {
     notFound();
   }
 
-  const market = getMarketById(marketId);
+  let market;
 
-  if (!market) {
+  try {
+    const response = await getMarketDetail(marketId);
+    market = response.result;
+  } catch {
     notFound();
   }
 
@@ -43,7 +45,7 @@ export default async function ReportCreatePage({
         </div>
       </section>
 
-      <ReportCreateForm marketId={market.id} />
+      <ReportCreateForm marketId={market.market_id} />
     </main>
   );
 }
