@@ -8,6 +8,7 @@ import { useMarketDetail } from "../_hooks/useMarketDetail";
 import BottomActions from "./BottomActions";
 import Intro from "./Intro";
 import MarketDetails from "./MarketDetails";
+import MarketMap from "./MarketMap";
 import Reports from "./Reports";
 
 interface MarketDetailContentProps {
@@ -51,6 +52,14 @@ export default function MarketDetailContent({
   return (
     <main className="flex flex-col gap-8">
       <Intro market={market} />
+
+      <MarketMap
+        marketId={market.market_id}
+        name={market.name}
+        latitude={market.latitude}
+        longitude={market.longitude}
+        currentCoordinates={coordinates}
+      />
 
       <MarketDetails market={market} />
 
