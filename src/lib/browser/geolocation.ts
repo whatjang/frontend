@@ -39,6 +39,8 @@ export async function watchLocationPermission(
     onChange(permission.state);
   };
 
+  onChange(permission.state);
+
   permission.addEventListener("change", handleChange);
 
   return () => {

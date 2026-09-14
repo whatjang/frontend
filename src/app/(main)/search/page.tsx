@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 import SearchBar from "@/src/components/search/SearchBar";
-import { useCurrentLocation } from "@/src/hooks/useCurrentLocation";
+import { useCurrentLocation } from "@/src/hooks/location/useCurrentLocation";
 
 import MarketList from "./_components/MarketList";
 import { useMarketSearch } from "./_hooks/useMarketSearch";
