@@ -71,7 +71,10 @@ export default function MarketDetailContent({
 
       <Reports reports={reports} marketId={market.market_id} />
 
-      <BottomActions marketId={market.market_id} />
+      <BottomActions
+        marketId={market.market_id}
+        isFavorite={market.is_favorite}
+      />
     </main>
   );
 }
