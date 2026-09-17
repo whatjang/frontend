@@ -4,6 +4,7 @@ export interface MarketDetailParams {
 }
 
 export interface MarketDetailResult {
+  is_favorite: boolean;
   market_id: number;
   name: string;
   market_type: string;
