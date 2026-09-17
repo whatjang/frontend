@@ -20,12 +20,16 @@ export default function MarketDetailContent({
 }: MarketDetailContentProps) {
   const { coordinates } = useCurrentLocation();
 
-  const { market, isLoading, error } = useMarketDetail({
+  const {
+    data: market,
+    isPending,
+    error,
+  } = useMarketDetail({
     marketId,
     coordinates,
   });
 
-  if (isLoading && !market) {
+  if (isPending) {
     return (
       <div className="flex min-h-60 items-center justify-center">
         <Spinner />
@@ -33,11 +37,13 @@ export default function MarketDetailContent({
     );
   }
 
-  if (error && !market) {
+  if (error) {
     return (
       <div className="flex min-h-60 items-center justify-center px-5">
         <p className="text-deep-gray text-center text-sm font-semibold">
-          {error}
+          {error instanceof Error
+            ? error.message
+            : "시장 정보를 불러올 수 없습니다."}
         </p>
       </div>
     );

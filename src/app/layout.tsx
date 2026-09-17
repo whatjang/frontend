@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from "next";
 
 import MemberRouteGuard from "@/src/components/auth/MemberRouteGuard";
 import { COLORS } from "@/src/constants/theme";
+import QueryProvider from "@/src/providers/QueryProvider";
 
 import AuthInitializer from "../components/auth/AuthInitializer";
 
@@ -51,9 +52,11 @@ export default function RootLayout({
   return (
     <html lang="ko" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
-        <AuthInitializer />
+        <QueryProvider>
+          <AuthInitializer />
 
-        <MemberRouteGuard>{children}</MemberRouteGuard>
+          <MemberRouteGuard>{children}</MemberRouteGuard>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -15,8 +15,6 @@ export function getMarketDetail(
     API_ENDPOINTS.MARKET.DETAIL(marketId),
     {
       params,
-      useAuth: false,
-      skipRefresh: true,
     }
   );
 }
