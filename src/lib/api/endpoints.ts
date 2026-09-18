@@ -4,4 +4,17 @@ export const API_ENDPOINTS = {
     REFRESH_TOKEN: "/api/auth/refresh-token",
     LOGOUT: "/api/auth/logout",
   },
+
+  MARKET: {
+    SEARCH: "/api/markets/search",
+    DETAIL: (marketId: number) => `/api/markets/${marketId}`,
+    FAVORITE: (marketId: number) => `/api/markets/${marketId}/favorite`,
+    CALENDAR: "/api/markets/calendar",
+    OPEN_ON: (date: string) => `/api/markets/open-on/${date}`,
+  },
+
+  MEMBER: {
+    ONBOARDING: "/api/members/me/onboarding",
+    ME: "/api/members/me",
+  },
 } as const;

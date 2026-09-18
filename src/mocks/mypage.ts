@@ -1,6 +1,6 @@
 import { MyPageData } from "@/src/types/mypage";
 
-import { getBookmarkedReports } from "./market";
+import { getBookmarkedReports } from "./marketReports";
 import { marketTourRoutes } from "./marketTour";
 
 const allTourPlaces = marketTourRoutes.flatMap((route) => route.places);

@@ -1,12 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { getMarketById } from "@/src/mocks/market";
-
-import BottomActions from "./_components/BottomActions";
-import Facilities from "./_components/Facilities";
-import Food from "./_components/Food";
-import Intro from "./_components/Intro";
-import Reports from "./_components/Reports";
+import MarketDetailContent from "./_components/MarketDetailContent";
 
 interface MarketDetailPageProps {
   params: Promise<{
@@ -24,20 +18,5 @@ export default async function MarketDetailPage({
     notFound();
   }
 
-  const market = getMarketById(marketId);
-
-  if (!market) {
-    notFound();
-  }
-
-  return (
-    <main className="flex flex-col gap-8">
-      <Intro market={market} />
-      <Facilities facilities={market.facilities} />
-      <Food specialties={market.specialties} />
-      <Reports reports={market.reports} marketId={marketId} />
-
-      <BottomActions marketId={market.id} initialFavorite={market.isFavorite} />
-    </main>
-  );
+  return <MarketDetailContent marketId={marketId} />;
 }

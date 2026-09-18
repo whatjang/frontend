@@ -1,40 +1,38 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  Apple,
-  Beef,
-  Carrot,
-  ChevronRight,
-  CookingPot,
-  Drumstick,
-  Fish,
-  MapPin,
-  Navigation,
-} from "lucide-react";
+import { ChevronRight, MapPin, Navigation } from "lucide-react";
 import Link from "next/link";
 
-import type { Market, MarketSpecialtyIcon } from "@/src/types/market";
+import {
+  DEFAULT_PRODUCT_ICON,
+  PRODUCT_ICONS,
+} from "@/src/constants/marketProductIcons";
+import type { MarketSearchItem } from "@/src/types/market/index";
 
 interface MarketItemProps {
-  market: Market;
+  market: MarketSearchItem;
 }
 
-const specialtyIcons: Record<MarketSpecialtyIcon, LucideIcon> = {
-  seafood: Fish,
-  "fried-chicken": Drumstick,
-  vegetable: Carrot,
-  meat: Beef,
-  fruit: Apple,
-  food: CookingPot,
-};
+function isToday(date: string) {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return date === `${year}-${month}-${day}`;
+}
 
 export default function MarketItem({ market }: MarketItemProps) {
-  const marketDayText = market.marketDays.join(", ");
+  const marketDayText =
+    market.open_day_numbers.length > 0
+      ? `${market.open_day_numbers.join("·")}일 장`
+      : "상설장";
+  const isMarketDayToday =
+    market.open_day_numbers.length > 0 && isToday(market.next_open_date);
 
   return (
     <li className="min-w-full">
       <article className="group overflow-hidden rounded-3xl bg-white">
         <div className="bg-light-gray relative aspect-2/1 min-h-40">
-          {market.isOpenToday && (
+          {isMarketDayToday && (
             <span className="bg-green absolute top-4 left-4 rounded-full px-3 py-1 text-sm font-bold text-white shadow-sm">
               오늘 장날 (Today)
             </span>
@@ -42,39 +40,44 @@ export default function MarketItem({ market }: MarketItemProps) {
         </div>
 
         <div className="flex flex-col gap-2 p-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-green text-lg font-bold">{market.name}</h3>
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-green line-clamp-2 min-w-0 flex-1 text-lg font-bold">
+              {market.name}
+            </h3>
 
-            <span className="border-light-brown/20 bg-light-brown/10 text-light-brown rounded-full border px-2 py-0.5 text-xs font-bold">
-              {marketDayText}일 주기
+            <span className="border-light-brown/20 bg-light-brown/10 text-light-brown shrink-0 rounded-full border px-2 py-0.5 text-xs font-bold">
+              {marketDayText}
             </span>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-start gap-1">
             <MapPin className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
 
-            <p className="text-xs font-semibold">{market.address}</p>
+            <p className="text-xs font-semibold">
+              {market.road_address?.trim() || "주소 정보 알 수 없음"}
+            </p>
           </div>
 
           <ul
             className="mt-2 flex flex-wrap items-center gap-2"
             aria-label={`${market.name} 대표 상품`}
           >
-            {market.specialties.map((specialty) => {
-              const SpecialtyIcon = specialtyIcons[specialty.icon];
+            {market.products.map((product) => {
+              const ProductIcon =
+                PRODUCT_ICONS[product] ?? DEFAULT_PRODUCT_ICON;
 
               return (
                 <li
-                  key={`${market.id}-${specialty.label}`}
+                  key={`${market.market_id}-${product}`}
                   className="flex items-center gap-1 text-xs font-semibold"
                 >
-                  <SpecialtyIcon
+                  <ProductIcon
                     className="text-green h-4 w-4"
                     strokeWidth={2}
                     aria-hidden="true"
                   />
 
-                  <span>{specialty.label}</span>
+                  <span>{product}</span>
                 </li>
               );
             })}
@@ -82,17 +85,21 @@ export default function MarketItem({ market }: MarketItemProps) {
 
           <div className="border-deep-gray text-green mt-2 border-t py-3 font-bold">
             <Link
-              href={`/markets/${market.id}`}
+              href={`/markets/${market.market_id}`}
               className="flex items-center justify-between text-xs"
               aria-label={`${market.name} 상세보기`}
             >
               <span className="flex items-center gap-1">
-                <Navigation
-                  className="h-4 w-4"
-                  strokeWidth={2}
-                  aria-hidden="true"
-                />
-                {market.distanceKm.toFixed(1)}km 인근
+                {market.distance_km !== null && (
+                  <>
+                    <Navigation
+                      className="h-4 w-4"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                    {market.distance_km.toFixed(1)}km 인근
+                  </>
+                )}
               </span>
 
               <span className="flex items-center">

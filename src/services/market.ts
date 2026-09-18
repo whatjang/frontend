@@ -1,32 +1,31 @@
-import { markets } from "@/src/mocks/market";
-import type { Market } from "@/src/types/market";
+import { searchMarkets as searchMarketsApi } from "@/src/lib/api/market/search";
 
-export type MarketSearchItem = Pick<Market, "id" | "name" | "address">;
+export interface MarketSearchItem {
+  id: number;
+  name: string;
+  address: string;
+}
 
 const SEARCH_RESULT_LIMIT = 20;
 
 export async function searchMarkets(
   keyword: string
 ): Promise<MarketSearchItem[]> {
-  const normalizedKeyword = keyword.trim().toLowerCase();
+  const normalizedKeyword = keyword.trim();
 
   if (!normalizedKeyword) {
     return [];
   }
 
-  return markets
-    .filter((market) => {
-      const name = market.name.toLowerCase();
-      const address = market.address.toLowerCase();
+  const response = await searchMarketsApi({
+    keyword: normalizedKeyword,
+  });
 
-      return (
-        name.includes(normalizedKeyword) || address.includes(normalizedKeyword)
-      );
-    })
+  return response.result.markets
     .slice(0, SEARCH_RESULT_LIMIT)
-    .map(({ id, name, address }) => ({
-      id,
-      name,
-      address,
+    .map((market) => ({
+      id: market.market_id,
+      name: market.name,
+      address: market.road_address,
     }));
 }

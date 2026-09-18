@@ -2,26 +2,38 @@
 
 import { Compass, Star } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+
+import { useMarketFavorite } from "../_hooks/useMarketFavorite";
 
 interface BottomActionsProps {
   marketId: number;
-  initialFavorite?: boolean;
+  isFavorite: boolean;
 }
 
 export default function BottomActions({
   marketId,
-  initialFavorite = false,
+  isFavorite,
 }: BottomActionsProps) {
-  const [isFavorite, setIsFavorite] = useState(initialFavorite);
+  const favoriteMutation = useMarketFavorite();
+
+  const handleFavorite = () => {
+    if (favoriteMutation.isPending) return;
+
+    favoriteMutation.mutate({
+      marketId,
+      isFavorite,
+    });
+  };
 
   return (
     <div className="flex items-center gap-3 px-5 pb-5">
       <button
         type="button"
-        onClick={() => setIsFavorite((prev) => !prev)}
+        onClick={handleFavorite}
+        disabled={favoriteMutation.isPending}
+        aria-pressed={isFavorite}
         aria-label={isFavorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
-        className="border-light-gray shadow-light-gray flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-3xl border bg-white shadow-xs"
+        className="border-light-gray shadow-light-gray flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-3xl border bg-white shadow-xs disabled:opacity-60"
       >
         <Star
           size={22}

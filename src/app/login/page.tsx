@@ -32,12 +32,9 @@ export default function LoginPage() {
             <KakaoLoginButton />
 
             <p className="text-deep-gray text-center text-xs font-normal">
-              로그인 시 왓장의{" "}
-              <span className="font-medium underline">이용약관</span> 및{" "}
-              <span className="font-medium underline">개인정보 처리방침</span>
-              에
+              카카오로 시작한 후 서비스 이용을 위한
               <br />
-              동의하는 것으로 간주됩니다.
+              약관 동의와 닉네임 설정을 진행합니다.
             </p>
           </div>
         </section>

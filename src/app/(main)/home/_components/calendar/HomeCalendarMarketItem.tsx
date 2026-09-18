@@ -1,26 +1,32 @@
+"use client";
+
 import { ChevronRight, MapPin, Navigation } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
-import type { Market } from "@/src/types/market";
-
-export type HomeCalendarMarket = Pick<
-  Market,
-  | "id"
-  | "name"
-  | "address"
-  | "imageUrl"
-  | "marketDays"
-  | "distanceKm"
-  | "specialties"
->;
+import {
+  DEFAULT_PRODUCT_ICON,
+  PRODUCT_ICONS,
+} from "@/src/constants/marketProductIcons";
+import type { MarketOpenOnItem } from "@/src/types/market/index";
 
 interface HomeCalendarMarketItemProps {
-  market: HomeCalendarMarket;
+  market: MarketOpenOnItem;
 }
+
+const MAX_VISIBLE_PRODUCTS = 3;
 
 export default function HomeCalendarMarketItem({
   market,
 }: HomeCalendarMarketItemProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const visibleProducts = isExpanded
+    ? market.products
+    : market.products.slice(0, MAX_VISIBLE_PRODUCTS);
+
+  const hiddenProductCount = market.products.length - MAX_VISIBLE_PRODUCTS;
+
   return (
     <article className="overflow-hidden rounded-2xl bg-white shadow-sm">
       <div className="flex">
@@ -38,32 +44,53 @@ export default function HomeCalendarMarketItem({
             />
 
             <p className="text-deep-gray line-clamp-2 text-xs">
-              {market.address}
+              {market.road_address}
             </p>
           </div>
 
           <div className="my-1 flex flex-wrap gap-1">
-            {market.specialties.map((specialty) => (
-              <span
-                key={specialty.id}
-                className="bg-green/5 text-green border-green/10 rounded-full border px-2 py-1 text-xs font-semibold"
+            {visibleProducts.map((product) => {
+              const ProductIcon =
+                PRODUCT_ICONS[product] ?? DEFAULT_PRODUCT_ICON;
+
+              return (
+                <span
+                  key={product}
+                  className="bg-green/5 text-green border-green/10 flex items-center gap-1 rounded-full border px-2 py-1 text-xs font-semibold"
+                >
+                  <ProductIcon aria-hidden="true" className="size-3" />
+                  {product}
+                </span>
+              );
+            })}
+
+            {hiddenProductCount > 0 && (
+              <button
+                type="button"
+                onClick={() => setIsExpanded((prev) => !prev)}
+                aria-expanded={isExpanded}
+                className="bg-light-gray/50 text-deep-gray flex cursor-pointer items-center rounded-full px-2 py-1 text-xs font-semibold"
               >
-                {specialty.label}
-              </span>
-            ))}
+                {isExpanded ? "접기" : `+${hiddenProductCount}`}
+              </button>
+            )}
           </div>
 
           <div className="border-light-gray flex items-center justify-between border-t pt-2">
-            <div className="text-green flex items-center gap-1">
-              <Navigation aria-hidden="true" className="h-4 w-4" />
+            {market.distance_km !== null ? (
+              <div className="text-green flex items-center gap-1">
+                <Navigation aria-hidden="true" className="h-4 w-4" />
 
-              <span className="text-xs font-semibold">
-                {market.distanceKm}km
-              </span>
-            </div>
+                <span className="text-xs font-semibold">
+                  {market.distance_km}km
+                </span>
+              </div>
+            ) : (
+              <div />
+            )}
 
             <Link
-              href={`/markets/${market.id}`}
+              href={`/markets/${market.market_id}`}
               className="text-green flex items-center gap-0.5 text-xs font-semibold"
             >
               상세보기

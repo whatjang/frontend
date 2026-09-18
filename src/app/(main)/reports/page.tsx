@@ -1,5 +1,5 @@
 import SearchBar from "@/src/components/search/SearchBar";
-import { markets } from "@/src/mocks/market";
+import { mockMarketReports } from "@/src/mocks/marketReports";
 
 import ReportCreateButton from "./_components/ReportCreateButton";
 import ReportsContent from "./_components/ReportsContent";
@@ -11,7 +11,7 @@ export default function ReportsPage() {
         <SearchBar />
       </div>
 
-      <ReportsContent markets={markets} />
+      <ReportsContent reports={mockMarketReports} />
 
       <ReportCreateButton />
     </main>

@@ -4,9 +4,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { loginWithKakao } from "@/src/lib/api/auth";
+import { getMyInfo } from "@/src/lib/api/member";
 import { useAuthStore } from "@/src/stores/authStore";
+import { useMemberStore } from "@/src/stores/memberStore";
 
 const LOGIN_PATH = "/login";
+const SIGNUP_TERMS_PATH = "/signup/terms";
+const HOME_PATH = "/home";
 
 function getRedirectUri() {
   return `${window.location.origin}${LOGIN_PATH}`;
@@ -25,6 +29,7 @@ function getKakaoAuthUrl(restApiKey: string) {
 export function useKakaoLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const isLoginRequested = useRef(false);
+  const setMember = useMemberStore((state) => state.setMember);
 
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -46,7 +51,9 @@ export function useKakaoLogin() {
       return;
     }
 
-    if (!code || isLoginRequested.current) return;
+    if (!code || isLoginRequested.current) {
+      return;
+    }
 
     isLoginRequested.current = true;
 
@@ -65,7 +72,16 @@ export function useKakaoLogin() {
 
         window.history.replaceState({}, "", LOGIN_PATH);
 
-        router.replace("/home");
+        const memberResponse = await getMyInfo();
+
+        setMember(memberResponse.result);
+
+        if (memberResponse.result.signup_status === "PENDING") {
+          router.replace(SIGNUP_TERMS_PATH);
+          return;
+        }
+
+        router.replace(HOME_PATH);
       } catch (error) {
         console.error("카카오 로그인 실패:", error);
 
@@ -83,7 +99,7 @@ export function useKakaoLogin() {
     };
 
     login();
-  }, [router, setAuth]);
+  }, [router, setAuth, setMember]);
 
   const startKakaoLogin = () => {
     const restApiKey = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;

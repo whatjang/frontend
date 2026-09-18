@@ -1,22 +1,16 @@
-import type { Market } from "@/src/types/market";
+import type { MarketReportMock } from "@/src/mocks/marketReports";
 
 import type { ReportCategory } from "./ReportCategoryFilter";
 import ReportItem from "./ReportItem";
 
 interface ReportListProps {
-  markets: Market[];
+  reports: MarketReportMock[];
   category: ReportCategory;
 }
 
-export default function ReportList({ markets, category }: ReportListProps) {
-  const reports = markets
-    .flatMap((market) =>
-      market.reports.map((report) => ({
-        marketName: market.name,
-        report,
-      }))
-    )
-    .filter(({ report }) => {
+export default function ReportList({ reports, category }: ReportListProps) {
+  const filteredReports = reports
+    .filter((report) => {
       if (category === "전체") {
         return true;
       }
@@ -25,11 +19,10 @@ export default function ReportList({ markets, category }: ReportListProps) {
     })
     .sort(
       (a, b) =>
-        new Date(b.report.createdAt).getTime() -
-        new Date(a.report.createdAt).getTime()
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
 
-  if (reports.length === 0) {
+  if (filteredReports.length === 0) {
     return (
       <div className="text-deep-gray text-center text-xs">
         해당 카테고리의 현장 제보가 없습니다.
@@ -39,8 +32,12 @@ export default function ReportList({ markets, category }: ReportListProps) {
 
   return (
     <section className="flex flex-col gap-3 px-5">
-      {reports.map(({ marketName, report }) => (
-        <ReportItem key={report.id} marketName={marketName} report={report} />
+      {filteredReports.map((report) => (
+        <ReportItem
+          key={report.id}
+          marketName={report.marketName}
+          report={report}
+        />
       ))}
     </section>
   );

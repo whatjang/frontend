@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import type { Market } from "@/src/types/market";
+import type { MarketReportMock } from "@/src/mocks/marketReports";
 
 import ReportCategoryFilter, {
   type ReportCategory,
@@ -10,10 +10,10 @@ import ReportCategoryFilter, {
 import ReportList from "./ReportList";
 
 interface ReportsContentProps {
-  markets: Market[];
+  reports: MarketReportMock[];
 }
 
-export default function ReportsContent({ markets }: ReportsContentProps) {
+export default function ReportsContent({ reports }: ReportsContentProps) {
   const [selectedCategory, setSelectedCategory] =
     useState<ReportCategory>("전체");
 
@@ -24,7 +24,7 @@ export default function ReportsContent({ markets }: ReportsContentProps) {
         onChange={setSelectedCategory}
       />
 
-      <ReportList markets={markets} category={selectedCategory} />
+      <ReportList reports={reports} category={selectedCategory} />
     </>
   );
 }
