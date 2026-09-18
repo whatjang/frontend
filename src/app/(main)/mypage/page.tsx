@@ -1,5 +1,6 @@
 "use client";
 
+import { useMarketFavorite } from "@/src/hooks/market/useMarketFavorite";
 import { mockMyPageData } from "@/src/mocks/mypage";
 
 import FavoriteList from "./_components/favorite/FavoriteList";
@@ -10,6 +11,7 @@ import { useFavoriteMarkets } from "./_hooks/useFavoriteMarkets";
 
 export default function MyPage() {
   const { data: favoriteData } = useFavoriteMarkets();
+  const { mutate: toggleFavorite } = useMarketFavorite();
 
   const { profile, bookmarkedReports, likedPlaces, reports } = mockMyPageData;
 
@@ -20,6 +22,13 @@ export default function MyPage() {
     favoriteMarketCount: favoriteData?.total_count ?? 0,
   };
 
+  const handleRemoveFavorite = (marketId: number) => {
+    toggleFavorite({
+      marketId,
+      isFavorite: true,
+    });
+  };
+
   return (
     <main className="px-5">
       <div className="flex flex-col gap-6">
@@ -27,7 +36,7 @@ export default function MyPage() {
 
         <FavoriteList
           markets={favoriteMarkets}
-          onRemove={() => {}}
+          onRemove={handleRemoveFavorite}
           onToggleNotification={() => {}}
         />
 
