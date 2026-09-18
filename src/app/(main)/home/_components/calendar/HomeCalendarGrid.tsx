@@ -1,5 +1,4 @@
 import { WEEKDAYS } from "@/src/constants/calendar";
-import { getMockHomeMarketsByDate } from "@/src/mocks/calendar";
 import type { CalendarDay } from "@/src/utils/calendar";
 
 import type { CalendarView } from "../../_hooks/useCalendar";
@@ -9,6 +8,7 @@ interface HomeCalendarGridProps {
   view: CalendarView;
   days: CalendarDay[];
   selectedDate: string;
+  marketCountByDate: Map<string, number>;
   onSelectDate: (date: Date, isoDate: string) => void;
 }
 
@@ -16,6 +16,7 @@ export default function HomeCalendarGrid({
   view,
   days,
   selectedDate,
+  marketCountByDate,
   onSelectDate,
 }: HomeCalendarGridProps) {
   if (view === "week") {
@@ -29,7 +30,7 @@ export default function HomeCalendarGrid({
             isoDate={day.isoDate}
             isToday={day.isToday}
             isSelected={selectedDate === day.isoDate}
-            hasMarket={getMockHomeMarketsByDate(day.isoDate).length > 0}
+            hasMarket={(marketCountByDate.get(day.isoDate) ?? 0) > 0}
             onSelect={() => onSelectDate(day.value, day.isoDate)}
           />
         ))}
@@ -59,7 +60,7 @@ export default function HomeCalendarGrid({
             isToday={day.isToday}
             isSelected={selectedDate === day.isoDate}
             isCurrentMonth={day.isCurrentMonth}
-            hasMarket={getMockHomeMarketsByDate(day.isoDate).length > 0}
+            hasMarket={(marketCountByDate.get(day.isoDate) ?? 0) > 0}
             onSelect={() => onSelectDate(day.value, day.isoDate)}
           />
         ))}
