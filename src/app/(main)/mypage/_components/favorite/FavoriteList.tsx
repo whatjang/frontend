@@ -1,20 +1,21 @@
 "use client";
 
 import { StarIcon } from "lucide-react";
-import { useState } from "react";
 
-import { FavoriteMarket } from "@/src/types/mypage";
+import type { MarketFavoriteItem } from "@/src/types/market/index";
 
 import FavoriteItem from "./FavoriteItem";
 
 interface FavoriteListProps {
-  markets: FavoriteMarket[];
+  markets: MarketFavoriteItem[];
+  onRemove: (marketId: number) => void;
+  onToggleNotification: (marketId: number) => void;
 }
 
 const ITEMS_PER_PAGE = 3;
 
-function chunkMarkets(markets: FavoriteMarket[]) {
-  const chunks: FavoriteMarket[][] = [];
+function chunkMarkets(markets: MarketFavoriteItem[]) {
+  const chunks: MarketFavoriteItem[][] = [];
 
   for (let i = 0; i < markets.length; i += ITEMS_PER_PAGE) {
     chunks.push(markets.slice(i, i + ITEMS_PER_PAGE));
@@ -23,30 +24,12 @@ function chunkMarkets(markets: FavoriteMarket[]) {
   return chunks;
 }
 
-export default function FavoriteList({ markets }: FavoriteListProps) {
-  const [favoriteMarkets, setFavoriteMarkets] =
-    useState<FavoriteMarket[]>(markets);
-
-  const marketPages = chunkMarkets(favoriteMarkets);
-
-  const handleRemoveFavorite = (marketId: number) => {
-    setFavoriteMarkets((prev) =>
-      prev.filter((market) => market.id !== marketId)
-    );
-  };
-
-  const handleToggleNotification = (marketId: number) => {
-    setFavoriteMarkets((prev) =>
-      prev.map((market) =>
-        market.id === marketId
-          ? {
-              ...market,
-              notificationEnabled: !market.notificationEnabled,
-            }
-          : market
-      )
-    );
-  };
+export default function FavoriteList({
+  markets,
+  onRemove,
+  onToggleNotification,
+}: FavoriteListProps) {
+  const marketPages = chunkMarkets(markets);
 
   return (
     <section className="flex flex-col gap-2">
@@ -55,7 +38,7 @@ export default function FavoriteList({ markets }: FavoriteListProps) {
         <h2 className="text-green font-bold">즐겨찾는 장터</h2>
       </div>
 
-      {favoriteMarkets.length === 0 ? (
+      {markets.length === 0 ? (
         <div className="text-deep-gray rounded-xl text-center text-xs">
           즐겨찾기한 시장이 없어요.
         </div>
@@ -68,10 +51,10 @@ export default function FavoriteList({ markets }: FavoriteListProps) {
             >
               {page.map((market) => (
                 <FavoriteItem
-                  key={market.id}
+                  key={market.market_id}
                   market={market}
-                  onRemove={handleRemoveFavorite}
-                  onToggleNotification={handleToggleNotification}
+                  onRemove={onRemove}
+                  onToggleNotification={onToggleNotification}
                 />
               ))}
             </div>
