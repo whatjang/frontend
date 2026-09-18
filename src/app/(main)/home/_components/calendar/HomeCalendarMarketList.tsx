@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { WEEKDAYS } from "@/src/constants/calendar";
 import type { MarketOpenOnItem } from "@/src/types/market/index";
@@ -32,14 +32,6 @@ function formatSelectedDate(isoDate: string) {
   return `${month}월 ${date}일 (${WEEKDAYS[(targetDate.getUTCDay() + 6) % 7]})`;
 }
 
-function chunkMarkets(markets: MarketOpenOnItem[]) {
-  return Array.from(
-    { length: Math.ceil(markets.length / MARKET_PAGE_SIZE) },
-    (_, index) =>
-      markets.slice(index * MARKET_PAGE_SIZE, (index + 1) * MARKET_PAGE_SIZE)
-  );
-}
-
 export default function HomeCalendarMarketList({
   selectedDate,
   markets,
@@ -49,72 +41,51 @@ export default function HomeCalendarMarketList({
   hasNext,
   onLoadMore,
 }: HomeCalendarMarketListProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
   const [pageState, setPageState] = useState<PageState>({
     date: selectedDate,
     page: 0,
   });
 
   const currentPage = pageState.date === selectedDate ? pageState.page : 0;
-
-  const marketPages = chunkMarkets(markets);
   const totalPages = Math.ceil(totalCount / MARKET_PAGE_SIZE);
 
-  const scrollToPage = (page: number) => {
-    const target = scrollRef.current?.children[page] as HTMLElement | undefined;
+  const startIndex = currentPage * MARKET_PAGE_SIZE;
+  const visibleMarkets = markets.slice(
+    startIndex,
+    startIndex + MARKET_PAGE_SIZE
+  );
 
-    target?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "start",
+  const handlePrev = () => {
+    if (currentPage === 0) return;
+
+    setPageState({
+      date: selectedDate,
+      page: currentPage - 1,
     });
   };
 
-  const handleScroll = () => {
-    const container = scrollRef.current;
-    if (!container || marketPages.length === 0) return;
+  const handleNext = () => {
+    const nextPage = currentPage + 1;
 
-    const containerLeft = container.getBoundingClientRect().left;
-    const pages = Array.from(container.children) as HTMLElement[];
+    if (nextPage >= totalPages) return;
 
-    const page = pages.reduce((closest, element, index) => {
-      const distance = Math.abs(
-        element.getBoundingClientRect().left - containerLeft
-      );
+    const nextPageStartIndex = nextPage * MARKET_PAGE_SIZE;
 
-      const closestDistance = Math.abs(
-        pages[closest].getBoundingClientRect().left - containerLeft
-      );
-
-      return distance < closestDistance ? index : closest;
-    }, 0);
-
-    const nextPage = Math.min(page, totalPages - 1);
+    if (nextPageStartIndex >= markets.length) {
+      if (hasNext && !isFetchingNextPage) {
+        onLoadMore();
+      }
+      return;
+    }
 
     setPageState({
       date: selectedDate,
       page: nextPage,
     });
 
-    if (page >= marketPages.length - 2 && hasNext && !isFetchingNextPage) {
-      onLoadMore();
-    }
-  };
+    const remainingMarkets = markets.length - (nextPage + 1) * MARKET_PAGE_SIZE;
 
-  const handlePrev = () => {
-    if (currentPage > 0) {
-      scrollToPage(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < marketPages.length - 1) {
-      scrollToPage(currentPage + 1);
-      return;
-    }
-
-    if (hasNext && !isFetchingNextPage) {
+    if (remainingMarkets < MARKET_PAGE_SIZE && hasNext && !isFetchingNextPage) {
       onLoadMore();
     }
   };
@@ -124,6 +95,7 @@ export default function HomeCalendarMarketList({
       <header className="flex items-center justify-between px-1">
         <h3 className="flex items-center gap-2 text-sm font-bold">
           <span aria-hidden="true" className="bg-green h-5 w-1 rounded-full" />
+
           {formatSelectedDate(selectedDate)}
         </h3>
 
@@ -134,24 +106,9 @@ export default function HomeCalendarMarketList({
 
       {markets.length > 0 ? (
         <>
-          <div
-            key={selectedDate}
-            ref={scrollRef}
-            onScroll={handleScroll}
-            className="mt-2 flex snap-x snap-mandatory scrollbar-none gap-4 overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"
-          >
-            {marketPages.map((page, pageIndex) => (
-              <div
-                key={pageIndex}
-                className="flex min-w-full snap-start flex-col gap-2"
-              >
-                {page.map((market) => (
-                  <HomeCalendarMarketItem
-                    key={market.market_id}
-                    market={market}
-                  />
-                ))}
-              </div>
+          <div className="mt-2 flex flex-col gap-2">
+            {visibleMarkets.map((market) => (
+              <HomeCalendarMarketItem key={market.market_id} market={market} />
             ))}
           </div>
 
