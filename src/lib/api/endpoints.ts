@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
     DETAIL: (marketId: number) => `/api/markets/${marketId}`,
     FAVORITE: (marketId: number) => `/api/markets/${marketId}/favorite`,
     CALENDAR: "/api/markets/calendar",
+    OPEN_ON: (date: string) => `/api/markets/open-on/${date}`,
   },
 
   MEMBER: {

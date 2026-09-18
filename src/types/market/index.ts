@@ -5,6 +5,11 @@ export type {
 } from "./marketCalendar";
 export type { MarketDetailParams, MarketDetailResult } from "./marketDetail";
 export type {
+  MarketOpenOnItem,
+  MarketOpenOnParams,
+  MarketOpenOnResult,
+} from "./marketOpenOn";
+export type {
   MarketSearchItem,
   MarketSearchParams,
   MarketSearchResult,
