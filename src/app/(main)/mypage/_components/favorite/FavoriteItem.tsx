@@ -1,4 +1,5 @@
 import { Star, Store } from "lucide-react";
+import Link from "next/link";
 
 import type { MarketFavoriteItem } from "@/src/types/market/index";
 
@@ -26,13 +27,18 @@ export default function FavoriteItem({ market, onRemove }: FavoriteItemProps) {
         <Store size={20} />
       </div>
 
-      <div className="min-w-0 flex-1">
-        <h3 className="truncate text-sm font-bold">{market.name}</h3>
+      <Link
+        href={`/markets/${market.market_id}`}
+        className="group min-w-0 flex-1"
+      >
+        <h3 className="group-hover:text-green truncate text-sm font-bold transition-colors">
+          {market.name}
+        </h3>
 
         <p className="text-deep-gray truncate text-xs font-semibold">
           {market.open_day_label}
         </p>
-      </div>
+      </Link>
 
       <div className="flex shrink-0 items-center gap-2">
         <span className="border-green text-green rounded-lg border px-2.5 py-1.5 text-xs font-bold">
