@@ -2,7 +2,7 @@ import type { ApiResponse } from "@/src/types/api";
 import type {
   MarketSearchParams,
   MarketSearchResult,
-} from "@/src/types/market/marketSearch";
+} from "@/src/types/market/index";
 
 import { apiClient } from "../core/client";
 import { API_ENDPOINTS } from "../endpoints";

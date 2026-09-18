@@ -2,7 +2,7 @@
 
 import Spinner from "@/src/components/common/Spinner";
 import { useInfiniteScroll } from "@/src/hooks/useInfiniteScroll";
-import type { MarketSearchItem } from "@/src/types/market/marketSearch";
+import type { MarketSearchItem } from "@/src/types/market/index";
 
 import MarketItem from "./MarketItem";
 

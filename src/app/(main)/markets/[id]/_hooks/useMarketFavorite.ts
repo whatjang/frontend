@@ -6,7 +6,7 @@ import {
   addMarketFavorite,
   removeMarketFavorite,
 } from "@/src/lib/api/market/favorite";
-import type { MarketDetailResult } from "@/src/types/market/marketDetail";
+import type { MarketDetailResult } from "@/src/types/market/index";
 
 interface ToggleFavoriteParams {
   marketId: number;
