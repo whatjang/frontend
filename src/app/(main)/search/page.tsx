@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import SearchBar from "@/src/components/search/SearchBar";
 import { useCurrentLocation } from "@/src/hooks/location/useCurrentLocation";
 
@@ -28,10 +26,6 @@ export default function SearchPage() {
   } = useCurrentLocation({
     onLocationChange: updateCoordinates,
   });
-
-  useEffect(() => {
-    void requestLocation();
-  }, [requestLocation]);
 
   return (
     <main className="flex flex-col gap-6 px-5">
