@@ -156,13 +156,13 @@ export default function HomeCalendarMarketList({
           </div>
 
           {totalPages > 1 && (
-            <div className="mt-3 flex items-center justify-center gap-8">
+            <div className="mt-2 flex items-center justify-center gap-8">
               <button
                 type="button"
                 aria-label="이전 장터 보기"
                 onClick={handlePrev}
                 disabled={currentPage === 0}
-                className="border-light-gray flex size-8 cursor-pointer items-center justify-center rounded-full border bg-white disabled:cursor-default disabled:opacity-30"
+                className="border-light-gray flex size-6 cursor-pointer items-center justify-center rounded-full border bg-white disabled:cursor-default disabled:opacity-30"
               >
                 <ChevronLeft className="text-green size-4" />
               </button>
@@ -176,7 +176,7 @@ export default function HomeCalendarMarketList({
                 aria-label="다음 장터 보기"
                 onClick={handleNext}
                 disabled={currentPage >= totalPages - 1 || isFetchingNextPage}
-                className="border-light-gray flex size-8 cursor-pointer items-center justify-center rounded-full border bg-white disabled:cursor-default disabled:opacity-30"
+                className="border-light-gray flex size-6 cursor-pointer items-center justify-center rounded-full border bg-white disabled:cursor-default disabled:opacity-30"
               >
                 <ChevronRight className="text-green size-4" />
               </button>
@@ -184,7 +184,7 @@ export default function HomeCalendarMarketList({
           )}
         </>
       ) : !isPending ? (
-        <div className="text-deep-gray mt-2 text-center text-sm">
+        <div className="text-deep-gray mt-2 text-center text-xs">
           해당 날짜에 열리는 장터가 없어요.
         </div>
       ) : null}
