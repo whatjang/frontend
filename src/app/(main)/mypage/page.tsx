@@ -37,7 +37,6 @@ export default function MyPage() {
         <FavoriteList
           markets={favoriteMarkets}
           onRemove={handleRemoveFavorite}
-          onToggleNotification={() => {}}
         />
 
         <SavedContent

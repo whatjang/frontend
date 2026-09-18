@@ -9,7 +9,6 @@ import FavoriteItem from "./FavoriteItem";
 interface FavoriteListProps {
   markets: MarketFavoriteItem[];
   onRemove: (marketId: number) => void;
-  onToggleNotification: (marketId: number) => void;
 }
 
 const ITEMS_PER_PAGE = 3;
@@ -24,11 +23,7 @@ function chunkMarkets(markets: MarketFavoriteItem[]) {
   return chunks;
 }
 
-export default function FavoriteList({
-  markets,
-  onRemove,
-  onToggleNotification,
-}: FavoriteListProps) {
+export default function FavoriteList({ markets, onRemove }: FavoriteListProps) {
   const marketPages = chunkMarkets(markets);
 
   return (
@@ -54,7 +49,6 @@ export default function FavoriteList({
                   key={market.market_id}
                   market={market}
                   onRemove={onRemove}
-                  onToggleNotification={onToggleNotification}
                 />
               ))}
             </div>
