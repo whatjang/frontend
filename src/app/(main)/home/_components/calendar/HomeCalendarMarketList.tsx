@@ -3,6 +3,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 
+import { WEEKDAYS } from "@/src/constants/calendar";
 import type { MarketOpenOnItem } from "@/src/types/market/index";
 
 import HomeCalendarMarketItem from "./HomeCalendarMarketItem";
@@ -22,14 +23,13 @@ interface PageState {
   page: number;
 }
 
-const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 const MARKET_PAGE_SIZE = 3;
 
 function formatSelectedDate(isoDate: string) {
   const [year, month, date] = isoDate.split("-").map(Number);
   const targetDate = new Date(Date.UTC(year, month - 1, date));
 
-  return `${month}월 ${date}일 (${WEEKDAY_LABELS[targetDate.getUTCDay()]})`;
+  return `${month}월 ${date}일 (${WEEKDAYS[(targetDate.getUTCDay() + 6) % 7]})`;
 }
 
 function chunkMarkets(markets: MarketOpenOnItem[]) {
