@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 
-import { getMockHomeMarketsByDate } from "@/src/mocks/calendar";
 import {
   addDays,
   formatIsoDate,
@@ -18,30 +17,22 @@ export function useCalendar() {
     formatIsoDate(getToday())
   );
 
+  const year = cursorDate.getUTCFullYear();
+  const month = cursorDate.getUTCMonth() + 1;
+
   const calendarDays = useMemo(() => {
     if (view === "month") {
-      return getMonthCalendarDays(
-        cursorDate.getUTCFullYear(),
-        cursorDate.getUTCMonth() + 1,
-        {
-          weekStartsOn: 1,
-        }
-      );
+      return getMonthCalendarDays(year, month, {
+        weekStartsOn: 1,
+      });
     }
 
     return getWeekCalendarDays(cursorDate, {
       weekStartsOn: 1,
     });
-  }, [cursorDate, view]);
+  }, [cursorDate, month, view, year]);
 
-  const selectedMarkets = useMemo(
-    () => getMockHomeMarketsByDate(selectedDate),
-    [selectedDate]
-  );
-
-  const periodLabel = `${cursorDate.getUTCFullYear()}년 ${
-    cursorDate.getUTCMonth() + 1
-  }월`;
+  const periodLabel = `${year}년 ${month}월`;
 
   const handlePrev = () => {
     setCursorDate((prev) => {
@@ -75,9 +66,10 @@ export function useCalendar() {
   return {
     view,
     setView,
+    year,
+    month,
     calendarDays,
     selectedDate,
-    selectedMarkets,
     periodLabel,
     handlePrev,
     handleNext,

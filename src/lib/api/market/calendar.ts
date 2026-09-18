@@ -1,17 +1,17 @@
 import type { ApiResponse } from "@/src/types/api";
 import type {
-  MarketSearchParams,
-  MarketSearchResult,
+  MarketCalendarParams,
+  MarketCalendarResult,
 } from "@/src/types/market/index";
 
 import { apiClient } from "../core/client";
 import { API_ENDPOINTS } from "../endpoints";
 
-export function searchMarkets(
-  params: MarketSearchParams
-): Promise<ApiResponse<MarketSearchResult>> {
-  return apiClient.get<ApiResponse<MarketSearchResult>>(
-    API_ENDPOINTS.MARKET.SEARCH,
+export function getMonthlyMarketCalendar(
+  params: MarketCalendarParams
+): Promise<ApiResponse<MarketCalendarResult>> {
+  return apiClient.get<ApiResponse<MarketCalendarResult>>(
+    API_ENDPOINTS.MARKET.CALENDAR,
     {
       params,
       useAuth: false,

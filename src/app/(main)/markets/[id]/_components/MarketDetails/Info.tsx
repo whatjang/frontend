@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import { CalendarDays, ExternalLink, Phone, Store, Ticket } from "lucide-react";
 import type { ReactNode } from "react";
 
-import type { MarketDetailResult } from "@/src/types/market/marketDetail";
+import type { MarketDetailResult } from "@/src/types/market/index";
 
 interface InfoProps {
   market: MarketDetailResult;
