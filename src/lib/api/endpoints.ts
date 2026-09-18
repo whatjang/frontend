@@ -16,5 +16,6 @@ export const API_ENDPOINTS = {
   MEMBER: {
     ONBOARDING: "/api/members/me/onboarding",
     ME: "/api/members/me",
+    FAVORITE_MARKETS: "/api/members/favorite-markets",
   },
 } as const;

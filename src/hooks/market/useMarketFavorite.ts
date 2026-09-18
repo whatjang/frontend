@@ -33,6 +33,10 @@ export function useMarketFavorite() {
               }
             : market
       );
+
+      queryClient.invalidateQueries({
+        queryKey: ["favorite-markets"],
+      });
     },
   });
 }
