@@ -17,6 +17,11 @@ interface HomeCalendarMarketListProps {
   onLoadMore: () => void;
 }
 
+interface PageState {
+  date: string;
+  page: number;
+}
+
 const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 const MARKET_PAGE_SIZE = 3;
 
@@ -45,7 +50,13 @@ export default function HomeCalendarMarketList({
   onLoadMore,
 }: HomeCalendarMarketListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [currentPage, setCurrentPage] = useState(0);
+
+  const [pageState, setPageState] = useState<PageState>({
+    date: selectedDate,
+    page: 0,
+  });
+
+  const currentPage = pageState.date === selectedDate ? pageState.page : 0;
 
   const marketPages = chunkMarkets(markets);
   const totalPages = Math.ceil(totalCount / MARKET_PAGE_SIZE);
@@ -71,6 +82,7 @@ export default function HomeCalendarMarketList({
       const distance = Math.abs(
         element.getBoundingClientRect().left - containerLeft
       );
+
       const closestDistance = Math.abs(
         pages[closest].getBoundingClientRect().left - containerLeft
       );
@@ -78,7 +90,12 @@ export default function HomeCalendarMarketList({
       return distance < closestDistance ? index : closest;
     }, 0);
 
-    setCurrentPage(Math.min(page, totalPages - 1));
+    const nextPage = Math.min(page, totalPages - 1);
+
+    setPageState({
+      date: selectedDate,
+      page: nextPage,
+    });
 
     if (page >= marketPages.length - 2 && hasNext && !isFetchingNextPage) {
       onLoadMore();
@@ -118,6 +135,7 @@ export default function HomeCalendarMarketList({
       {markets.length > 0 ? (
         <>
           <div
+            key={selectedDate}
             ref={scrollRef}
             onScroll={handleScroll}
             className="mt-2 flex snap-x snap-mandatory scrollbar-none gap-4 overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"

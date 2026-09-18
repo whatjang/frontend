@@ -64,11 +64,17 @@ export default function HomeCalendarList() {
     return map;
   }, [calendarQueries]);
 
-  const { data, fetchNextPage, hasNextPage, isPending, isFetchingNextPage } =
-    useMarketsOpenOn({
-      date: selectedDate,
-      coordinates,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isPending,
+    isFetchingNextPage,
+    isPlaceholderData,
+  } = useMarketsOpenOn({
+    date: selectedDate,
+    coordinates,
+  });
 
   const markets = data?.pages.flatMap((page) => page.markets) ?? [];
   const totalCount = data?.pages[0]?.total_count ?? 0;
@@ -94,13 +100,12 @@ export default function HomeCalendarList() {
       </div>
 
       <HomeCalendarMarketList
-        key={selectedDate}
         selectedDate={selectedDate}
         markets={markets}
         totalCount={totalCount}
         isPending={isPending}
         isFetchingNextPage={isFetchingNextPage}
-        hasNext={hasNextPage}
+        hasNext={Boolean(hasNextPage && !isPlaceholderData)}
         onLoadMore={() => void fetchNextPage()}
       />
     </section>

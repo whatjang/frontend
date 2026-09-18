@@ -1,6 +1,6 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 
 import { getMarketsOpenOn } from "@/src/lib/api/market/openOn";
 import type { Coordinates } from "@/src/lib/browser/geolocation";
@@ -38,6 +38,8 @@ export function useMarketsOpenOn({
 
     getNextPageParam: (lastPage) =>
       lastPage.has_next ? lastPage.page + 1 : undefined,
+
+    placeholderData: keepPreviousData,
 
     enabled: date.length > 0,
   });
