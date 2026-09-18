@@ -1,137 +1,54 @@
-import { MapPin } from "lucide-react";
+"use client";
 
-import type { TourPlace } from "@/src/types/tour";
+import KakaoMap from "@/src/components/map/KakaoMap";
+import type { NearbyMarket, NearbyPlace } from "@/src/types/tour";
 
 interface TourMapProps {
-  mode?: "nearby" | "route";
-  radiusKm?: number;
-  places: TourPlace[];
-  selectedPlaceId: number | null;
-  onSelectPlace: (placeId: number) => void;
+  market: NearbyMarket;
+  places: NearbyPlace[];
+  selectedPlaceId: string | null;
+  onSelectPlace: (placeId: string) => void;
 }
 
-const toNumber = (value: string) => Number(value.replace("%", ""));
-
 export default function TourMap({
-  mode = "nearby",
-  radiusKm,
+  market,
   places,
   selectedPlaceId,
   onSelectPlace,
 }: TourMapProps) {
-  const isRoute = mode === "route";
-
-  const routePoints = [
-    "50,50",
-    ...places.map(
-      (place) => `${toNumber(place.marker.left)},${toNumber(place.marker.top)}`
-    ),
-  ].join(" ");
-
   return (
-    <div
-      role="group"
-      aria-label={isRoute ? "추천 관광 동선 지도" : "시장 주변 장소 지도"}
-      className="relative mx-auto aspect-square w-full max-w-77"
-    >
-      <div
-        aria-hidden="true"
-        className="border-light-gray absolute inset-0 rounded-full border bg-white/70"
+    <div className="overflow-hidden rounded-3xl">
+      <KakaoMap
+        center={{
+          latitude: market.latitude,
+          longitude: market.longitude,
+        }}
+        markers={[
+          {
+            id: `market-${market.market_id}`,
+            title: market.name,
+            latitude: market.latitude,
+            longitude: market.longitude,
+          },
+          ...places.map((place) => ({
+            id: place.place_id,
+            title: place.name,
+            latitude: place.latitude,
+            longitude: place.longitude,
+          })),
+        ]}
+        level={5}
+        className="h-72 w-full"
+        onMarkerClick={(marker) => {
+          const place = places.find(
+            (place) => place.place_id === String(marker.id)
+          );
+
+          if (place) {
+            onSelectPlace(place.place_id);
+          }
+        }}
       />
-
-      <div
-        aria-hidden="true"
-        className="border-deep-gray absolute inset-5.5 rounded-full border border-dashed"
-      />
-
-      <div
-        aria-hidden="true"
-        className="border-green/30 absolute top-[10%] left-[9%] h-[58%] w-[58%] rounded-full border"
-      />
-
-      <div
-        aria-hidden="true"
-        className="border-green/30 absolute right-[5%] bottom-[9%] h-[52%] w-[52%] rounded-full border"
-      />
-
-      {isRoute && (
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-0 size-full"
-        >
-          <polyline
-            points={routePoints}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="3 2"
-            vectorEffect="non-scaling-stroke"
-            className="text-green/60"
-          />
-        </svg>
-      )}
-
-      {places.map((place, index) => {
-        const selected = selectedPlaceId === place.id;
-
-        return (
-          <button
-            key={place.id}
-            type="button"
-            aria-label={`${place.name} 선택`}
-            aria-pressed={selected}
-            onClick={() => onSelectPlace(place.id)}
-            className="absolute z-10 cursor-pointer"
-            style={{
-              top: place.marker.top,
-              left: place.marker.left,
-            }}
-          >
-            {isRoute ? (
-              <span
-                className={[
-                  "flex size-6 items-center justify-center rounded-full border text-[10px] font-bold shadow-xs",
-                  selected
-                    ? "border-green bg-green text-white"
-                    : "border-green text-green bg-white",
-                ].join(" ")}
-              >
-                {index + 2}
-              </span>
-            ) : (
-              <MapPin
-                aria-hidden="true"
-                className={
-                  selected
-                    ? "fill-green/80 text-green"
-                    : "fill-green/50 text-green/50"
-                }
-              />
-            )}
-          </button>
-        );
-      })}
-
-      <div
-        role="img"
-        aria-label="시장 위치"
-        className="bg-green absolute top-1/2 left-1/2 z-10 flex size-14.5 -translate-x-1/2 -translate-y-1/2 rotate-45 items-center justify-center rounded-2xl shadow-lg"
-      >
-        <div
-          aria-hidden="true"
-          className="flex size-4.5 -rotate-45 items-center justify-center rounded-full bg-white"
-        >
-          <div className="bg-green size-1 rounded-full" />
-        </div>
-      </div>
-
-      {!isRoute && radiusKm !== undefined && (
-        <div className="text-green absolute bottom-[11%] left-1/2 -translate-x-1/2 rounded-full bg-white px-5 py-2 text-xs font-bold shadow-xs">
-          반경 {radiusKm} km
-        </div>
-      )}
     </div>
   );
 }

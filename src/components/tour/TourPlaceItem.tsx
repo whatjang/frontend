@@ -1,19 +1,25 @@
 "use client";
 
-import { ExternalLink, Heart } from "lucide-react";
+import { ExternalLink, Heart, ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-import type { TourPlace } from "@/src/types/tour";
+import type { NearbyPlace } from "@/src/types/tour";
 
 interface TourPlaceItemProps {
-  place: TourPlace;
+  place: NearbyPlace;
   selected?: boolean;
   onSelect?: () => void;
   liked?: boolean;
   onLikeToggle?: () => void;
   eager?: boolean;
 }
+
+const CATEGORY_LABEL = {
+  RESTAURANT: "음식점",
+  TOURIST_ATTRACTION: "관광지",
+  CAFE: "카페",
+} as const;
 
 export default function TourPlaceItem({
   place,
@@ -24,12 +30,9 @@ export default function TourPlaceItem({
   eager = false,
 }: TourPlaceItemProps) {
   const [internalLiked, setInternalLiked] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const liked = controlledLiked ?? internalLiked;
-
-  const kakaoMapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(
-    place.name
-  )},${place.latitude},${place.longitude}`;
 
   const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -47,9 +50,7 @@ export default function TourPlaceItem({
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (!onSelect || event.target !== event.currentTarget) {
-      return;
-    }
+    if (!onSelect || event.target !== event.currentTarget) return;
 
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -57,9 +58,11 @@ export default function TourPlaceItem({
     }
   };
 
+  const showImage = place.thumbnail_url && !imageError;
+
   return (
     <article
-      id={`place-${place.id}`}
+      id={`place-${place.place_id}`}
       onClick={onSelect}
       onKeyDown={handleKeyDown}
       tabIndex={onSelect ? 0 : undefined}
@@ -71,14 +74,21 @@ export default function TourPlaceItem({
         selected ? "border-green" : "border-light-gray shadow-light-gray",
       ].join(" ")}
     >
-      <Image
-        src={place.image}
-        alt={place.name}
-        width={84}
-        height={84}
-        loading={eager ? "eager" : "lazy"}
-        className="size-21 shrink-0 rounded-xl object-cover"
-      />
+      {showImage ? (
+        <Image
+          src={place.thumbnail_url!}
+          alt={place.name}
+          width={84}
+          height={84}
+          loading={eager ? "eager" : "lazy"}
+          onError={() => setImageError(true)}
+          className="size-21 shrink-0 rounded-xl object-cover"
+        />
+      ) : (
+        <div className="bg-light-green text-green flex size-21 shrink-0 items-center justify-center rounded-xl">
+          <ImageIcon className="size-6" />
+        </div>
+      )}
 
       <div className="flex min-w-0 flex-1 flex-col justify-between self-stretch py-1">
         <div className="flex flex-col">
@@ -108,20 +118,22 @@ export default function TourPlaceItem({
           </div>
 
           <span className="text-deep-gray text-xs">
-            {place.categoryLabel} · {place.distance}
+            {CATEGORY_LABEL[place.category]} · {place.distance_m}m
           </span>
         </div>
 
-        <a
-          href={kakaoMapUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={handleMapClick}
-          className="text-green flex w-fit items-center gap-1 text-xs font-semibold whitespace-nowrap"
-        >
-          지도에서 보기
-          <ExternalLink aria-hidden="true" className="size-3.5" />
-        </a>
+        {place.place_url && (
+          <a
+            href={place.place_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleMapClick}
+            className="text-green flex w-fit items-center gap-1 text-xs font-semibold whitespace-nowrap"
+          >
+            지도에서 보기
+            <ExternalLink aria-hidden="true" className="size-3.5" />
+          </a>
+        )}
       </div>
     </article>
   );

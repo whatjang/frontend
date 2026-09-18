@@ -9,6 +9,8 @@ export const API_ENDPOINTS = {
     SEARCH: "/api/markets/search",
     DETAIL: (marketId: number) => `/api/markets/${marketId}`,
     FAVORITE: (marketId: number) => `/api/markets/${marketId}/favorite`,
+    NEARBY_PLACES: (marketId: number) =>
+      `/api/markets/${marketId}/nearby-places`,
   },
 
   MEMBER: {
