@@ -1,22 +1,18 @@
 import { mockHomeData } from "@/src/mocks/home";
 
 import HomeCalendarList from "./_components/calendar/HomeCalendarList";
-import HomeFavoriteMarketList from "./_components/favorite/HomeFavoriteMarketList";
 import HomeHeader from "./_components/HomeHeader";
 import HomeLiveMarketList from "./_components/live/HomeLiveMarketList";
 import HomeTrendFoodList from "./_components/trend/HomeTrendFoodList";
 
 export default function HomePage() {
-  const { liveMarkets, favoriteMarkets, trendFood } = mockHomeData;
+  const { liveMarkets, trendFood } = mockHomeData;
 
   return (
     <main className="flex flex-col gap-8">
       <HomeHeader />
 
-      <section className="flex flex-col gap-2">
-        <HomeLiveMarketList markets={liveMarkets} />
-        <HomeFavoriteMarketList markets={favoriteMarkets} />
-      </section>
+      <HomeLiveMarketList markets={liveMarkets} />
 
       <HomeTrendFoodList trends={trendFood} />
 

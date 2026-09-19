@@ -3,7 +3,7 @@
 import { Compass, Star } from "lucide-react";
 import Link from "next/link";
 
-import { useMarketFavorite } from "../_hooks/useMarketFavorite";
+import { useMarketFavorite } from "@/src/hooks/market/useMarketFavorite";
 
 interface BottomActionsProps {
   marketId: number;

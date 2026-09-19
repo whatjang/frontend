@@ -1,4 +1,4 @@
-import type { MarketDetailResult } from "@/src/types/market/marketDetail";
+import type { MarketDetailResult } from "@/src/types/market/index";
 
 import Facilities from "./Facilities";
 import Info from "./Info";

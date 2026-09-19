@@ -5,7 +5,7 @@ import {
   DEFAULT_PRODUCT_ICON,
   PRODUCT_ICONS,
 } from "@/src/constants/marketProductIcons";
-import type { MarketSearchItem } from "@/src/types/market/marketSearch";
+import type { MarketSearchItem } from "@/src/types/market/index";
 
 interface MarketItemProps {
   market: MarketSearchItem;

@@ -1,139 +1,88 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 
 import { searchMarkets } from "@/src/lib/api/market/search";
 import type { Coordinates } from "@/src/lib/browser/geolocation";
-import type { MarketSearchItem } from "@/src/types/market/marketSearch";
 
 export function useMarketSearch() {
-  const [markets, setMarkets] = useState<MarketSearchItem[]>([]);
-  const [page, setPage] = useState(0);
-  const [hasNext, setHasNext] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [totalCount, setTotalCount] = useState(0);
+  const [keyword, setKeyword] = useState("");
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
 
-  const keywordRef = useRef("");
-  const coordinatesRef = useRef<Coordinates | null>(null);
+  const normalizedKeyword = keyword.trim();
 
-  const search = useCallback(
-    async (searchKeyword: string, searchCoordinates?: Coordinates | null) => {
-      if (!searchKeyword) {
-        keywordRef.current = "";
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isPending,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: [
+      "market-search",
+      normalizedKeyword,
+      coordinates?.latitude ?? null,
+      coordinates?.longitude ?? null,
+    ],
 
-        setMarkets([]);
-        setPage(0);
-        setHasNext(false);
-        setHasSearched(false);
-        setErrorMessage("");
-        setTotalCount(0);
-        return;
-      }
+    queryFn: async ({ pageParam }) => {
+      const response = await searchMarkets({
+        keyword: normalizedKeyword,
+        page: pageParam,
+        ...(coordinates && {
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
+        }),
+      });
 
-      if (searchCoordinates !== undefined) {
-        coordinatesRef.current = searchCoordinates;
-      }
+      return response.result;
+    },
 
-      keywordRef.current = searchKeyword;
+    initialPageParam: 0,
 
-      try {
-        setIsLoading(true);
-        setHasSearched(true);
-        setMarkets([]);
-        setPage(0);
-        setHasNext(false);
-        setTotalCount(0);
-        setErrorMessage("");
+    getNextPageParam: (lastPage) =>
+      lastPage.has_next ? lastPage.page + 1 : undefined,
 
-        const response = await searchMarkets({
-          keyword: searchKeyword,
-          page: 0,
-          ...(coordinatesRef.current && {
-            latitude: coordinatesRef.current.latitude,
-            longitude: coordinatesRef.current.longitude,
-          }),
-        });
+    enabled: normalizedKeyword.length > 0,
+  });
 
-        setMarkets(response.result.markets);
-        setTotalCount(response.result.total_count);
-        setHasNext(response.result.has_next);
-      } catch (error) {
-        setMarkets([]);
-        setTotalCount(0);
-        setHasNext(false);
+  const markets = data?.pages.flatMap((page) => page.markets) ?? [];
 
-        setErrorMessage(
-          error instanceof Error
-            ? error.message
-            : "시장 검색 중 오류가 발생했습니다."
-        );
-      } finally {
-        setIsLoading(false);
-      }
+  const totalCount = data?.pages[0]?.total_count ?? 0;
+
+  const search = useCallback((searchKeyword: string) => {
+    setKeyword(searchKeyword.trim());
+  }, []);
+
+  const updateCoordinates = useCallback(
+    (nextCoordinates: Coordinates | null) => {
+      setCoordinates(nextCoordinates);
     },
     []
   );
 
-  const updateCoordinates = useCallback(
-    async (nextCoordinates: Coordinates | null) => {
-      coordinatesRef.current = nextCoordinates;
-
-      const currentKeyword = keywordRef.current;
-
-      if (!currentKeyword) {
-        return;
-      }
-
-      await search(currentKeyword, nextCoordinates);
-    },
-    [search]
-  );
-
-  const loadMore = useCallback(async () => {
-    const currentKeyword = keywordRef.current;
-
-    if (!currentKeyword || !hasNext || isLoading) {
+  const loadMore = useCallback(() => {
+    if (!hasNextPage || isFetchingNextPage) {
       return;
     }
 
-    try {
-      setIsLoading(true);
-      setErrorMessage("");
-
-      const nextPage = page + 1;
-
-      const response = await searchMarkets({
-        keyword: currentKeyword,
-        page: nextPage,
-        ...(coordinatesRef.current && {
-          latitude: coordinatesRef.current.latitude,
-          longitude: coordinatesRef.current.longitude,
-        }),
-      });
-
-      setMarkets((prev) => [...prev, ...response.result.markets]);
-      setPage(nextPage);
-      setHasNext(response.result.has_next);
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "시장 검색 중 오류가 발생했습니다."
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  }, [page, hasNext, isLoading]);
+    void fetchNextPage();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return {
     markets,
     totalCount,
-    isLoading,
-    hasSearched,
-    hasNext,
-    errorMessage,
+    isLoading: isPending || isFetchingNextPage,
+    hasSearched: normalizedKeyword.length > 0,
+    hasNext: hasNextPage,
+    errorMessage:
+      error instanceof Error
+        ? error.message
+        : error
+          ? "시장 검색 중 오류가 발생했습니다."
+          : "",
     search,
     loadMore,
     updateCoordinates,

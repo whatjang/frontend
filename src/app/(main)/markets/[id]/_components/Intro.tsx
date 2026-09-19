@@ -1,6 +1,6 @@
 import { MapPin } from "lucide-react";
 
-import type { MarketDetailResult } from "@/src/types/market/marketDetail";
+import type { MarketDetailResult } from "@/src/types/market/index";
 
 interface IntroProps {
   market: MarketDetailResult;
