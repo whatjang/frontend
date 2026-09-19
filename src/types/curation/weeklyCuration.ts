@@ -21,6 +21,12 @@ export interface CurationTrend {
   chart: CurationChartItem[];
 }
 
+export interface PrimaryMarket {
+  market_id: string;
+  market_name: string;
+  region: string;
+}
+
 export interface RecommendedMarket {
   market_id: number;
   trend_keyword: string;
@@ -40,7 +46,7 @@ export interface RecommendedMarket {
   recommendation_rank: number;
   match_score: number;
   tags: string[];
-  recommendation_reason: string;
+  primary_market: PrimaryMarket;
 }
 
 export interface WeeklyCurationResult {

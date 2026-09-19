@@ -42,18 +42,6 @@ export default function TrendMarketItem({ market }: TrendMarketItemProps) {
           </div>
         )}
 
-        {market.recommendation_reason && (
-          <div className="bg-light-gray/30 mt-2 rounded-lg p-3">
-            <p className="text-light-brown text-xs font-semibold">
-              Why this market?
-            </p>
-
-            <p className="text-deep-gray mt-1 text-xs">
-              {market.recommendation_reason}
-            </p>
-          </div>
-        )}
-
         <Link
           href={`/markets/${market.market_id}`}
           className="bg-green mt-4 flex w-full cursor-pointer items-center justify-center rounded-full py-3 text-xs font-semibold text-white"
