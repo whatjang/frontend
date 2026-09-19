@@ -8,6 +8,7 @@ export type {
   MarketFavoriteItem,
   MarketFavoriteResult,
 } from "./marketFavorite";
+export type { MarketListParams, MarketListResult } from "./marketList";
 export type {
   MarketOpenOnItem,
   MarketOpenOnParams,
