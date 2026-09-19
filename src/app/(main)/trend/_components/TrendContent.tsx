@@ -8,7 +8,11 @@ import { useWeeklyCuration } from "@/src/hooks/curation/useWeeklyCuration";
 import TrendInsightCard from "./TrendInsightCard";
 import TrendMarketList from "./TrendMarketList";
 
-export default function TrendContent() {
+interface TrendContentProps {
+  initialKeywordId?: string;
+}
+
+export default function TrendContent({ initialKeywordId }: TrendContentProps) {
   const { data, isPending, error } = useWeeklyCuration();
 
   if (isPending) {
@@ -36,7 +40,11 @@ export default function TrendContent() {
   return (
     <div className="space-y-5">
       {trends.length > 0 && (
-        <TrendInsightCard trends={trends} generatedAt={data.generated_at} />
+        <TrendInsightCard
+          trends={trends}
+          generatedAt={data.generated_at}
+          initialKeywordId={initialKeywordId}
+        />
       )}
 
       <aside className="border-green/30 border-l-green bg-light-green flex gap-2.5 rounded-r-lg border border-l-2 px-3 py-3">

@@ -10,6 +10,7 @@ import { formatDateTime } from "@/src/utils/date";
 interface TrendInsightCardProps {
   trends: CurationTrend[];
   generatedAt: string;
+  initialKeywordId?: string;
 }
 
 interface MetricItemProps {
@@ -38,8 +39,15 @@ function MetricItem({ label, value }: MetricItemProps) {
 export default function TrendInsightCard({
   trends,
   generatedAt,
+  initialKeywordId,
 }: TrendInsightCardProps) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const initialIndex = trends.findIndex(
+    (trend) => trend.keyword_id === initialKeywordId
+  );
+
+  const [selectedIndex, setSelectedIndex] = useState(
+    initialIndex >= 0 ? initialIndex : 0
+  );
 
   const selectedTrend = trends[selectedIndex];
 

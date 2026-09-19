@@ -1,9 +1,17 @@
 import TrendContent from "./_components/TrendContent";
 
-export default function TrendPage() {
+interface TrendPageProps {
+  searchParams: Promise<{
+    keywordId?: string;
+  }>;
+}
+
+export default async function TrendPage({ searchParams }: TrendPageProps) {
+  const { keywordId } = await searchParams;
+
   return (
     <main className="min-h-screen w-full px-5">
-      <TrendContent />
+      <TrendContent initialKeywordId={keywordId} />
     </main>
   );
 }

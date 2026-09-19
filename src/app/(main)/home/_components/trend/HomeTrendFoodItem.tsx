@@ -19,7 +19,7 @@ export default function HomeTrendFoodItem({ trend }: HomeTrendFoodItemProps) {
 
   return (
     <Link
-      href="/trend"
+      href={`/trend?keywordId=${encodeURIComponent(trend.keyword_id)}`}
       aria-label={`${trend.keyword} 트렌드 상세 보기`}
       className="border-light-brown/20 to-light-brown/5 block h-full overflow-hidden rounded-3xl border bg-linear-to-br from-white"
     >
