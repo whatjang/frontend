@@ -6,14 +6,14 @@ import { mockMyPageData } from "@/src/mocks/mypage";
 import FavoriteList from "./_components/favorite/FavoriteList";
 import ProfileCard from "./_components/profile/ProfileCard";
 import ReportList from "./_components/report/ReportList";
-import SavedContent from "./_components/saved/SavedContent";
+import BookmarkedReportList from "./_components/saved/BookmarkedReportList";
 import { useFavoriteMarkets } from "./_hooks/useFavoriteMarkets";
 
 export default function MyPage() {
   const { data: favoriteData } = useFavoriteMarkets();
   const { mutate: toggleFavorite } = useMarketFavorite();
 
-  const { profile, bookmarkedReports, likedPlaces, reports } = mockMyPageData;
+  const { profile, bookmarkedReports, reports } = mockMyPageData;
 
   const favoriteMarkets = favoriteData?.markets ?? [];
 
@@ -39,10 +39,7 @@ export default function MyPage() {
           onRemove={handleRemoveFavorite}
         />
 
-        <SavedContent
-          bookmarkedReports={bookmarkedReports}
-          likedPlaces={likedPlaces}
-        />
+        <BookmarkedReportList reports={bookmarkedReports} />
 
         <ReportList reports={reports} />
       </div>

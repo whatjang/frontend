@@ -1,13 +1,6 @@
 import { MyPageData } from "@/src/types/mypage";
 
 import { getBookmarkedReports } from "./marketReports";
-import { marketTourRoutes } from "./marketTour";
-
-const allTourPlaces = marketTourRoutes.flatMap((route) => route.places);
-
-const likedPlaces = allTourPlaces.filter((place) =>
-  [101, 103, 202].includes(place.id)
-);
 
 export const mockMyPageData: MyPageData = {
   profile: {
@@ -17,8 +10,6 @@ export const mockMyPageData: MyPageData = {
   },
 
   bookmarkedReports: getBookmarkedReports(),
-
-  likedPlaces,
 
   reports: [
     {

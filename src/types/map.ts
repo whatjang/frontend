@@ -6,4 +6,5 @@ export interface MapCoordinates {
 export interface MapMarkerItem extends MapCoordinates {
   id: string | number;
   title?: string;
+  description?: string;
 }

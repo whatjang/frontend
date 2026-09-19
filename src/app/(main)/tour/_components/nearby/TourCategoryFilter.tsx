@@ -1,13 +1,12 @@
-import type { NearbyTourCategory, TourCategoryId } from "@/src/types/tour";
+import { TOUR_CATEGORIES } from "@/src/constants/tour";
+import type { NearbyPlaceCategory } from "@/src/types/tour";
 
 interface TourCategoryFilterProps {
-  categories: NearbyTourCategory[];
-  selectedCategory: TourCategoryId | "";
-  onChange: (categoryId: TourCategoryId) => void;
+  selectedCategory: NearbyPlaceCategory;
+  onChange: (categoryId: NearbyPlaceCategory) => void;
 }
 
 export default function TourCategoryFilter({
-  categories,
   selectedCategory,
   onChange,
 }: TourCategoryFilterProps) {
@@ -17,7 +16,7 @@ export default function TourCategoryFilter({
       aria-label="주변 장소 카테고리"
       className="flex items-center gap-1"
     >
-      {categories.map((category) => {
+      {TOUR_CATEGORIES.map((category) => {
         const isSelected = selectedCategory === category.id;
 
         return (

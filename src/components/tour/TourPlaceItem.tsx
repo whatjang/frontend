@@ -1,48 +1,36 @@
 "use client";
 
-import { ExternalLink, Heart } from "lucide-react";
+import { ExternalLink, ImageIcon, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-import type { TourPlace } from "@/src/types/tour";
+import { TOUR_CATEGORY_LABELS } from "@/src/constants/tour";
+import type { NearbyPlace } from "@/src/types/tour";
 
 interface TourPlaceItemProps {
-  place: TourPlace;
+  place: NearbyPlace;
   selected?: boolean;
   onSelect?: () => void;
-  liked?: boolean;
-  onLikeToggle?: () => void;
   eager?: boolean;
+}
+
+function formatDistance(distance: number) {
+  if (distance < 1000) {
+    return `${distance}m`;
+  }
+
+  return `${(distance / 1000).toFixed(1)}km`;
 }
 
 export default function TourPlaceItem({
   place,
   selected = false,
   onSelect,
-  liked: controlledLiked,
-  onLikeToggle,
   eager = false,
 }: TourPlaceItemProps) {
-  const [internalLiked, setInternalLiked] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
-  const liked = controlledLiked ?? internalLiked;
-
-  const kakaoMapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(
-    place.name
-  )},${place.latitude},${place.longitude}`;
-
-  const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-
-    if (onLikeToggle) {
-      onLikeToggle();
-      return;
-    }
-
-    setInternalLiked((prev) => !prev);
-  };
-
-  const handleMapClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.stopPropagation();
   };
 
@@ -57,71 +45,81 @@ export default function TourPlaceItem({
     }
   };
 
+  const showImage = Boolean(place.thumbnail_url) && !imageError;
+
   return (
     <article
-      id={`place-${place.id}`}
+      id={`place-${place.place_id}`}
       onClick={onSelect}
       onKeyDown={handleKeyDown}
       tabIndex={onSelect ? 0 : undefined}
       className={[
-        "flex items-center gap-4 rounded-2xl border bg-white p-3 shadow-xs transition",
+        "flex gap-3 rounded-2xl border bg-white p-3 shadow-xs transition",
         onSelect
           ? "cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2"
           : "",
-        selected ? "border-green" : "border-light-gray shadow-light-gray",
+        selected
+          ? "border-green bg-light-green/20"
+          : "border-light-gray shadow-light-gray",
       ].join(" ")}
     >
-      <Image
-        src={place.image}
-        alt={place.name}
-        width={84}
-        height={84}
-        loading={eager ? "eager" : "lazy"}
-        className="size-21 shrink-0 rounded-xl object-cover"
-      />
-
-      <div className="flex min-w-0 flex-1 flex-col justify-between self-stretch py-1">
-        <div className="flex flex-col">
-          <div className="flex items-center justify-between gap-2">
-            <h2 className="min-w-0 truncate text-sm font-bold text-black">
-              {place.name}
-            </h2>
-
-            <button
-              type="button"
-              aria-label={
-                liked ? `${place.name} 찜 해제` : `${place.name} 찜하기`
-              }
-              aria-pressed={liked}
-              onClick={handleLikeClick}
-              className="flex size-5 shrink-0 cursor-pointer items-center justify-center"
-            >
-              <Heart
-                aria-hidden="true"
-                className={
-                  liked
-                    ? "fill-green text-green size-5"
-                    : "text-light-gray size-5"
-                }
-              />
-            </button>
+      <div className="relative size-20 shrink-0 overflow-hidden rounded-xl">
+        {showImage ? (
+          <Image
+            src={place.thumbnail_url!}
+            alt={place.name}
+            fill
+            sizes="80px"
+            loading={eager ? "eager" : "lazy"}
+            onError={() => setImageError(true)}
+            className="object-cover"
+          />
+        ) : (
+          <div className="bg-light-green text-green flex h-full w-full items-center justify-center">
+            <ImageIcon className="size-6" />
           </div>
+        )}
+      </div>
 
-          <span className="text-deep-gray text-xs">
-            {place.categoryLabel} · {place.distance}
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
+        <h2 className="text-sm font-bold text-black">{place.name}</h2>
+
+        <div className="flex items-center gap-2">
+          <span className="bg-light-green text-green rounded-md px-2 py-1 text-xs font-semibold">
+            {TOUR_CATEGORY_LABELS[place.category]}
+          </span>
+
+          <span className="text-deep-gray text-xs font-medium">
+            {formatDistance(place.distance_m)}
           </span>
         </div>
 
-        <a
-          href={kakaoMapUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={handleMapClick}
-          className="text-green flex w-fit items-center gap-1 text-xs font-semibold whitespace-nowrap"
-        >
-          지도에서 보기
-          <ExternalLink aria-hidden="true" className="size-3.5" />
-        </a>
+        {place.address && (
+          <div className="text-deep-gray flex items-start gap-1 text-xs">
+            <MapPin className="mt-1 size-3 shrink-0" />
+            <span className="line-clamp-2 leading-5">{place.address}</span>
+          </div>
+        )}
+
+        {place.telephone && (
+          <div className="text-deep-gray flex items-center gap-1 text-xs">
+            <Phone className="size-3 shrink-0" />
+            <span>{place.telephone}</span>
+          </div>
+        )}
+
+        {place.place_url && (
+          <a
+            href={place.place_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleLinkClick}
+            className="text-green mt-1 flex w-fit items-center gap-1 text-xs font-semibold"
+          >
+            카카오맵에서 보기
+            <ExternalLink className="size-3" aria-hidden="true" />
+          </a>
+        )}
       </div>
     </article>
   );

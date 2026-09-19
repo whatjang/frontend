@@ -1,10 +1,8 @@
 import type { ReportSummary } from "./report";
-import type { TourPlace } from "./tour";
 
 export interface MyPageData {
   profile: Profile;
   bookmarkedReports: BookmarkedReport[];
-  likedPlaces: TourPlace[];
   reports: MyPageReport[];
 }
 
