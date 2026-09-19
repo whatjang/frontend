@@ -1,65 +1,60 @@
 import Link from "next/link";
 
-import type { HomeTrendMarket } from "@/src/types/trend";
+import type { CurationTrend } from "@/src/types/curation";
 
-const badgeStyles = [
-  {
-    badge: "bg-light-brown",
-    text: "text-light-brown",
-    tag: "border-light-brown/20 bg-light-brown/10 text-light-brown",
-  },
-  {
-    badge: "bg-brown",
-    text: "text-brown",
-    tag: "border-brown/20 bg-brown/10 text-brown",
-  },
-  {
-    badge: "bg-green",
-    text: "text-green",
-    tag: "border-green/20 bg-green/10 text-green",
-  },
-] as const;
+interface HomeTrendFoodItemProps {
+  trend: CurationTrend;
+}
 
-export default function HomeTrendFoodItem({
-  id,
-  rank,
-  marketName,
-  title,
-  tag,
-}: HomeTrendMarket) {
-  const badgeIndex = (rank - 1) % badgeStyles.length;
-  const badgeStyle = badgeStyles[badgeIndex];
-  const formattedRank = String(rank).padStart(2, "0");
+function formatRate(rate: number | null) {
+  if (rate === null) {
+    return "-";
+  }
+
+  return `${rate > 0 ? "+" : ""}${rate}%`;
+}
+
+export default function HomeTrendFoodItem({ trend }: HomeTrendFoodItemProps) {
+  const formattedRank = String(trend.rank).padStart(2, "0");
 
   return (
     <Link
-      href={`/markets/${id}`}
-      aria-label={`${title} 상세 페이지로 이동`}
-      className="block h-full overflow-hidden rounded-3xl bg-white/55 backdrop-blur-md"
+      href={`/trend?keywordId=${encodeURIComponent(trend.keyword_id)}`}
+      aria-label={`${trend.keyword} 트렌드 상세 보기`}
+      className="border-light-brown/20 to-light-brown/5 block h-full overflow-hidden rounded-3xl border bg-linear-to-br from-white"
     >
-      <article className="flex h-full flex-col">
-        <div className="bg-light-gray relative aspect-4/3 overflow-hidden">
-          <span
-            className={`${badgeStyle.badge} absolute top-4 left-4 rounded-full px-3 py-1.5 text-xs font-bold text-white`}
-          >
+      <article className="relative flex h-full min-h-52 flex-col overflow-hidden p-5">
+        <span
+          aria-hidden="true"
+          className="text-light-brown/15 absolute -top-3 right-3 text-7xl font-black"
+        >
+          {formattedRank}
+        </span>
+
+        <div className="relative">
+          <span className="text-light-brown text-xs font-bold">
             TREND #{formattedRank}
           </span>
+
+          <h3 className="mt-3 text-xl font-bold text-black">{trend.keyword}</h3>
+
+          <div className="mt-5">
+            <p className="text-deep-gray text-xs font-medium">
+              이번 주 검색 증가율
+            </p>
+
+            <p className="text-green mt-1 text-3xl font-bold">
+              {formatRate(trend.search_growth_rate)}
+            </p>
+          </div>
         </div>
 
-        <div className="flex min-h-35 flex-1 flex-col p-4">
-          <p className={`${badgeStyle.text} text-xs font-semibold`}>
-            {marketName}
-          </p>
+        <div className="border-light-brown/15 text-deep-gray relative mt-auto flex items-center gap-2 border-t pt-4 text-xs font-medium">
+          <span>외부 지표 {trend.external_score.toFixed(1)}</span>
 
-          <h3 className="text-green text-md line-clamp-2 leading-snug font-bold">
-            {title}
-          </h3>
+          <span className="bg-light-brown/30 h-3 w-px" />
 
-          <span
-            className={`${badgeStyle.tag} mt-auto w-fit rounded-full border px-2 py-1 text-xs font-semibold`}
-          >
-            #{tag}
-          </span>
+          <span>완성도 {Math.round(trend.data_completeness * 100)}%</span>
         </div>
       </article>
     </Link>

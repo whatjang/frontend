@@ -6,7 +6,7 @@ import HomeLiveMarketList from "./_components/live/HomeLiveMarketList";
 import HomeTrendFoodList from "./_components/trend/HomeTrendFoodList";
 
 export default function HomePage() {
-  const { liveMarkets, trendFood } = mockHomeData;
+  const { liveMarkets } = mockHomeData;
 
   return (
     <main className="flex flex-col gap-8">
@@ -14,7 +14,7 @@ export default function HomePage() {
 
       <HomeLiveMarketList markets={liveMarkets} />
 
-      <HomeTrendFoodList trends={trendFood} />
+      <HomeTrendFoodList />
 
       <HomeCalendarList />
     </main>

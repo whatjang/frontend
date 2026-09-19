@@ -1,19 +1,17 @@
-import { mockTrendData } from "@/src/mocks/trend";
+import TrendContent from "./_components/TrendContent";
 
-import TrendInsightCard from "./_components/TrendInsightCard";
-import TrendMarketList from "./_components/TrendMarketList";
-import TrendNotice from "./_components/TrendNotice";
+interface TrendPageProps {
+  searchParams: Promise<{
+    keywordId?: string;
+  }>;
+}
 
-export default function TrendPage() {
-  const { insight, trendMarkets } = mockTrendData;
+export default async function TrendPage({ searchParams }: TrendPageProps) {
+  const { keywordId } = await searchParams;
 
   return (
-    <div className="min-h-screen w-full space-y-5 px-5">
-      <TrendInsightCard insight={insight} />
-
-      <TrendNotice />
-
-      <TrendMarketList trends={trendMarkets} />
-    </div>
+    <main className="min-h-screen w-full px-5">
+      <TrendContent initialKeywordId={keywordId} />
+    </main>
   );
 }

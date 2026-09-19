@@ -1,84 +1,49 @@
-"use client";
-
-import { MapPin, Star } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 
-import type { TrendMarket } from "@/src/types/trend";
+import type { RecommendedMarket } from "@/src/types/curation";
 
 interface TrendMarketItemProps {
-  trend: TrendMarket;
-  initialFavorite?: boolean;
+  market: RecommendedMarket;
 }
 
-export default function TrendMarketItem({
-  trend,
-  initialFavorite = false,
-}: TrendMarketItemProps) {
-  const [isFavorite, setIsFavorite] = useState(initialFavorite);
-
+export default function TrendMarketItem({ market }: TrendMarketItemProps) {
   return (
     <article className="border-light-gray shadow-light-gray overflow-hidden rounded-xl border bg-white shadow-xs">
-      <div className="relative h-46 w-full overflow-hidden">
-        <div className="bg-light-gray h-full w-full" />
-
+      <div className="bg-light-gray relative h-46 w-full overflow-hidden">
         <div className="bg-green/90 absolute top-2 left-2 rounded-full px-3 py-1.5 text-xs font-bold text-white">
-          TREND #{String(trend.rank).padStart(2, "0")} {trend.keyword}
+          TREND #{String(market.trend_rank).padStart(2, "0")}{" "}
+          {market.trend_keyword}
         </div>
       </div>
 
       <div className="p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-light-brown text-xs font-medium">
-              {trend.title}
-            </p>
-
-            <h3 className="text-md font-semibold text-black">
-              {trend.marketName}
-            </h3>
-
-            <div className="text-deep-gray mt-1 flex items-center gap-1 text-xs">
-              <MapPin className="h-3 w-3" aria-hidden="true" />
-
-              <span>{trend.location}</span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setIsFavorite((prev) => !prev)}
-            aria-label={isFavorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
-            aria-pressed={isFavorite}
-            className="border-green flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-full border bg-white"
-          >
-            <Star
-              aria-hidden="true"
-              size={15}
-              strokeWidth={2}
-              className={isFavorite ? "fill-green text-green" : "text-green"}
-            />
-          </button>
-        </div>
-
-        <div className="mt-2 flex flex-wrap gap-1">
-          {trend.tags.map((tag) => (
-            <span key={tag} className="text-green text-xs font-medium">
-              #{tag}
-            </span>
-          ))}
-        </div>
-
-        <div className="bg-light-gray/30 mt-2 rounded-lg p-3">
-          <p className="text-light-brown text-xs font-semibold">
-            Why this market?
+        <div>
+          <p className="text-light-brown text-xs font-medium">
+            {market.trend_keyword}
           </p>
 
-          <p className="text-deep-gray mt-1 text-xs">{trend.reason}</p>
+          <h3 className="text-md font-semibold text-black">{market.name}</h3>
+
+          <div className="text-deep-gray mt-1 flex items-center gap-1 text-xs">
+            <MapPin className="h-3 w-3 shrink-0" aria-hidden="true" />
+
+            <span>{market.road_address || "주소 정보 없음"}</span>
+          </div>
         </div>
 
+        {market.tags.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1">
+            {market.tags.map((tag) => (
+              <span key={tag} className="text-green text-xs font-medium">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+
         <Link
-          href={`/markets/${trend.id}`}
+          href={`/markets/${market.market_id}`}
           className="bg-green mt-4 flex w-full cursor-pointer items-center justify-center rounded-full py-3 text-xs font-semibold text-white"
         >
           시장 상세 보기

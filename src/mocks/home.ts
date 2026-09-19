@@ -1,5 +1,3 @@
-import { mockTrendData } from "./trend";
-
 export const mockHomeData = {
   liveMarkets: [
     {
@@ -21,6 +19,4 @@ export const mockHomeData = {
       address: "강원 정선군 고한읍 고한4길 38-6",
     },
   ],
-
-  trendFood: mockTrendData.trendMarkets,
 };

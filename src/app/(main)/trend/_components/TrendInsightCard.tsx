@@ -3,20 +3,57 @@
 import { TrendingUp } from "lucide-react";
 import { useState } from "react";
 
-import type { TrendInsight } from "@/src/types/trend";
+import { CURATION_SOURCE_LABELS } from "@/src/constants/curation";
+import type { CurationTrend } from "@/src/types/curation";
+import { formatDateTime } from "@/src/utils/date";
 
 interface TrendInsightCardProps {
-  insight: TrendInsight;
+  trends: CurationTrend[];
+  generatedAt: string;
+  initialKeywordId?: string;
 }
 
-export default function TrendInsightCard({ insight }: TrendInsightCardProps) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+interface MetricItemProps {
+  label: string;
+  value: string;
+}
 
-  const selectedKeyword = insight.keywords[selectedIndex];
+function formatRate(rate: number | null) {
+  if (rate === null) {
+    return "-";
+  }
 
-  const maxValue = Math.max(
-    ...selectedKeyword.history.map((item) => item.value)
+  return `${rate > 0 ? "+" : ""}${rate}%`;
+}
+
+function MetricItem({ label, value }: MetricItemProps) {
+  return (
+    <div className="bg-light-gray/30 min-w-0 rounded-lg p-2 text-center">
+      <p className="text-deep-gray text-xs whitespace-nowrap">{label}</p>
+
+      <p className="text-green mt-1 text-sm font-bold">{value}</p>
+    </div>
   );
+}
+
+export default function TrendInsightCard({
+  trends,
+  generatedAt,
+  initialKeywordId,
+}: TrendInsightCardProps) {
+  const initialIndex = trends.findIndex(
+    (trend) => trend.keyword_id === initialKeywordId
+  );
+
+  const [selectedIndex, setSelectedIndex] = useState(
+    initialIndex >= 0 ? initialIndex : 0
+  );
+
+  const selectedTrend = trends[selectedIndex];
+
+  const availableSources = Object.entries(selectedTrend.source_statuses)
+    .filter(([, status]) => status === "AVAILABLE")
+    .map(([source]) => source);
 
   return (
     <section className="border-light-gray shadow-light-gray rounded-xl border bg-white p-3 shadow-xs">
@@ -27,67 +64,53 @@ export default function TrendInsightCard({ insight }: TrendInsightCardProps) {
           </p>
 
           <h2 className="text-deep-gray text-xs font-semibold">
-            {insight.title}
+            이번 주 먹거리 트렌드
           </h2>
         </div>
 
         <TrendingUp className="text-light-brown h-4 w-4" aria-hidden="true" />
       </div>
 
-      <div className="mt-5 flex items-end justify-between">
-        <div>
-          <p className="text-deep-gray text-xs font-semibold">
-            {selectedKeyword.name} 검색 관심도
+      <div className="mt-5">
+        <p className="text-deep-gray text-sm font-semibold">
+          {selectedTrend.keyword}
+        </p>
+
+        <div className="mt-1 flex items-end gap-2">
+          <p className="text-green text-2xl font-bold">
+            {formatRate(selectedTrend.search_growth_rate)}
           </p>
 
-          <p className="text-deep-gray mt-0.5 text-xs">최근 7일</p>
-        </div>
-
-        <span className="text-green text-xs font-bold">
-          +{selectedKeyword.rate}%
-        </span>
-      </div>
-
-      <div className="mt-3 flex h-22 items-end gap-2">
-        {selectedKeyword.history.map((item) => {
-          const isActive = item.value === maxValue;
-
-          return (
-            <div
-              key={item.day}
-              className="flex h-full min-w-0 flex-1 flex-col justify-end"
-            >
-              <div
-                className={`w-full rounded-t-lg transition-all duration-300 ${
-                  isActive ? "bg-green" : "bg-light-gray"
-                }`}
-                style={{
-                  height: `${Math.max(item.value, 20)}%`,
-                }}
-              />
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="mt-1 flex gap-2">
-        {selectedKeyword.history.map((item) => (
-          <span
-            key={item.day}
-            className="text-deep-gray/60 flex-1 text-center text-xs font-medium"
-          >
-            {item.day}
+          <span className="text-deep-gray mb-0.5 text-xs font-medium">
+            검색 증가율
           </span>
-        ))}
+        </div>
+      </div>
+
+      <div className="mt-4 grid grid-cols-3 gap-2">
+        <MetricItem
+          label="쇼핑 증가율"
+          value={formatRate(selectedTrend.shopping_growth_rate)}
+        />
+
+        <MetricItem
+          label="외부 지표"
+          value={selectedTrend.external_score.toFixed(1)}
+        />
+
+        <MetricItem
+          label="데이터 완성도"
+          value={`${Math.round(selectedTrend.data_completeness * 100)}%`}
+        />
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        {insight.keywords.map((keyword, index) => {
+        {trends.map((trend, index) => {
           const isSelected = selectedIndex === index;
 
           return (
             <button
-              key={keyword.name}
+              key={trend.keyword_id}
               type="button"
               aria-pressed={isSelected}
               onClick={() => setSelectedIndex(index)}
@@ -97,32 +120,34 @@ export default function TrendInsightCard({ insight }: TrendInsightCardProps) {
                   : "border-light-brown bg-light-brown/10 text-light-brown"
               }`}
             >
-              #{keyword.name} +{keyword.rate}%
+              #{trend.keyword} {formatRate(trend.search_growth_rate)}
             </button>
           );
         })}
       </div>
 
-      <p className="text-deep-gray mt-2 text-xs font-medium">
-        업데이트 {insight.updatedAt}
+      <p className="text-deep-gray mt-1 text-xs font-medium">
+        업데이트: {formatDateTime(generatedAt)}
       </p>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        {insight.sources.map((source, index) => (
-          <div
-            key={source}
-            className="text-deep-gray flex items-center gap-1.5 text-xs font-medium"
-          >
-            <span
-              className={`h-1.5 w-1.5 rounded-full ${
-                index === 0 ? "bg-green" : "bg-light-brown"
-              }`}
-            />
+      {availableSources.length > 0 && (
+        <div className="mt-4">
+          <p className="text-deep-gray text-xs font-semibold">데이터 출처</p>
 
-            {source}
+          <div className="flex flex-wrap items-center gap-2 gap-y-0.5">
+            {availableSources.map((source) => (
+              <div
+                key={source}
+                className="text-deep-gray flex items-center gap-1 text-xs font-medium"
+              >
+                <span className="bg-green h-1.5 w-1.5 rounded-full" />
+
+                {CURATION_SOURCE_LABELS[source] ?? source}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </section>
   );
 }
