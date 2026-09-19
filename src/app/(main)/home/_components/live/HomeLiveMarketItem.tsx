@@ -49,7 +49,7 @@ export default function HomeLiveMarketItem({
             className="h-1.5 w-1.5 rounded-full bg-white"
           />
 
-          <span className="text-xs font-bold">MARKET LIVE</span>
+          <span className="text-xs font-bold">TODAY&apos;S MARKET</span>
         </div>
 
         <time className="text-xs">{today}</time>
