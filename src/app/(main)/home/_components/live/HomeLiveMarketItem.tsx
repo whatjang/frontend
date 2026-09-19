@@ -3,6 +3,8 @@
 import { MapPin, Navigation } from "lucide-react";
 import { useState } from "react";
 
+import { formatKoreanShortDate } from "@/src/utils/calendar";
+
 interface HomeLiveMarketItemProps {
   name: string;
   marketType: string;
@@ -10,15 +12,6 @@ interface HomeLiveMarketItemProps {
   address: string;
   distanceKm: number | null;
   directionsUrl: string;
-}
-
-function formatToday() {
-  return new Intl.DateTimeFormat("ko-KR", {
-    month: "long",
-    day: "numeric",
-    weekday: "short",
-    timeZone: "Asia/Seoul",
-  }).format(new Date());
 }
 
 export default function HomeLiveMarketItem({
@@ -29,7 +22,7 @@ export default function HomeLiveMarketItem({
   distanceKm,
   directionsUrl,
 }: HomeLiveMarketItemProps) {
-  const [today] = useState(formatToday);
+  const [today] = useState(() => formatKoreanShortDate());
 
   return (
     <article className="relative flex w-full flex-col overflow-hidden rounded-3xl border border-white/40 p-5 text-white">

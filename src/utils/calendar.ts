@@ -150,3 +150,15 @@ export function getMonthCalendarDays(
     return createCalendarDay(date, today, monthIndex);
   });
 }
+
+export function formatKoreanShortDate(
+  date = new Date(),
+  timeZone = DEFAULT_TIME_ZONE
+) {
+  return new Intl.DateTimeFormat("ko-KR", {
+    timeZone,
+    month: "long",
+    day: "numeric",
+    weekday: "short",
+  }).format(date);
+}
