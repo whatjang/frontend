@@ -54,7 +54,7 @@ export default function MarketItem({ market }: MarketItemProps) {
             <MapPin className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
 
             <p className="text-xs font-semibold">
-              {market.road_address?.trim() || "주소 정보 알 수 없음"}
+              {market.road_address?.trim() || "주소 정보 없음"}
             </p>
           </div>
 
