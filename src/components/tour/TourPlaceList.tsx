@@ -22,17 +22,24 @@ export default function TourPlaceList({
   }
 
   return (
-    <ul className="space-y-3">
-      {places.map((place, index) => (
-        <li key={place.place_id}>
-          <TourPlaceItem
-            place={place}
-            selected={place.place_id === selectedPlaceId}
-            onSelect={() => onSelectPlace(place.place_id)}
-            eager={index === 0}
-          />
-        </li>
-      ))}
-    </ul>
+    <div className="flex flex-col gap-3">
+      <p className="text-deep-gray text-xs">
+        가까운 장소{" "}
+        <span className="text-green font-semibold">{places.length}</span>곳
+      </p>
+
+      <ul className="space-y-3">
+        {places.map((place, index) => (
+          <li key={place.place_id}>
+            <TourPlaceItem
+              place={place}
+              selected={place.place_id === selectedPlaceId}
+              onSelect={() => onSelectPlace(place.place_id)}
+              eager={index === 0}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
