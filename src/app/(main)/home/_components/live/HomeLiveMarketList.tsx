@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useCurrentLocation } from "@/src/hooks/location/useCurrentLocation";
 import { buildKakaoDirectionsUrl } from "@/src/lib/kakao/mapLink";
-import { formatIsoDate, getToday } from "@/src/utils/calendar";
+import { formatIsoDate, getToday } from "@/src/utils/date";
 
 import { useMarketsOpenOn } from "../../_hooks/useMarketsOpenOn";
 import HomeLiveMarketItem from "./HomeLiveMarketItem";

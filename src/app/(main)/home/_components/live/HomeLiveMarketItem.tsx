@@ -3,7 +3,7 @@
 import { MapPin, Navigation } from "lucide-react";
 import { useState } from "react";
 
-import { formatKoreanShortDate } from "@/src/utils/calendar";
+import { formatKoreanShortDate } from "@/src/utils/date";
 
 interface HomeLiveMarketItemProps {
   name: string;

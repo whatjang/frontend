@@ -1,4 +1,4 @@
-import { DEFAULT_TIME_ZONE } from "@/src/constants/calendar";
+import { addDays, formatIsoDate, getToday } from "@/src/utils/date";
 
 export interface CalendarDay {
   value: Date;
@@ -16,46 +16,6 @@ interface CalendarOptions {
 interface CurrentWeekCalendarOptions {
   weekStartsOn?: number;
   timeZone?: string;
-}
-
-export function formatIsoDate(date: Date) {
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-  const day = String(date.getUTCDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
-
-export function getDateInTimeZone(
-  sourceDate = new Date(),
-  timeZone = DEFAULT_TIME_ZONE
-) {
-  const formatter = new Intl.DateTimeFormat("en-CA", {
-    timeZone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-
-  const parts = formatter.formatToParts(sourceDate);
-
-  const year = Number(parts.find((part) => part.type === "year")?.value);
-  const month = Number(parts.find((part) => part.type === "month")?.value);
-  const day = Number(parts.find((part) => part.type === "day")?.value);
-
-  return new Date(Date.UTC(year, month - 1, day));
-}
-
-export function getToday(timeZone = DEFAULT_TIME_ZONE) {
-  return getDateInTimeZone(new Date(), timeZone);
-}
-
-export function addDays(date: Date, amount: number) {
-  const result = new Date(date);
-
-  result.setUTCDate(result.getUTCDate() + amount);
-
-  return result;
 }
 
 export function getWeekdayIndex(date: Date, weekStartsOn = 1) {
@@ -93,7 +53,6 @@ export function getWeekCalendarDays(
   const { today = getToday(), weekStartsOn = 1 } = options;
 
   const offset = getWeekdayIndex(anchorDate, weekStartsOn);
-
   const startDate = addDays(anchorDate, -offset);
 
   return Array.from({ length: 7 }, (_, index) => {
@@ -109,7 +68,7 @@ export function getWeekCalendarDays(
 export function getCurrentWeekCalendarDays(
   options: CurrentWeekCalendarOptions = {}
 ): CalendarDay[] {
-  const { weekStartsOn = 1, timeZone = DEFAULT_TIME_ZONE } = options;
+  const { weekStartsOn = 1, timeZone } = options;
 
   const today = getToday(timeZone);
 
@@ -133,13 +92,10 @@ export function getMonthCalendarDays(
   const { today = getToday(), weekStartsOn = 1 } = options;
 
   const monthIndex = month - 1;
-
   const firstDate = new Date(Date.UTC(year, monthIndex, 1));
-
   const lastDate = new Date(Date.UTC(year, monthIndex + 1, 0));
 
   const startOffset = getWeekdayIndex(firstDate, weekStartsOn);
-
   const totalCells = Math.ceil((startOffset + lastDate.getUTCDate()) / 7) * 7;
 
   const startDate = addDays(firstDate, -startOffset);
@@ -149,16 +105,4 @@ export function getMonthCalendarDays(
 
     return createCalendarDay(date, today, monthIndex);
   });
-}
-
-export function formatKoreanShortDate(
-  date = new Date(),
-  timeZone = DEFAULT_TIME_ZONE
-) {
-  return new Intl.DateTimeFormat("ko-KR", {
-    timeZone,
-    month: "long",
-    day: "numeric",
-    weekday: "short",
-  }).format(date);
 }
