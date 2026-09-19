@@ -42,19 +42,19 @@
 
 ## 기술 스택
 
-| 구분 | 기술 |
-| --- | --- |
-| Framework | Next.js 16 |
-| UI | React 19 |
-| Language | TypeScript 5 |
-| Styling | Tailwind CSS 4 |
+| 구분         | 기술           |
+| ------------ | -------------- |
+| Framework    | Next.js 16     |
+| UI           | React 19       |
+| Language     | TypeScript 5   |
+| Styling      | Tailwind CSS 4 |
 | Server State | TanStack Query |
-| Client State | Zustand |
-| HTTP Client | Axios |
-| Map | Kakao Maps SDK |
-| PWA | next-pwa |
-| CI/CD | GitHub Actions |
-| Deployment | Vercel |
+| Client State | Zustand        |
+| HTTP Client  | Axios          |
+| Map          | Kakao Maps SDK |
+| PWA          | next-pwa       |
+| CI/CD        | GitHub Actions |
+| Deployment   | Vercel         |
 
 ---
 
@@ -149,17 +149,17 @@ NEXT_PUBLIC_API_BASE_URL=
 
 ## Scripts
 
-| 명령어 | 설명 |
-| --- | --- |
-| `npm run dev` | 개발 서버 실행 |
-| `npm run build` | 검사 후 Production Build |
-| `npm run build:only` | Production Build만 실행 |
-| `npm run lint` | ESLint 검사 |
-| `npm run lint:fix` | ESLint 자동 수정 |
-| `npm run format` | Prettier 적용 |
-| `npm run format:check` | Prettier 포맷 검사 |
-| `npm run type-check` | TypeScript 타입 검사 |
-| `npm run check` | Type Check + ESLint + Prettier 검사 |
+| 명령어                 | 설명                                |
+| ---------------------- | ----------------------------------- |
+| `npm run dev`          | 개발 서버 실행                      |
+| `npm run build`        | 검사 후 Production Build            |
+| `npm run build:only`   | Production Build만 실행             |
+| `npm run lint`         | ESLint 검사                         |
+| `npm run lint:fix`     | ESLint 자동 수정                    |
+| `npm run format`       | Prettier 적용                       |
+| `npm run format:check` | Prettier 포맷 검사                  |
+| `npm run type-check`   | TypeScript 타입 검사                |
+| `npm run check`        | Type Check + ESLint + Prettier 검사 |
 
 PR 생성 전:
 
