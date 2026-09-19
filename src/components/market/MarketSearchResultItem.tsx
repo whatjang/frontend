@@ -28,7 +28,7 @@ export default function MarketSearchResultItem({
           </strong>
 
           <span className="text-deep-gray truncate text-xs">
-            {market.address}
+            {market.address?.trim() || "주소 정보 없음"}
           </span>
         </div>
       </div>

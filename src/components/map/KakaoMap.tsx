@@ -1,12 +1,18 @@
 "use client";
 
-import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
+import {
+  CustomOverlayMap,
+  Map,
+  MapMarker,
+  useKakaoLoader,
+} from "react-kakao-maps-sdk";
 
 import type { MapCoordinates, MapMarkerItem } from "@/src/types/map";
 
 interface KakaoMapProps {
   center: MapCoordinates;
   markers: MapMarkerItem[];
+  selectedMarkerId?: string | number | null;
   level?: number;
   draggable?: boolean;
   zoomable?: boolean;
@@ -18,6 +24,7 @@ interface KakaoMapProps {
 export default function KakaoMap({
   center,
   markers,
+  selectedMarkerId,
   level = 3,
   draggable = true,
   zoomable = true,
@@ -50,6 +57,10 @@ export default function KakaoMap({
     );
   }
 
+  const selectedMarker = markers.find(
+    (marker) => String(marker.id) === String(selectedMarkerId)
+  );
+
   return (
     <Map
       center={{
@@ -57,6 +68,7 @@ export default function KakaoMap({
         lng: center.longitude,
       }}
       level={level}
+      isPanto
       draggable={draggable}
       zoomable={zoomable}
       className={className}
@@ -70,9 +82,34 @@ export default function KakaoMap({
             lng: marker.longitude,
           }}
           title={marker.title}
+          clickable
           onClick={() => onMarkerClick?.(marker)}
         />
       ))}
+
+      {selectedMarker && (
+        <CustomOverlayMap
+          position={{
+            lat: selectedMarker.latitude,
+            lng: selectedMarker.longitude,
+          }}
+          yAnchor={1.4}
+        >
+          <div className="pointer-events-none relative rounded-xl border border-gray-100 bg-white px-3 py-2 shadow-md">
+            <p className="max-w-40 truncate text-xs font-bold text-black">
+              {selectedMarker.title}
+            </p>
+
+            {selectedMarker.description && (
+              <p className="text-deep-gray mt-1 text-xs font-medium">
+                {selectedMarker.description}
+              </p>
+            )}
+
+            <div className="absolute -bottom-1.5 left-1/2 size-3 -translate-x-1/2 rotate-45 border-r border-b border-gray-100 bg-white" />
+          </div>
+        </CustomOverlayMap>
+      )}
     </Map>
   );
 }

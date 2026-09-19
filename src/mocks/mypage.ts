@@ -1,13 +1,6 @@
 import { MyPageData } from "@/src/types/mypage";
 
 import { getBookmarkedReports } from "./marketReports";
-import { marketTourRoutes } from "./marketTour";
-
-const allTourPlaces = marketTourRoutes.flatMap((route) => route.places);
-
-const likedPlaces = allTourPlaces.filter((place) =>
-  [101, 103, 202].includes(place.id)
-);
 
 export const mockMyPageData: MyPageData = {
   profile: {
@@ -16,68 +9,7 @@ export const mockMyPageData: MyPageData = {
     reportCount: 28,
   },
 
-  favoriteMarkets: [
-    {
-      id: 1,
-      marketName: "속초 관광수산시장",
-      marketDays: "매월 3, 8, 13, 18, 23, 28일",
-      dDay: "D-2",
-      notificationEnabled: true,
-    },
-    {
-      id: 2,
-      marketName: "정선 5일장",
-      marketDays: "매월 2, 7, 12, 17, 22, 27일",
-      dDay: "오늘",
-      notificationEnabled: true,
-    },
-    {
-      id: 3,
-      marketName: "춘천 풍물시장",
-      marketDays: "매월 2, 7일",
-      dDay: "D-4",
-      notificationEnabled: false,
-    },
-    {
-      id: 4,
-      marketName: "강릉 주문진시장",
-      marketDays: "매월 1, 6일",
-      dDay: "D-5",
-      notificationEnabled: false,
-    },
-    {
-      id: 5,
-      marketName: "양양 전통시장",
-      marketDays: "매월 4, 9일",
-      dDay: "D-7",
-      notificationEnabled: false,
-    },
-    {
-      id: 6,
-      marketName: "평창 봉평시장",
-      marketDays: "매월 2, 7일",
-      dDay: "D-8",
-      notificationEnabled: true,
-    },
-    {
-      id: 7,
-      marketName: "홍천 중앙시장",
-      marketDays: "매월 1, 6일",
-      dDay: "D-10",
-      notificationEnabled: true,
-    },
-    {
-      id: 8,
-      marketName: "삼척 중앙시장",
-      marketDays: "매월 2, 7일",
-      dDay: "D-12",
-      notificationEnabled: true,
-    },
-  ],
-
   bookmarkedReports: getBookmarkedReports(),
-
-  likedPlaces,
 
   reports: [
     {
