@@ -1,5 +1,4 @@
 import MarketSearchSection from "@/src/components/market/MarketSearchSection";
-import { searchMarketOptions } from "@/src/services/market";
 
 interface ReportMarketSelectPageProps {
   searchParams: Promise<{
@@ -13,7 +12,6 @@ export default async function ReportMarketSelectPage({
   const { q = "" } = await searchParams;
 
   const keyword = q.trim();
-  const markets = keyword ? await searchMarketOptions(keyword) : [];
 
   return (
     <main className="px-5">
@@ -21,8 +19,7 @@ export default async function ReportMarketSelectPage({
         title="제보할 시장 선택"
         description="현장 소식을 제보할 시장을 검색해주세요."
         keyword={keyword}
-        markets={markets}
-        getHref={(market) => `/reports/new/${market.id}`}
+        basePath="/reports/new"
       />
     </main>
   );

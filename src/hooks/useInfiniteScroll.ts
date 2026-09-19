@@ -2,13 +2,13 @@ import { useEffect, useRef } from "react";
 
 interface UseInfiniteScrollProps {
   hasNext: boolean;
-  isLoading: boolean;
+  isFetching: boolean;
   onLoadMore: () => void;
 }
 
 export function useInfiniteScroll({
   hasNext,
-  isLoading,
+  isFetching,
   onLoadMore,
 }: UseInfiniteScrollProps) {
   const observerRef = useRef<HTMLDivElement>(null);
@@ -16,25 +16,29 @@ export function useInfiniteScroll({
   useEffect(() => {
     const target = observerRef.current;
 
-    if (!target || !hasNext || isLoading) {
+    if (!target || !hasNext || isFetching) {
       return;
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && hasNext && !isFetching) {
           onLoadMore();
         }
       },
       {
-        rootMargin: "200px",
+        root: null,
+        rootMargin: "300px 0px",
+        threshold: 0,
       }
     );
 
     observer.observe(target);
 
-    return () => observer.disconnect();
-  }, [hasNext, isLoading, onLoadMore]);
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasNext, isFetching, onLoadMore]);
 
   return observerRef;
 }

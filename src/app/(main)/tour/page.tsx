@@ -1,5 +1,4 @@
 import MarketSearchSection from "@/src/components/market/MarketSearchSection";
-import { searchMarketOptions } from "@/src/services/market";
 
 interface TourPageProps {
   searchParams: Promise<{
@@ -11,7 +10,6 @@ export default async function TourPage({ searchParams }: TourPageProps) {
   const { q = "" } = await searchParams;
 
   const keyword = q.trim();
-  const markets = keyword ? await searchMarketOptions(keyword) : [];
 
   return (
     <main className="px-5">
@@ -19,8 +17,7 @@ export default async function TourPage({ searchParams }: TourPageProps) {
         title="시장 선택"
         description="주변 관광 정보를 확인할 시장을 검색해주세요."
         keyword={keyword}
-        markets={markets}
-        getHref={(market) => `/tour/${market.id}`}
+        basePath="/tour"
       />
     </main>
   );

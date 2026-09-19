@@ -78,7 +78,7 @@ export default function NearbyTourSection({
     >
       <header className="flex flex-col gap-1">
         <h2 id="nearby-tour-title" className="text-green text-lg font-bold">
-          시장 주변 추천
+          {data.market.name} 주변 추천
         </h2>
 
         <p className="text-deep-gray text-xs">

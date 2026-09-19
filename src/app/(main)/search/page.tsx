@@ -11,7 +11,7 @@ export default function SearchPage() {
     markets,
     totalCount,
     isLoading,
-    hasSearched,
+    isFetchingNextPage,
     hasNext,
     errorMessage,
     search,
@@ -39,7 +39,7 @@ export default function SearchPage() {
                 위치 정보를 사용할 수 없어요
               </p>
 
-              <p className="text-deep-gray text-xs">시장명순으로 검색됩니다.</p>
+              <p className="text-deep-gray text-xs">시장명순으로 조회됩니다.</p>
             </div>
 
             <button
@@ -62,7 +62,7 @@ export default function SearchPage() {
         markets={markets}
         totalCount={totalCount}
         isLoading={isLoading}
-        hasSearched={hasSearched}
+        isFetchingNextPage={isFetchingNextPage}
         hasNext={hasNext}
         onLoadMore={loadMore}
       />

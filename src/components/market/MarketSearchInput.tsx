@@ -78,16 +78,6 @@ export default function MarketSearchInput({
           <X size={17} aria-hidden="true" />
         </button>
       )}
-
-      {isPending && (
-        <span
-          role="status"
-          aria-live="polite"
-          className="text-deep-gray text-xs"
-        >
-          검색 중
-        </span>
-      )}
     </div>
   );
 }

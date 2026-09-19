@@ -1,5 +1,3 @@
-import type { MarketSearchItem } from "@/src/services/market";
-
 import MarketSearchInput from "./MarketSearchInput";
 import MarketSearchResultList from "./MarketSearchResultList";
 
@@ -7,18 +5,14 @@ interface MarketSearchSectionProps {
   title: string;
   description: string;
   keyword: string;
-  markets: MarketSearchItem[];
-  getHref: (market: MarketSearchItem) => string;
-  searchPrompt?: string;
+  basePath: string;
 }
 
 export default function MarketSearchSection({
   title,
   description,
   keyword,
-  markets,
-  getHref,
-  searchPrompt,
+  basePath,
 }: MarketSearchSectionProps) {
   return (
     <section
@@ -35,12 +29,7 @@ export default function MarketSearchSection({
 
       <MarketSearchInput initialKeyword={keyword} />
 
-      <MarketSearchResultList
-        markets={markets}
-        hasSearched={keyword.length > 0}
-        getHref={getHref}
-        searchPrompt={searchPrompt}
-      />
+      <MarketSearchResultList keyword={keyword} basePath={basePath} />
     </section>
   );
 }
