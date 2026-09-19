@@ -1,4 +1,5 @@
-import { searchMarkets as searchMarketsApi } from "@/src/lib/api/market/search";
+import { getMarkets } from "@/src/lib/api/market/list";
+import { searchMarkets } from "@/src/lib/api/market/search";
 
 export interface MarketSearchItem {
   id: number;
@@ -6,23 +7,36 @@ export interface MarketSearchItem {
   address: string;
 }
 
-export async function searchMarketOptions(
-  keyword: string
-): Promise<MarketSearchItem[]> {
+export interface MarketOptionsResult {
+  markets: MarketSearchItem[];
+  totalCount: number;
+  page: number;
+  hasNext: boolean;
+}
+
+export async function getMarketOptions(
+  keyword: string,
+  page: number
+): Promise<MarketOptionsResult> {
   const normalizedKeyword = keyword.trim();
 
-  if (!normalizedKeyword) {
-    return [];
-  }
+  const response = normalizedKeyword
+    ? await searchMarkets({
+        keyword: normalizedKeyword,
+        page,
+      })
+    : await getMarkets({
+        page,
+      });
 
-  const response = await searchMarketsApi({
-    keyword: normalizedKeyword,
-    page: 0,
-  });
-
-  return response.result.markets.map((market) => ({
-    id: market.market_id,
-    name: market.name,
-    address: market.road_address,
-  }));
+  return {
+    markets: response.result.markets.map((market) => ({
+      id: market.market_id,
+      name: market.name,
+      address: market.road_address,
+    })),
+    totalCount: response.result.total_count,
+    page: response.result.page,
+    hasNext: response.result.has_next,
+  };
 }
