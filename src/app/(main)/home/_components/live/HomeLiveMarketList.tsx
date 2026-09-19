@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useCurrentLocation } from "@/src/hooks/location/useCurrentLocation";
+import { buildKakaoDirectionsUrl } from "@/src/lib/kakao/mapLink";
 import { formatIsoDate, getToday } from "@/src/utils/calendar";
 
 import { useMarketsOpenOn } from "../../_hooks/useMarketsOpenOn";
@@ -48,7 +49,6 @@ export default function HomeLiveMarketList() {
     }
 
     const nextIndex = Math.round(container.scrollLeft / slideStep);
-
     const clampedIndex = Math.min(Math.max(nextIndex, 0), markets.length - 1);
 
     setCurrentIndex(clampedIndex);
@@ -138,17 +138,30 @@ export default function HomeLiveMarketList() {
         className="flex snap-x snap-mandatory scrollbar-none gap-4 overflow-x-auto overscroll-x-contain [&::-webkit-scrollbar]:hidden"
       >
         {markets.map((market) => {
-          const mapUrl =
-            "https://www.google.com/maps/search/?api=1&query=" +
-            encodeURIComponent(market.road_address);
+          const directionsUrl = buildKakaoDirectionsUrl({
+            destination: {
+              name: market.name,
+              latitude: market.latitude,
+              longitude: market.longitude,
+            },
+            origin: coordinates
+              ? {
+                  name: "현재 위치",
+                  latitude: coordinates.latitude,
+                  longitude: coordinates.longitude,
+                }
+              : undefined,
+          });
 
           return (
             <div key={market.market_id} className="w-full shrink-0 snap-start">
               <HomeLiveMarketItem
                 name={market.name}
+                marketType={market.market_type}
                 schedule={market.open_cycle}
                 address={market.road_address}
-                mapUrl={mapUrl}
+                distanceKm={market.distance_km}
+                directionsUrl={directionsUrl}
               />
             </div>
           );
