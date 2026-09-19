@@ -1,5 +1,5 @@
 import MarketSearchSection from "@/src/components/market/MarketSearchSection";
-import { searchMarkets } from "@/src/services/market";
+import { searchMarketOptions } from "@/src/services/market";
 
 interface ReportMarketSelectPageProps {
   searchParams: Promise<{
@@ -13,7 +13,7 @@ export default async function ReportMarketSelectPage({
   const { q = "" } = await searchParams;
 
   const keyword = q.trim();
-  const markets = keyword ? await searchMarkets(keyword) : [];
+  const markets = keyword ? await searchMarketOptions(keyword) : [];
 
   return (
     <main className="px-5">
