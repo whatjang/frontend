@@ -36,6 +36,10 @@ export default function NearbyTourSection({
 
   const handleSelectPlace = (placeId: string) => {
     setSelectedPlaceId(placeId);
+  };
+
+  const handleSelectMarker = (placeId: string) => {
+    setSelectedPlaceId(placeId);
 
     document.getElementById(`place-${placeId}`)?.scrollIntoView({
       behavior: "smooth",
@@ -63,6 +67,10 @@ export default function NearbyTourSection({
     return null;
   }
 
+  const filteredPlaces = data.places.filter(
+    (place) => place.category === selectedCategory
+  );
+
   return (
     <section
       aria-labelledby="nearby-tour-title"
@@ -84,14 +92,15 @@ export default function NearbyTourSection({
       />
 
       <TourMap
+        key={selectedCategory}
         market={data.market}
-        places={data.places}
+        places={filteredPlaces}
         selectedPlaceId={selectedPlaceId}
-        onSelectPlace={handleSelectPlace}
+        onSelectPlace={handleSelectMarker}
       />
 
       <TourPlaceList
-        places={data.places}
+        places={filteredPlaces}
         selectedPlaceId={selectedPlaceId}
         onSelectPlace={handleSelectPlace}
       />

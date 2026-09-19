@@ -68,6 +68,7 @@ export default function KakaoMap({
         lng: center.longitude,
       }}
       level={level}
+      isPanto
       draggable={draggable}
       zoomable={zoomable}
       className={className}
@@ -81,6 +82,7 @@ export default function KakaoMap({
             lng: marker.longitude,
           }}
           title={marker.title}
+          clickable
           onClick={() => onMarkerClick?.(marker)}
         />
       ))}
@@ -93,13 +95,13 @@ export default function KakaoMap({
           }}
           yAnchor={1.4}
         >
-          <div className="relative rounded-xl border border-gray-100 bg-white px-3 py-2 shadow-md">
+          <div className="pointer-events-none relative rounded-xl border border-gray-100 bg-white px-3 py-2 shadow-md">
             <p className="max-w-40 truncate text-xs font-bold text-black">
               {selectedMarker.title}
             </p>
 
             {selectedMarker.description && (
-              <p className="text-deep-gray mt-0.5 text-[10px] font-medium">
+              <p className="text-deep-gray mt-1 text-xs font-medium">
                 {selectedMarker.description}
               </p>
             )}
