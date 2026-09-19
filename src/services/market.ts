@@ -6,9 +6,7 @@ export interface MarketSearchItem {
   address: string;
 }
 
-const SEARCH_RESULT_LIMIT = 20;
-
-export async function searchMarkets(
+export async function searchMarketOptions(
   keyword: string
 ): Promise<MarketSearchItem[]> {
   const normalizedKeyword = keyword.trim();
@@ -19,13 +17,12 @@ export async function searchMarkets(
 
   const response = await searchMarketsApi({
     keyword: normalizedKeyword,
+    page: 0,
   });
 
-  return response.result.markets
-    .slice(0, SEARCH_RESULT_LIMIT)
-    .map((market) => ({
-      id: market.market_id,
-      name: market.name,
-      address: market.road_address,
-    }));
+  return response.result.markets.map((market) => ({
+    id: market.market_id,
+    name: market.name,
+    address: market.road_address,
+  }));
 }
