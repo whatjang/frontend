@@ -60,9 +60,9 @@ export const NAVBAR_ITEMS: NavbarItem[] = [
     icon: Search,
   },
   {
-    label: "명소",
+    label: "관광",
     href: ROUTES.tour,
-    ariaLabel: "명소 페이지로 이동",
+    ariaLabel: "관광 페이지로 이동",
     icon: Map,
   },
   {
