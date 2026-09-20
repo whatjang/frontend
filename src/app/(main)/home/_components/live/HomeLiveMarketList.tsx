@@ -1,20 +1,17 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useCurrentLocation } from "@/src/hooks/location/useCurrentLocation";
+import { buildKakaoDirectionsUrl } from "@/src/lib/kakao/mapLink";
+import { formatIsoDate, getToday } from "@/src/utils/date";
+
+import { useMarketsOpenOn } from "../../_hooks/useMarketsOpenOn";
 import HomeLiveMarketItem from "./HomeLiveMarketItem";
 
-interface HomeLiveMarket {
-  id: number;
-  name: string;
-  schedule: string;
-  address: string;
-}
-
-interface HomeLiveMarketListProps {
-  markets: HomeLiveMarket[];
-}
+const AUTO_SLIDE_DELAY = 4000;
+const MAX_MARKET_COUNT = 3;
 
 function getSlideStep(container: HTMLDivElement) {
   const styles = window.getComputedStyle(container);
@@ -23,16 +20,27 @@ function getSlideStep(container: HTMLDivElement) {
   return container.clientWidth + gap;
 }
 
-export default function HomeLiveMarketList({
-  markets,
-}: HomeLiveMarketListProps) {
+export default function HomeLiveMarketList() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const { coordinates } = useCurrentLocation();
+
+  const today = formatIsoDate(getToday());
+
+  const { data, isPending } = useMarketsOpenOn({
+    date: today,
+    coordinates,
+  });
+
+  const markets = data?.pages[0]?.markets.slice(0, MAX_MARKET_COUNT) ?? [];
+
+  const marketKey = markets.map((market) => market.market_id).join(",");
 
   const handleScroll = () => {
     const container = scrollContainerRef.current;
 
-    if (!container) {
+    if (!container || markets.length === 0) {
       return;
     }
 
@@ -45,27 +53,31 @@ export default function HomeLiveMarketList({
     const nextIndex = Math.round(container.scrollLeft / slideStep);
     const clampedIndex = Math.min(Math.max(nextIndex, 0), markets.length - 1);
 
-    setCurrentIndex(clampedIndex);
+    setCurrentIndex((prevIndex) =>
+      prevIndex === clampedIndex ? prevIndex : clampedIndex
+    );
   };
 
-  const moveToSlide = (index: number) => {
-    const container = scrollContainerRef.current;
+  const moveToSlide = useCallback(
+    (index: number) => {
+      const container = scrollContainerRef.current;
 
-    if (!container) {
-      return;
-    }
+      if (!container || markets.length === 0) {
+        return;
+      }
 
-    const nextIndex = Math.min(Math.max(index, 0), markets.length - 1);
+      const nextIndex = (index + markets.length) % markets.length;
+      const slideStep = getSlideStep(container);
 
-    const slideStep = getSlideStep(container);
+      container.scrollTo({
+        left: nextIndex * slideStep,
+        behavior: "smooth",
+      });
 
-    container.scrollTo({
-      left: nextIndex * slideStep,
-      behavior: "smooth",
-    });
-
-    setCurrentIndex(nextIndex);
-  };
+      setCurrentIndex(nextIndex);
+    },
+    [markets.length]
+  );
 
   const handlePrevious = () => {
     moveToSlide(currentIndex - 1);
@@ -75,15 +87,33 @@ export default function HomeLiveMarketList({
     moveToSlide(currentIndex + 1);
   };
 
-  if (markets.length === 0) {
+  useEffect(() => {
+    scrollContainerRef.current?.scrollTo({
+      left: 0,
+      behavior: "auto",
+    });
+  }, [marketKey]);
+
+  useEffect(() => {
+    if (markets.length <= 1) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      moveToSlide(currentIndex + 1);
+    }, AUTO_SLIDE_DELAY);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [currentIndex, markets.length, moveToSlide]);
+
+  if (isPending || markets.length === 0) {
     return null;
   }
 
   return (
-    <section
-      aria-label="현재 운영 중인 시장"
-      className="flex flex-col gap-1 px-5"
-    >
+    <section aria-label="오늘 열리는 시장" className="flex flex-col gap-1 px-5">
       {markets.length > 1 && (
         <nav
           aria-label="시장 슬라이드 이동"
@@ -92,28 +122,23 @@ export default function HomeLiveMarketList({
           <button
             type="button"
             onClick={handlePrevious}
-            disabled={currentIndex === 0}
             aria-label="이전 시장 보기"
-            className="text-gray flex h-4 w-4 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-30"
+            className="text-gray flex size-8 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5"
           >
-            <ChevronLeft aria-hidden="true" className="h-4 w-4" />
+            <ChevronLeft aria-hidden="true" className="size-4" />
           </button>
 
-          <span
-            aria-live="polite"
-            className="text-gray min-w-10 text-center text-xs font-medium"
-          >
+          <span className="text-gray min-w-10 text-center text-xs font-medium">
             {currentIndex + 1} / {markets.length}
           </span>
 
           <button
             type="button"
             onClick={handleNext}
-            disabled={currentIndex === markets.length - 1}
             aria-label="다음 시장 보기"
-            className="text-gray flex h-4 w-4 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-30"
+            className="text-gray flex size-8 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5"
           >
-            <ChevronRight aria-hidden="true" className="h-4 w-4" />
+            <ChevronRight aria-hidden="true" className="size-4" />
           </button>
         </nav>
       )}
@@ -124,17 +149,29 @@ export default function HomeLiveMarketList({
         className="flex snap-x snap-mandatory scrollbar-none gap-4 overflow-x-auto overscroll-x-contain [&::-webkit-scrollbar]:hidden"
       >
         {markets.map((market) => {
-          const mapUrl =
-            "https://www.google.com/maps/search/?api=1&query=" +
-            encodeURIComponent(market.address);
+          const directionsUrl = buildKakaoDirectionsUrl({
+            destination: {
+              name: market.name,
+              latitude: market.latitude,
+              longitude: market.longitude,
+            },
+            origin: coordinates
+              ? {
+                  name: "현재 위치",
+                  latitude: coordinates.latitude,
+                  longitude: coordinates.longitude,
+                }
+              : undefined,
+          });
 
           return (
-            <div key={market.id} className="w-full shrink-0 snap-start">
+            <div key={market.market_id} className="w-full shrink-0 snap-start">
               <HomeLiveMarketItem
                 name={market.name}
-                schedule={market.schedule}
-                address={market.address}
-                mapUrl={mapUrl}
+                openDayNumbers={market.open_day_numbers}
+                address={market.road_address}
+                distanceKm={market.distance_km}
+                directionsUrl={directionsUrl}
               />
             </div>
           );

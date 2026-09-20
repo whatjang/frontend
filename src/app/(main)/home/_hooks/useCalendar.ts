@@ -1,12 +1,10 @@
 import { useMemo, useState } from "react";
 
 import {
-  addDays,
-  formatIsoDate,
   getMonthCalendarDays,
-  getToday,
   getWeekCalendarDays,
 } from "@/src/utils/calendar";
+import { addDays, formatIsoDate, getToday } from "@/src/utils/date";
 
 export type CalendarView = "month" | "week";
 
