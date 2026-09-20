@@ -35,10 +35,12 @@ export default function HomeLiveMarketList() {
 
   const markets = data?.pages[0]?.markets.slice(0, MAX_MARKET_COUNT) ?? [];
 
+  const marketKey = markets.map((market) => market.market_id).join(",");
+
   const handleScroll = () => {
     const container = scrollContainerRef.current;
 
-    if (!container) {
+    if (!container || markets.length === 0) {
       return;
     }
 
@@ -51,7 +53,9 @@ export default function HomeLiveMarketList() {
     const nextIndex = Math.round(container.scrollLeft / slideStep);
     const clampedIndex = Math.min(Math.max(nextIndex, 0), markets.length - 1);
 
-    setCurrentIndex(clampedIndex);
+    setCurrentIndex((prevIndex) =>
+      prevIndex === clampedIndex ? prevIndex : clampedIndex
+    );
   };
 
   const moveToSlide = useCallback(
@@ -84,6 +88,13 @@ export default function HomeLiveMarketList() {
   };
 
   useEffect(() => {
+    scrollContainerRef.current?.scrollTo({
+      left: 0,
+      behavior: "auto",
+    });
+  }, [marketKey]);
+
+  useEffect(() => {
     if (markets.length <= 1) {
       return;
     }
@@ -112,9 +123,9 @@ export default function HomeLiveMarketList() {
             type="button"
             onClick={handlePrevious}
             aria-label="이전 시장 보기"
-            className="text-gray flex h-4 w-4 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5"
+            className="text-gray flex size-8 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5"
           >
-            <ChevronLeft aria-hidden="true" className="h-4 w-4" />
+            <ChevronLeft aria-hidden="true" className="size-4" />
           </button>
 
           <span className="text-gray min-w-10 text-center text-xs font-medium">
@@ -125,9 +136,9 @@ export default function HomeLiveMarketList() {
             type="button"
             onClick={handleNext}
             aria-label="다음 시장 보기"
-            className="text-gray flex h-4 w-4 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5"
+            className="text-gray flex size-8 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5"
           >
-            <ChevronRight aria-hidden="true" className="h-4 w-4" />
+            <ChevronRight aria-hidden="true" className="size-4" />
           </button>
         </nav>
       )}
