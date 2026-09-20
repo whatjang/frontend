@@ -72,7 +72,7 @@ export default function FavoriteList({ markets, onRemove }: FavoriteListProps) {
   return (
     <section className="flex flex-col gap-2">
       <div className="flex items-center gap-1">
-        <StarIcon className="fill-green text-green" size={18} />
+        <StarIcon className="text-green" size={18} />
         <h2 className="text-green font-bold">즐겨찾는 장터</h2>
       </div>
 
