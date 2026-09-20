@@ -1,26 +1,57 @@
+"use client";
+
 import { MapPin } from "lucide-react";
 import Link from "next/link";
 
-import type { RecommendedMarket } from "@/src/types/curation";
+import { useMarketDetail } from "@/src/hooks/market/useMarketDetail";
+import type { CurationTrendWithPrimaryMarket } from "@/src/types/curation/weeklyCuration";
 
 interface TrendMarketItemProps {
-  market: RecommendedMarket;
+  marketId: number;
+  trends: CurationTrendWithPrimaryMarket[];
 }
 
-export default function TrendMarketItem({ market }: TrendMarketItemProps) {
+export default function TrendMarketItem({
+  marketId,
+  trends,
+}: TrendMarketItemProps) {
+  const {
+    data: market,
+    isPending,
+    isError,
+  } = useMarketDetail({
+    marketId,
+  });
+
+  if (isPending) {
+    return (
+      <article className="border-light-gray h-56 animate-pulse rounded-xl border bg-white" />
+    );
+  }
+
+  if (isError || !market) {
+    return null;
+  }
+
   return (
     <article className="border-light-gray shadow-light-gray overflow-hidden rounded-xl border bg-white shadow-xs">
       <div className="bg-light-gray relative h-46 w-full overflow-hidden">
-        <div className="bg-green/90 absolute top-2 left-2 rounded-full px-3 py-1.5 text-xs font-bold text-white">
-          TREND #{String(market.trend_rank).padStart(2, "0")}{" "}
-          {market.trend_keyword}
+        <div className="absolute top-2 left-2 flex flex-wrap gap-1.5">
+          {trends.map((trend) => (
+            <div
+              key={trend.keyword_id}
+              className="bg-green/90 rounded-full px-3 py-1.5 text-xs font-bold text-white"
+            >
+              TREND #{String(trend.rank).padStart(2, "0")} {trend.keyword}
+            </div>
+          ))}
         </div>
       </div>
 
       <div className="p-4">
         <div>
           <p className="text-light-brown text-xs font-medium">
-            {market.trend_keyword}
+            {trends.map((trend) => trend.keyword).join(" · ")}
           </p>
 
           <h3 className="text-md font-semibold text-black">{market.name}</h3>
@@ -32,11 +63,11 @@ export default function TrendMarketItem({ market }: TrendMarketItemProps) {
           </div>
         </div>
 
-        {market.tags.length > 0 && (
+        {market.products.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
-            {market.tags.map((tag) => (
-              <span key={tag} className="text-green text-xs font-medium">
-                #{tag}
+            {market.products.map((product) => (
+              <span key={product} className="text-green text-xs font-medium">
+                #{product}
               </span>
             ))}
           </div>

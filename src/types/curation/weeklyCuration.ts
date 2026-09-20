@@ -7,24 +7,32 @@ export interface CurationChartItem {
   ratio: number;
 }
 
-export interface CurationTrend {
-  keyword_id: string;
-  keyword: string;
-  rank: number;
-  data_status: CurationDataStatus;
-  search_growth_rate: number | null;
-  shopping_growth_rate: number | null;
-  external_score: number;
-  data_completeness: number;
-  source_statuses: Record<string, CurationSourceStatus>;
-  unavailable_sources: string[];
-  chart: CurationChartItem[];
-}
-
 export interface PrimaryMarket {
   market_id: string;
   market_name: string;
   region: string;
+}
+
+export interface CurationTrend {
+  keyword_id: string;
+  keyword: string;
+  rank: number;
+
+  data_status: CurationDataStatus;
+
+  search_growth_rate: number | null;
+  shopping_growth_rate: number | null;
+
+  external_score: number;
+  data_completeness: number;
+  local_match_score: number;
+
+  primary_market: PrimaryMarket | null;
+
+  source_statuses: Record<string, CurationSourceStatus>;
+  unavailable_sources: string[];
+
+  chart: CurationChartItem[];
 }
 
 export interface RecommendedMarket {
@@ -46,7 +54,7 @@ export interface RecommendedMarket {
   recommendation_rank: number;
   match_score: number;
   tags: string[];
-  primary_market: PrimaryMarket;
+  recommendation_reason: string;
 }
 
 export interface WeeklyCurationResult {
@@ -54,3 +62,7 @@ export interface WeeklyCurationResult {
   trends: CurationTrend[];
   recommended_markets: RecommendedMarket[];
 }
+
+export type CurationTrendWithPrimaryMarket = CurationTrend & {
+  primary_market: PrimaryMarket;
+};

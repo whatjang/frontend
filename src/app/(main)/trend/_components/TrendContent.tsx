@@ -33,10 +33,6 @@ export default function TrendContent({ initialKeywordId }: TrendContentProps) {
 
   const trends = [...data.trends].sort((a, b) => a.rank - b.rank);
 
-  const recommendedMarkets = [...data.recommended_markets].sort(
-    (a, b) => a.recommendation_rank - b.recommendation_rank
-  );
-
   return (
     <div className="space-y-5">
       {trends.length > 0 && (
@@ -60,7 +56,7 @@ export default function TrendContent({ initialKeywordId }: TrendContentProps) {
         </p>
       </aside>
 
-      <TrendMarketList markets={recommendedMarkets} />
+      <TrendMarketList trends={trends} />
     </div>
   );
 }
