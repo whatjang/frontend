@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Star } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -9,7 +9,6 @@ import {
   PRODUCT_ICONS,
 } from "@/src/constants/marketProductIcons";
 import { useMarketDetail } from "@/src/hooks/market/useMarketDetail";
-import { useMarketFavorite } from "@/src/hooks/market/useMarketFavorite";
 import type { CurationTrendWithPrimaryMarket } from "@/src/types/curation/weeklyCuration";
 
 interface TrendMarketItemProps {
@@ -33,9 +32,6 @@ export default function TrendMarketItem({
     marketId,
   });
 
-  const { mutate: toggleFavorite, isPending: isFavoritePending } =
-    useMarketFavorite();
-
   if (isPending) {
     return (
       <article className="border-light-gray h-56 animate-pulse rounded-3xl border bg-white" />
@@ -46,6 +42,11 @@ export default function TrendMarketItem({
     return null;
   }
 
+  const marketDayText =
+    market.open_day_numbers.length > 0
+      ? `${market.open_day_numbers.join("·")}일 장`
+      : "상설장";
+
   const hasMoreProducts =
     market.products.length > DEFAULT_VISIBLE_PRODUCT_COUNT;
 
@@ -55,13 +56,6 @@ export default function TrendMarketItem({
 
   const hiddenProductCount =
     market.products.length - DEFAULT_VISIBLE_PRODUCT_COUNT;
-
-  const handleFavorite = () => {
-    toggleFavorite({
-      marketId: market.market_id,
-      isFavorite: market.is_favorite,
-    });
-  };
 
   return (
     <article className="border-light-gray overflow-hidden rounded-3xl border bg-white shadow-xs">
@@ -79,51 +73,40 @@ export default function TrendMarketItem({
       </div>
 
       <div className="p-3">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-light-brown text-xs font-semibold">
-              {trends.map((trend) => trend.keyword).join(" · ")}
-            </p>
+        <div>
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="min-w-0 flex-1 text-xl font-bold text-black">
+              {market.name}
+            </h3>
 
-            <h3 className="mt-1 text-xl font-bold text-black">{market.name}</h3>
-
-            <div className="text-deep-gray mt-2 flex items-start gap-1.5 text-xs">
-              <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-
-              <span>{market.road_address || "주소 정보 없음"}</span>
-            </div>
+            <span className="border-light-brown/20 bg-light-brown/10 text-light-brown shrink-0 rounded-full border px-2 py-0.5 text-xs font-bold">
+              {marketDayText}
+            </span>
           </div>
 
-          <button
-            type="button"
-            onClick={handleFavorite}
-            disabled={isFavoritePending}
-            aria-label={market.is_favorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
-            aria-pressed={market.is_favorite}
-            className="border-green/20 text-green hover:bg-green/5 flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border bg-white transition-colors disabled:cursor-default disabled:opacity-50"
-          >
-            <Star
-              aria-hidden="true"
-              size={18}
+          <div className="text-deep-gray mt-1 flex items-start gap-1.5 text-xs">
+            <MapPin
+              className="size-4 shrink-0"
               strokeWidth={2}
-              className={
-                market.is_favorite ? "fill-green text-green" : "text-green"
-              }
+              aria-hidden="true"
             />
-          </button>
+
+            <span>{market.road_address || "주소 정보 없음"}</span>
+          </div>
         </div>
 
         {market.products.length > 0 && (
-          <ul className="mt-4 flex flex-wrap gap-2">
+          <ul className="mt-3 flex flex-wrap gap-2">
             {visibleProducts.map((product) => {
-              const Icon = PRODUCT_ICONS[product] ?? DEFAULT_PRODUCT_ICON;
+              const ProductIcon =
+                PRODUCT_ICONS[product] ?? DEFAULT_PRODUCT_ICON;
 
               return (
                 <li
                   key={product}
                   className="border-green/15 bg-green/5 text-green flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold"
                 >
-                  <Icon size={14} strokeWidth={2} aria-hidden="true" />
+                  <ProductIcon size={12} strokeWidth={2} aria-hidden="true" />
 
                   <span>{product}</span>
                 </li>
@@ -147,7 +130,7 @@ export default function TrendMarketItem({
 
         <Link
           href={`/markets/${market.market_id}`}
-          className="bg-green mt-5 flex w-full items-center justify-center rounded-full py-3 text-xs font-semibold text-white"
+          className="bg-green mt-3 flex w-full items-center justify-center rounded-full py-3 text-xs font-semibold text-white"
         >
           시장 상세 보기
         </Link>
