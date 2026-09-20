@@ -1,5 +1,7 @@
-import type { CurationTrend } from "@/src/types/curation";
-import type { CurationTrendWithPrimaryMarket } from "@/src/types/curation/weeklyCuration";
+import type {
+  CurationTrend,
+  CurationTrendWithPrimaryMarket,
+} from "@/src/types/curation";
 
 import TrendMarketItem from "./TrendMarketItem";
 
@@ -13,21 +15,29 @@ function hasPrimaryMarket(
   return trend.primary_market !== null;
 }
 
+function groupTrendsByMarket(trends: CurationTrend[]) {
+  const groups = new Map<string, CurationTrendWithPrimaryMarket[]>();
+
+  for (const trend of trends) {
+    if (!hasPrimaryMarket(trend)) {
+      continue;
+    }
+
+    const marketId = trend.primary_market.market_id;
+    const existingGroup = groups.get(marketId);
+
+    if (existingGroup) {
+      existingGroup.push(trend);
+    } else {
+      groups.set(marketId, [trend]);
+    }
+  }
+
+  return Array.from(groups.entries());
+}
+
 export default function TrendMarketList({ trends }: TrendMarketListProps) {
-  const marketGroups = Array.from(
-    trends
-      .filter(hasPrimaryMarket)
-      .reduce((groups, trend) => {
-        const marketId = trend.primary_market.market_id;
-
-        const existing = groups.get(marketId) ?? [];
-
-        groups.set(marketId, [...existing, trend]);
-
-        return groups;
-      }, new Map<string, CurationTrendWithPrimaryMarket[]>())
-      .entries()
-  );
+  const marketGroups = groupTrendsByMarket(trends);
 
   return (
     <section>

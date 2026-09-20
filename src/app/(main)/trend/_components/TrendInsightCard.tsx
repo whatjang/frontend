@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { CURATION_SOURCE_LABELS } from "@/src/constants/curation";
 import type { CurationTrend } from "@/src/types/curation";
+import { formatGrowthRate } from "@/src/utils/curation";
 import { formatDateTime } from "@/src/utils/date";
 
 interface TrendInsightCardProps {
@@ -16,14 +17,6 @@ interface TrendInsightCardProps {
 interface MetricItemProps {
   label: string;
   value: string;
-}
-
-function formatRate(rate: number | null) {
-  if (rate === null) {
-    return "-";
-  }
-
-  return `${rate > 0 ? "+" : ""}${rate}%`;
 }
 
 function MetricItem({ label, value }: MetricItemProps) {
@@ -41,15 +34,15 @@ export default function TrendInsightCard({
   generatedAt,
   initialKeywordId,
 }: TrendInsightCardProps) {
-  const initialIndex = trends.findIndex(
-    (trend) => trend.keyword_id === initialKeywordId
+  const initialTrend =
+    trends.find((trend) => trend.keyword_id === initialKeywordId) ?? trends[0];
+
+  const [selectedKeywordId, setSelectedKeywordId] = useState(
+    initialTrend.keyword_id
   );
 
-  const [selectedIndex, setSelectedIndex] = useState(
-    initialIndex >= 0 ? initialIndex : 0
-  );
-
-  const selectedTrend = trends[selectedIndex];
+  const selectedTrend =
+    trends.find((trend) => trend.keyword_id === selectedKeywordId) ?? trends[0];
 
   const availableSources = Object.entries(selectedTrend.source_statuses)
     .filter(([, status]) => status === "AVAILABLE")
@@ -78,7 +71,7 @@ export default function TrendInsightCard({
 
         <div className="mt-1 flex items-end gap-2">
           <p className="text-green text-2xl font-bold">
-            {formatRate(selectedTrend.search_growth_rate)}
+            {formatGrowthRate(selectedTrend.search_growth_rate)}
           </p>
 
           <span className="text-deep-gray mb-0.5 text-xs font-medium">
@@ -90,7 +83,7 @@ export default function TrendInsightCard({
       <div className="mt-4 grid grid-cols-3 gap-2">
         <MetricItem
           label="쇼핑 증가율"
-          value={formatRate(selectedTrend.shopping_growth_rate)}
+          value={formatGrowthRate(selectedTrend.shopping_growth_rate)}
         />
 
         <MetricItem
@@ -105,22 +98,22 @@ export default function TrendInsightCard({
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        {trends.map((trend, index) => {
-          const isSelected = selectedIndex === index;
+        {trends.map((trend) => {
+          const isSelected = selectedKeywordId === trend.keyword_id;
 
           return (
             <button
               key={trend.keyword_id}
               type="button"
               aria-pressed={isSelected}
-              onClick={() => setSelectedIndex(index)}
+              onClick={() => setSelectedKeywordId(trend.keyword_id)}
               className={`cursor-pointer rounded-full border px-2 py-1 text-xs font-semibold transition-colors ${
                 isSelected
                   ? "border-green bg-light-green text-green"
                   : "border-light-brown bg-light-brown/10 text-light-brown"
               }`}
             >
-              #{trend.keyword} {formatRate(trend.search_growth_rate)}
+              #{trend.keyword} {formatGrowthRate(trend.search_growth_rate)}
             </button>
           );
         })}

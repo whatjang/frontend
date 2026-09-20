@@ -9,7 +9,7 @@ import {
   PRODUCT_ICONS,
 } from "@/src/constants/marketProductIcons";
 import { useMarketDetail } from "@/src/hooks/market/useMarketDetail";
-import type { CurationTrendWithPrimaryMarket } from "@/src/types/curation/weeklyCuration";
+import type { CurationTrendWithPrimaryMarket } from "@/src/types/curation";
 
 interface TrendMarketItemProps {
   marketId: number;
@@ -75,7 +75,7 @@ export default function TrendMarketItem({
       <div className="p-3">
         <div>
           <div className="flex items-start justify-between gap-3">
-            <h3 className="min-w-0 flex-1 text-xl font-bold text-black">
+            <h3 className="text-md min-w-0 flex-1 font-bold text-black">
               {market.name}
             </h3>
 
@@ -96,7 +96,7 @@ export default function TrendMarketItem({
         </div>
 
         {market.products.length > 0 && (
-          <ul className="mt-3 flex flex-wrap gap-2">
+          <ul className="mt-3 flex flex-wrap gap-1">
             {visibleProducts.map((product) => {
               const ProductIcon =
                 PRODUCT_ICONS[product] ?? DEFAULT_PRODUCT_ICON;
@@ -104,7 +104,7 @@ export default function TrendMarketItem({
               return (
                 <li
                   key={product}
-                  className="border-green/15 bg-green/5 text-green flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold"
+                  className="border-green/15 bg-green/5 text-green flex items-center gap-1 rounded-full border px-2 py-1 text-xs font-semibold"
                 >
                   <ProductIcon size={12} strokeWidth={2} aria-hidden="true" />
 

@@ -3,6 +3,8 @@ export type {
   CurationDataStatus,
   CurationSourceStatus,
   CurationTrend,
+  CurationTrendWithPrimaryMarket,
+  PrimaryMarket,
   RecommendedMarket,
   WeeklyCurationResult,
 } from "./weeklyCuration";

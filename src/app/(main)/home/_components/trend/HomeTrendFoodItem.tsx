@@ -1,17 +1,10 @@
 import Link from "next/link";
 
 import type { CurationTrend } from "@/src/types/curation";
+import { formatGrowthRate } from "@/src/utils/curation";
 
 interface HomeTrendFoodItemProps {
   trend: CurationTrend;
-}
-
-function formatRate(rate: number | null) {
-  if (rate === null) {
-    return "-";
-  }
-
-  return `${rate > 0 ? "+" : ""}${rate}%`;
 }
 
 export default function HomeTrendFoodItem({ trend }: HomeTrendFoodItemProps) {
@@ -44,7 +37,7 @@ export default function HomeTrendFoodItem({ trend }: HomeTrendFoodItemProps) {
             </p>
 
             <p className="text-green mt-1 text-3xl font-bold">
-              {formatRate(trend.search_growth_rate)}
+              {formatGrowthRate(trend.search_growth_rate)}
             </p>
           </div>
         </div>
