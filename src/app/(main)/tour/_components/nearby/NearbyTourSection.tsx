@@ -105,7 +105,9 @@ export default function NearbyTourSection({
         onSelectPlace={handleSelectPlace}
       />
 
-      <p className="text-deep-gray text-center text-xs">{data.source_notice}</p>
+      <p className="text-deep-gray/70 -mt-4 text-right text-xs font-semibold">
+        {data.source_notice}
+      </p>
     </section>
   );
 }

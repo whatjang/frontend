@@ -2,9 +2,9 @@
 
 import Spinner from "@/src/components/common/Spinner";
 import { useCurrentLocation } from "@/src/hooks/location/useCurrentLocation";
+import { useMarketDetail } from "@/src/hooks/market/useMarketDetail";
 import { getMarketReports } from "@/src/mocks/marketReports";
 
-import { useMarketDetail } from "../_hooks/useMarketDetail";
 import BottomActions from "./BottomActions";
 import Intro from "./Intro";
 import MarketDetails from "./MarketDetails";
