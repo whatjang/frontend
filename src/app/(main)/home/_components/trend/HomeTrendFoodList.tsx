@@ -1,14 +1,29 @@
+"use client";
+
 import Link from "next/link";
 
-import type { HomeTrendMarket } from "@/src/types/trend";
+import Spinner from "@/src/components/common/Spinner";
+import { useWeeklyCuration } from "@/src/hooks/curation/useWeeklyCuration";
 
 import HomeTrendFoodItem from "./HomeTrendFoodItem";
 
-interface HomeTrendFoodListProps {
-  trends: HomeTrendMarket[];
-}
+export default function HomeTrendFoodList() {
+  const { data, isPending, error } = useWeeklyCuration();
 
-export default function HomeTrendFoodList({ trends }: HomeTrendFoodListProps) {
+  if (isPending) {
+    return (
+      <div className="flex justify-center py-8">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return null;
+  }
+
+  const trends = [...data.trends].sort((a, b) => a.rank - b.rank);
+
   if (trends.length === 0) {
     return null;
   }
@@ -21,8 +36,8 @@ export default function HomeTrendFoodList({ trends }: HomeTrendFoodListProps) {
             이번 주 먹거리 트렌드
           </h2>
 
-          <p className="text-gray text-xs font-semibold">
-            산지의 싱싱함을 전해드려요
+          <p className="text-deep-gray text-xs font-semibold">
+            주목받는 강원도 먹거리를 확인해보세요
           </p>
         </div>
 
@@ -37,14 +52,14 @@ export default function HomeTrendFoodList({ trends }: HomeTrendFoodListProps) {
       <div className="flex snap-x snap-mandatory scroll-px-5 scrollbar-none gap-4 overflow-x-auto overscroll-x-contain px-5 [&::-webkit-scrollbar]:hidden">
         {trends.map((trend) => (
           <div
-            key={trend.id}
+            key={trend.keyword_id}
             className={
               trends.length === 1
                 ? "w-full shrink-0 snap-start"
                 : "w-[80%] shrink-0 snap-start"
             }
           >
-            <HomeTrendFoodItem {...trend} />
+            <HomeTrendFoodItem trend={trend} />
           </div>
         ))}
       </div>
