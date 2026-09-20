@@ -6,6 +6,7 @@ import {
   PRODUCT_ICONS,
 } from "@/src/constants/marketProductIcons";
 import type { MarketSearchItem } from "@/src/types/market/index";
+import { formatMarketDay } from "@/src/utils/market";
 
 interface MarketItemProps {
   market: MarketSearchItem;
@@ -21,10 +22,7 @@ function isToday(date: string) {
 }
 
 export default function MarketItem({ market }: MarketItemProps) {
-  const marketDayText =
-    market.open_day_numbers.length > 0
-      ? `${market.open_day_numbers.join("·")}일 장`
-      : "상설장";
+  const marketDayText = formatMarketDay(market.open_day_numbers);
   const isMarketDayToday =
     market.open_day_numbers.length > 0 && isToday(market.next_open_date);
 

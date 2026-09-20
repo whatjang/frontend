@@ -4,11 +4,11 @@ import { MapPin, Navigation } from "lucide-react";
 import { useState } from "react";
 
 import { formatKoreanShortDate } from "@/src/utils/date";
+import { formatMarketDay } from "@/src/utils/market";
 
 interface HomeLiveMarketItemProps {
   name: string;
-  marketType: string;
-  schedule: string;
+  openDayNumbers: number[];
   address: string;
   distanceKm: number | null;
   directionsUrl: string;
@@ -16,13 +16,14 @@ interface HomeLiveMarketItemProps {
 
 export default function HomeLiveMarketItem({
   name,
-  marketType,
-  schedule,
+  openDayNumbers,
   address,
   distanceKm,
   directionsUrl,
 }: HomeLiveMarketItemProps) {
   const [today] = useState(() => formatKoreanShortDate());
+
+  const marketDayText = formatMarketDay(openDayNumbers);
 
   return (
     <article className="relative flex w-full flex-col overflow-hidden rounded-3xl border border-white/40 p-5 text-white">
@@ -69,9 +70,7 @@ export default function HomeLiveMarketItem({
 
         <div className="flex items-center justify-between border-t border-white/15 pt-3">
           <div className="flex items-center gap-1 text-xs font-semibold text-white/80">
-            <span>{marketType}</span>
-            <span aria-hidden="true">·</span>
-            <span>{schedule}</span>
+            <span>{marketDayText}</span>
 
             {distanceKm !== null && (
               <>
@@ -89,6 +88,7 @@ export default function HomeLiveMarketItem({
             className="text-green flex shrink-0 items-center gap-1 rounded-full bg-white px-3 py-2 text-xs font-bold transition-opacity hover:opacity-90"
           >
             <Navigation aria-hidden="true" className="size-3.5" />
+
             <span>길찾기</span>
           </a>
         </div>

@@ -157,8 +157,7 @@ export default function HomeLiveMarketList() {
             <div key={market.market_id} className="w-full shrink-0 snap-start">
               <HomeLiveMarketItem
                 name={market.name}
-                marketType={market.market_type}
-                schedule={market.open_cycle}
+                openDayNumbers={market.open_day_numbers}
                 address={market.road_address}
                 distanceKm={market.distance_km}
                 directionsUrl={directionsUrl}

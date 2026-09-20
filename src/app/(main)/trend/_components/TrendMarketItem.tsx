@@ -10,6 +10,7 @@ import {
 } from "@/src/constants/marketProductIcons";
 import { useMarketDetail } from "@/src/hooks/market/useMarketDetail";
 import type { CurationTrendWithPrimaryMarket } from "@/src/types/curation";
+import { formatMarketDay } from "@/src/utils/market";
 
 interface TrendMarketItemProps {
   marketId: number;
@@ -42,11 +43,6 @@ export default function TrendMarketItem({
     return null;
   }
 
-  const marketDayText =
-    market.open_day_numbers.length > 0
-      ? `${market.open_day_numbers.join("·")}일 장`
-      : "상설장";
-
   const hasMoreProducts =
     market.products.length > DEFAULT_VISIBLE_PRODUCT_COUNT;
 
@@ -56,6 +52,8 @@ export default function TrendMarketItem({
 
   const hiddenProductCount =
     market.products.length - DEFAULT_VISIBLE_PRODUCT_COUNT;
+
+  const marketDayText = formatMarketDay(market.open_day_numbers);
 
   return (
     <article className="border-light-gray overflow-hidden rounded-3xl border bg-white shadow-xs">
