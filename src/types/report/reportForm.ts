@@ -6,5 +6,3 @@ export interface ReportFormValues {
   content: string;
   images: File[];
 }
-
-export type ReportFormInitialValues = Partial<ReportFormValues>;

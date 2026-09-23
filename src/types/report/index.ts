@@ -8,4 +8,4 @@ export type {
   ReportSummary,
   ReportTag,
 } from "./report";
-export type { ReportFormInitialValues, ReportFormValues } from "./reportForm";
+export type { ReportFormValues } from "./reportForm";
