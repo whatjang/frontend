@@ -1,19 +1,11 @@
 "use client";
 
-import {
-  REPORT_ALL_CATEGORY_ICON,
-  REPORT_CATEGORY_ICONS,
-} from "@/src/app/(main)/reports/_config/reportCategory";
-import { REPORT_TAGS } from "@/src/constants/report";
-import type { ReportTag } from "@/src/types/report";
-
-export type ReportCategory = "전체" | ReportTag;
-
-const categories: ReportCategory[] = ["전체", ...REPORT_TAGS];
+import { REPORT_FEED_CATEGORIES } from "@/src/app/(main)/reports/_config/reportCategory";
+import type { ReportFeedCategory } from "@/src/types/report";
 
 interface ReportCategoryFilterProps {
-  selectedCategory: ReportCategory;
-  onChange: (category: ReportCategory) => void;
+  selectedCategory: ReportFeedCategory;
+  onChange: (category: ReportFeedCategory) => void;
 }
 
 export default function ReportCategoryFilter({
@@ -26,20 +18,15 @@ export default function ReportCategoryFilter({
       aria-label="제보 카테고리 필터"
       className="flex scrollbar-none gap-2 overflow-x-auto pl-5"
     >
-      {categories.map((category) => {
-        const isSelected = selectedCategory === category;
-
-        const Icon =
-          category === "전체"
-            ? REPORT_ALL_CATEGORY_ICON
-            : REPORT_CATEGORY_ICONS[category];
+      {REPORT_FEED_CATEGORIES.map(({ value, label, icon: Icon }) => {
+        const isSelected = selectedCategory === value;
 
         return (
           <button
-            key={category}
+            key={value}
             type="button"
             aria-pressed={isSelected}
-            onClick={() => onChange(category)}
+            onClick={() => onChange(value)}
             className={[
               "border-light-gray flex cursor-pointer items-center gap-1.5",
               "rounded-full border px-3 py-1",
@@ -50,8 +37,7 @@ export default function ReportCategoryFilter({
             ].join(" ")}
           >
             <Icon size={16} strokeWidth={1.8} aria-hidden="true" />
-
-            {category}
+            {label}
           </button>
         );
       })}
