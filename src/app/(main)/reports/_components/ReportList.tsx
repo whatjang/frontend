@@ -1,44 +1,59 @@
-import type { MarketReportMock } from "@/src/mocks/marketReports";
+import type { ReportFeedItem } from "@/src/types/report";
 
-import type { ReportCategory } from "./ReportCategoryFilter";
 import ReportItem from "./ReportItem";
 
 interface ReportListProps {
-  reports: MarketReportMock[];
-  category: ReportCategory;
+  reports: ReportFeedItem[];
+  isLoading: boolean;
+  isError: boolean;
+  observerRef: React.RefObject<HTMLDivElement | null>;
+  isFetchingNextPage: boolean;
 }
 
-export default function ReportList({ reports, category }: ReportListProps) {
-  const filteredReports = reports
-    .filter((report) => {
-      if (category === "전체") {
-        return true;
-      }
-
-      return report.tag === category;
-    })
-    .sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-
-  if (filteredReports.length === 0) {
+export default function ReportList({
+  reports,
+  isLoading,
+  isError,
+  observerRef,
+  isFetchingNextPage,
+}: ReportListProps) {
+  if (isLoading) {
     return (
       <div className="text-deep-gray text-center text-xs">
-        해당 카테고리의 현장 제보가 없습니다.
+        현장 제보를 불러오는 중입니다.
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="text-deep-gray text-center text-xs">
+        현장 제보를 불러오지 못했습니다.
+      </div>
+    );
+  }
+
+  if (reports.length === 0) {
+    return (
+      <div className="text-deep-gray text-center text-xs">
+        조건에 맞는 현장 제보가 없습니다.
       </div>
     );
   }
 
   return (
     <section className="flex flex-col gap-3 px-5">
-      {filteredReports.map((report) => (
-        <ReportItem
-          key={report.id}
-          marketName={report.marketName}
-          report={report}
-        />
+      {reports.map((report) => (
+        <ReportItem key={report.report_id} report={report} />
       ))}
+
+      <div ref={observerRef} className="h-1" />
+
+      {isFetchingNextPage && (
+        <div className="text-deep-gray py-2 text-center text-xs">
+          더 불러오는 중입니다.
+        </div>
+      )}
     </section>
   );
 }
