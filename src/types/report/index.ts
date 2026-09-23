@@ -1,5 +1,8 @@
 export type {
+  CreateReportRequest,
+  CreateReportResult,
   ReportAuthor,
+  ReportCategory,
   ReportComment,
   ReportDetail,
   ReportSummary,

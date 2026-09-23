@@ -25,4 +25,8 @@ export const API_ENDPOINTS = {
     ME: "/api/members/me",
     FAVORITE_MARKETS: "/api/members/favorite-markets",
   },
+
+  REPORT: {
+    CREATE: (marketId: number) => `/api/markets/${marketId}/reports`,
+  },
 } as const;
