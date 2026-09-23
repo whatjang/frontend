@@ -27,13 +27,6 @@ export function ReportInteractionSection({
 
   const mappedComments = mapReportComments(comments);
 
-  const initialReaction =
-    myReaction === "HELPFUL"
-      ? "helpful"
-      : myReaction === "INCORRECT"
-        ? "incorrect"
-        : null;
-
   const handleCommentCreated = () => {
     setCurrentCommentCount((prev) => prev + 1);
   };
@@ -44,7 +37,7 @@ export function ReportInteractionSection({
         helpfulCount={helpfulCount}
         commentCount={currentCommentCount}
         incorrectCount={incorrectCount}
-        initialReaction={initialReaction}
+        initialReaction={myReaction}
         className="pl-5"
       />
 

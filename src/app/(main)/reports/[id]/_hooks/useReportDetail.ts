@@ -6,7 +6,7 @@ import { getReportDetail } from "@/src/lib/api/report/detail";
 
 export default function useReportDetail(reportId: number) {
   return useQuery({
-    queryKey: ["report-detail", reportId],
+    queryKey: ["report", "detail", reportId],
 
     queryFn: async () => {
       const response = await getReportDetail(reportId);

@@ -4,16 +4,16 @@ import { MessageSquareText, ThumbsUp, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
+import type { ReportReaction } from "@/src/types/report";
+
 interface ReportActionsProps {
   helpfulCount: number;
   commentCount: number;
   incorrectCount: number;
-  initialReaction?: Reaction;
+  initialReaction?: ReportReaction;
   commentHref?: string;
   className?: string;
 }
-
-type Reaction = "helpful" | "incorrect" | null;
 
 export function ReportActions({
   helpfulCount,
@@ -23,24 +23,24 @@ export function ReportActions({
   commentHref,
   className = "",
 }: ReportActionsProps) {
-  const [reaction, setReaction] = useState<Reaction>(initialReaction);
+  const [reaction, setReaction] = useState<ReportReaction>(initialReaction);
 
   const currentHelpfulCount =
     helpfulCount +
-    (reaction === "helpful" ? 1 : 0) -
-    (initialReaction === "helpful" ? 1 : 0);
+    (reaction === "HELPFUL" ? 1 : 0) -
+    (initialReaction === "HELPFUL" ? 1 : 0);
 
   const currentIncorrectCount =
     incorrectCount +
-    (reaction === "incorrect" ? 1 : 0) -
-    (initialReaction === "incorrect" ? 1 : 0);
+    (reaction === "INCORRECT" ? 1 : 0) -
+    (initialReaction === "INCORRECT" ? 1 : 0);
 
   const handleHelpful = () => {
-    setReaction((prev) => (prev === "helpful" ? null : "helpful"));
+    setReaction((prev) => (prev === "HELPFUL" ? null : "HELPFUL"));
   };
 
   const handleIncorrect = () => {
-    setReaction((prev) => (prev === "incorrect" ? null : "incorrect"));
+    setReaction((prev) => (prev === "INCORRECT" ? null : "INCORRECT"));
   };
 
   const handleCommentClick = () => {
@@ -57,10 +57,10 @@ export function ReportActions({
     <div className={`flex scrollbar-none gap-2 overflow-x-auto ${className}`}>
       <button
         type="button"
-        aria-pressed={reaction === "helpful"}
+        aria-pressed={reaction === "HELPFUL"}
         onClick={handleHelpful}
         className={`flex shrink-0 cursor-pointer items-center gap-1 rounded-full border px-3 py-2 text-xs font-semibold whitespace-nowrap transition-colors ${
-          reaction === "helpful"
+          reaction === "HELPFUL"
             ? "border-green bg-light-green text-green"
             : "border-light-gray text-green"
         }`}
@@ -68,7 +68,7 @@ export function ReportActions({
         <ThumbsUp
           size={13}
           strokeWidth={2}
-          fill={reaction === "helpful" ? "currentColor" : "none"}
+          fill={reaction === "HELPFUL" ? "currentColor" : "none"}
         />
 
         <span>도움됐어요 {currentHelpfulCount}</span>
@@ -76,10 +76,10 @@ export function ReportActions({
 
       <button
         type="button"
-        aria-pressed={reaction === "incorrect"}
+        aria-pressed={reaction === "INCORRECT"}
         onClick={handleIncorrect}
         className={`flex shrink-0 cursor-pointer items-center gap-1 rounded-full border px-3 py-2 text-xs font-semibold whitespace-nowrap transition-colors ${
-          reaction === "incorrect"
+          reaction === "INCORRECT"
             ? "border-red/20 bg-red/20 text-red"
             : "border-light-gray text-green"
         }`}
@@ -87,7 +87,7 @@ export function ReportActions({
         <TriangleAlert
           size={13}
           strokeWidth={2}
-          fill={reaction === "incorrect" ? "currentColor" : "none"}
+          fill={reaction === "INCORRECT" ? "currentColor" : "none"}
         />
 
         <span>잘못된 정보 {currentIncorrectCount}</span>
