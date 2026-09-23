@@ -1,3 +1,5 @@
+import type { RefObject } from "react";
+
 import type { ReportFeedItem } from "@/src/types/report";
 
 import ReportItem from "./ReportItem";
@@ -6,7 +8,7 @@ interface ReportListProps {
   reports: ReportFeedItem[];
   isLoading: boolean;
   isError: boolean;
-  observerRef: React.RefObject<HTMLDivElement | null>;
+  observerRef: RefObject<HTMLDivElement | null>;
   isFetchingNextPage: boolean;
 }
 

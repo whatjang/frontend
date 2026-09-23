@@ -1,7 +1,7 @@
-export type ReportFeedCategory =
-  "ALL" | "CROWD" | "OPERATION" | "NEW_FOOD" | "EVENT_FESTIVAL" | "OTHER";
+export type ReportItemCategory =
+  "CROWD" | "OPERATION" | "NEW_FOOD" | "EVENT_FESTIVAL" | "OTHER";
 
-export type ReportItemCategory = Exclude<ReportFeedCategory, "ALL">;
+export type ReportFeedCategory = "ALL" | ReportItemCategory;
 
 export interface ReportFeedParams {
   keyword?: string;

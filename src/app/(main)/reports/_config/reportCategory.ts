@@ -23,8 +23,6 @@ export const REPORT_CATEGORY_ICONS = {
   기타: Ellipsis,
 } satisfies Record<ReportTag, LucideIcon>;
 
-export const REPORT_ALL_CATEGORY_ICON = ListFilter;
-
 export const REPORT_CATEGORY_LABELS = {
   CROWD: "혼잡도",
   OPERATION: "운영 여부",
