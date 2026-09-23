@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
   REPORT: {
     FEED: "/api/reports",
     DETAIL: (reportId: number) => `/api/reports/${reportId}`,
+    REACTION: (reportId: number) => `/api/reports/${reportId}/reaction`,
   },
 
   CURATION: {

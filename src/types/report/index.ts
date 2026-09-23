@@ -12,6 +12,8 @@ export type {
   ReportDetailReply,
   ReportDetailResult,
   ReportReaction,
+  ReportReactionResult,
+  ReportReactionType,
 } from "./reportDetail";
 export type {
   ReportFeedAuthor,

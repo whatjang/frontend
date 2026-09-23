@@ -4,8 +4,8 @@ import { MapPin, Star } from "lucide-react";
 import Link from "next/link";
 
 import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
-import { BookmarkButton } from "@/src/components/reports/BookmarkButton";
-import { ReportActions } from "@/src/components/reports/ReportActions";
+import { BookmarkButton } from "@/src/components/report/BookmarkButton";
+import { ReportActions } from "@/src/components/report/ReportActions";
 import type { ReportFeedItem } from "@/src/types/report";
 import { formatDateTime } from "@/src/utils/date";
 
@@ -89,6 +89,7 @@ export default function ReportItem({ report }: ReportItemProps) {
       </div>
 
       <ReportActions
+        reportId={report.report_id}
         helpfulCount={report.helpful_count}
         commentCount={report.comment_count}
         incorrectCount={report.incorrect_count}
