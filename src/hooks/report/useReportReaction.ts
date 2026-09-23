@@ -47,7 +47,7 @@ export function useReportReaction() {
 
       queryClient.setQueriesData<InfiniteData<ReportFeedResult>>(
         {
-          queryKey: ["report-feed"],
+          queryKey: ["report", "feed"],
         },
         (previous) => {
           if (!previous) {
