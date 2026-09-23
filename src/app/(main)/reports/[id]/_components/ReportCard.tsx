@@ -2,21 +2,35 @@
 
 import { MapPin, Star } from "lucide-react";
 
+import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
 import { BookmarkButton } from "@/src/components/reports/BookmarkButton";
-import type { ReportDetail } from "@/src/types/report";
+import type { ReportDetailResult } from "@/src/types/report";
+import { formatDateTime } from "@/src/utils/date";
 
 import { EditDeleteMenu } from "./EditDeleteMenu";
 
 interface ReportCardProps {
-  report: ReportDetail;
+  report: ReportDetailResult;
 }
 
 export function ReportCard({ report }: ReportCardProps) {
+  const firstImageUrl = report.image_urls[0];
+  const profileImageUrl = report.author.profile_image_url;
+
   return (
     <article className="flex w-full flex-col gap-2 px-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="bg-light-gray flex h-8 w-8 rounded-full" />
+          <div
+            className="bg-light-gray size-8 rounded-full bg-cover bg-center"
+            style={
+              profileImageUrl
+                ? {
+                    backgroundImage: `url("${profileImageUrl}")`,
+                  }
+                : undefined
+            }
+          />
 
           <div className="flex flex-col">
             <strong className="text-sm font-bold text-black">
@@ -24,41 +38,51 @@ export function ReportCard({ report }: ReportCardProps) {
             </strong>
 
             <span className="text-deep-gray text-xs font-medium">
-              {report.createdAt}
+              {formatDateTime(report.created_at)}
             </span>
           </div>
         </div>
 
         <div className="flex items-center gap-1">
-          <EditDeleteMenu
-            onEdit={() => {
-              // 추후 제보 수정 페이지/API 연결
-              console.log("제보 수정", report.id);
-            }}
-            onDelete={() => {
-              // 추후 제보 삭제 API 연결
-              console.log("제보 삭제", report.id);
-            }}
-          />
+          {report.mine && (
+            <EditDeleteMenu
+              onEdit={() => {
+                console.log("제보 수정", report.report_id);
+              }}
+              onDelete={() => {
+                console.log("제보 삭제", report.report_id);
+              }}
+            />
+          )}
 
-          <BookmarkButton initialBookmarked={report.isBookmarked} />
+          <BookmarkButton initialBookmarked={report.bookmarked} />
         </div>
       </div>
 
-      <div className="bg-light-gray relative aspect-[1.44/1] w-full overflow-hidden rounded-2xl">
-        {report.location && (
+      {firstImageUrl && (
+        <div
+          className="bg-light-gray relative aspect-[1.44/1] w-full overflow-hidden rounded-2xl bg-cover bg-center"
+          style={{
+            backgroundImage: `url("${firstImageUrl}")`,
+          }}
+        >
           <div className="text-green absolute top-2 left-2 z-10 flex items-center gap-1 rounded-xl bg-white/80 px-2 py-1 text-xs font-bold backdrop-blur-sm">
             <MapPin size={13} strokeWidth={2} />
-            <span>{report.location}</span>
+            <span>{report.market.market_name}</span>
           </div>
-        )}
-      </div>
-
-      {report.tag && (
-        <div className="bg-light-green text-green border-light-gray flex w-fit items-center gap-1 self-start rounded-full border px-2 py-1 text-xs font-semibold">
-          # {report.tag}
         </div>
       )}
+
+      {!firstImageUrl && (
+        <div className="text-green flex w-fit items-center gap-1 text-xs font-bold">
+          <MapPin size={13} strokeWidth={2} />
+          <span>{report.market.market_name}</span>
+        </div>
+      )}
+
+      <div className="bg-light-green text-green border-light-gray flex w-fit items-center gap-1 self-start rounded-full border px-2 py-1 text-xs font-semibold">
+        # {REPORT_CATEGORY_LABELS[report.category]}
+      </div>
 
       <p className="text-xs font-medium break-keep whitespace-pre-line text-black">
         {report.content}

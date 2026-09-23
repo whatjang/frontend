@@ -6,6 +6,14 @@ export type {
   ReportTag,
 } from "./report";
 export type {
+  ReportDetailAuthor,
+  ReportDetailComment,
+  ReportDetailMarket,
+  ReportDetailReply,
+  ReportDetailResult,
+  ReportReaction,
+} from "./reportDetail";
+export type {
   ReportFeedAuthor,
   ReportFeedCategory,
   ReportFeedItem,

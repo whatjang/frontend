@@ -8,6 +8,7 @@ interface ReportActionsProps {
   helpfulCount: number;
   commentCount: number;
   incorrectCount: number;
+  initialReaction?: Reaction;
   commentHref?: string;
   className?: string;
 }
@@ -18,15 +19,21 @@ export function ReportActions({
   helpfulCount,
   commentCount,
   incorrectCount,
+  initialReaction = null,
   commentHref,
   className = "",
 }: ReportActionsProps) {
-  const [reaction, setReaction] = useState<Reaction>(null);
+  const [reaction, setReaction] = useState<Reaction>(initialReaction);
 
-  const currentHelpfulCount = helpfulCount + (reaction === "helpful" ? 1 : 0);
+  const currentHelpfulCount =
+    helpfulCount +
+    (reaction === "helpful" ? 1 : 0) -
+    (initialReaction === "helpful" ? 1 : 0);
 
   const currentIncorrectCount =
-    incorrectCount + (reaction === "incorrect" ? 1 : 0);
+    incorrectCount +
+    (reaction === "incorrect" ? 1 : 0) -
+    (initialReaction === "incorrect" ? 1 : 0);
 
   const handleHelpful = () => {
     setReaction((prev) => (prev === "helpful" ? null : "helpful"));

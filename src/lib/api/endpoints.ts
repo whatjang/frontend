@@ -18,6 +18,7 @@ export const API_ENDPOINTS = {
 
   REPORT: {
     FEED: "/api/reports",
+    DETAIL: (reportId: number) => `/api/reports/${reportId}`,
   },
 
   CURATION: {
