@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import { ReportActions } from "@/src/components/report/ReportActions";
 import type { ReportDetailComment, ReportReaction } from "@/src/types/report";
 
@@ -25,29 +23,23 @@ export function ReportInteractionSection({
   myReaction,
   comments,
 }: ReportInteractionSectionProps) {
-  const [currentCommentCount, setCurrentCommentCount] = useState(commentCount);
-
   const mappedComments = mapReportComments(comments);
-
-  const handleCommentCreated = () => {
-    setCurrentCommentCount((prev) => prev + 1);
-  };
 
   return (
     <>
       <ReportActions
         reportId={reportId}
         helpfulCount={helpfulCount}
-        commentCount={currentCommentCount}
+        commentCount={commentCount}
         incorrectCount={incorrectCount}
         initialReaction={myReaction}
         className="pl-5"
       />
 
       <CommentSection
+        reportId={reportId}
         comments={mappedComments}
-        totalCount={currentCommentCount}
-        onCommentCreated={handleCommentCreated}
+        totalCount={commentCount}
       />
     </>
   );

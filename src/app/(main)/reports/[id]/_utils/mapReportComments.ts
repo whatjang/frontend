@@ -14,8 +14,6 @@ export function mapReportComments(
       },
       createdAt: formatDateTime(comment.created_at),
       content: comment.content,
-      likeCount: 0,
-      isLikedByMe: false,
       isMine: comment.mine,
     };
 
@@ -28,8 +26,6 @@ export function mapReportComments(
       },
       createdAt: formatDateTime(reply.created_at),
       content: reply.content,
-      likeCount: 0,
-      isLikedByMe: false,
       isMine: reply.mine,
       parentId: comment.comment_id,
     }));

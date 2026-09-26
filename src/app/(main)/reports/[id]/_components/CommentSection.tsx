@@ -5,12 +5,13 @@ import { useState } from "react";
 
 import type { ReportComment } from "@/src/types/report";
 
+import useReportCommentCreate from "../_hooks/useReportCommentCreate";
 import { CommentList } from "./CommentList";
 
 interface CommentSectionProps {
+  reportId: number;
   comments: ReportComment[];
   totalCount: number;
-  onCommentCreated: () => void;
 }
 
 interface ReplyTarget {
@@ -19,15 +20,15 @@ interface ReplyTarget {
 }
 
 export function CommentSection({
+  reportId,
   comments,
   totalCount,
-  onCommentCreated,
 }: CommentSectionProps) {
-  const [commentList, setCommentList] = useState<ReportComment[]>(comments);
-
   const [replyTarget, setReplyTarget] = useState<ReplyTarget | null>(null);
-
   const [comment, setComment] = useState("");
+
+  const { mutateAsync: createComment, isPending } =
+    useReportCommentCreate(reportId);
 
   const handleReply = (parentId: number, nickname: string) => {
     setReplyTarget({
@@ -44,101 +45,36 @@ export function CommentSection({
     setReplyTarget(null);
   };
 
-  const handleLike = (commentId: number) => {
-    setCommentList((prev) =>
-      prev.map((comment) => {
-        if (comment.id !== commentId) {
-          return comment;
-        }
-
-        const nextLiked = !comment.isLikedByMe;
-
-        return {
-          ...comment,
-          isLikedByMe: nextLiked,
-          likeCount: nextLiked
-            ? comment.likeCount + 1
-            : Math.max(0, comment.likeCount - 1),
-        };
-      })
-    );
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const content = comment.trim();
 
-    if (!content) {
+    if (!content || isPending) {
       return;
     }
 
-    // 추후 댓글 등록 API 응답값으로 교체
-    const newComment: ReportComment = {
-      id: Date.now(),
+    try {
+      await createComment({
+        content,
+        ...(replyTarget && {
+          parent_comment_id: replyTarget.parentId,
+        }),
+      });
 
-      author: {
-        id: 999,
-        nickname: "나",
-      },
+      setComment("");
+      setReplyTarget(null);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "댓글 등록에 실패했습니다.";
 
-      createdAt: "방금 전",
-
-      content,
-
-      likeCount: 0,
-
-      isLikedByMe: false,
-      isMine: true,
-
-      ...(replyTarget && {
-        parentId: replyTarget.parentId,
-        replyToNickname: replyTarget.nickname,
-      }),
-    };
-
-    setCommentList((prev) => {
-      if (!replyTarget) {
-        return [...prev, newComment];
-      }
-
-      const parentIndex = prev.findIndex(
-        (item) => item.id === replyTarget.parentId
-      );
-
-      if (parentIndex === -1) {
-        return [...prev, newComment];
-      }
-
-      let insertIndex = parentIndex + 1;
-
-      while (
-        insertIndex < prev.length &&
-        prev[insertIndex].parentId === replyTarget.parentId
-      ) {
-        insertIndex += 1;
-      }
-
-      return [
-        ...prev.slice(0, insertIndex),
-        newComment,
-        ...prev.slice(insertIndex),
-      ];
-    });
-
-    onCommentCreated();
-
-    setComment("");
-    setReplyTarget(null);
+      alert(message);
+    }
   };
 
   return (
     <section id="comments" className="flex flex-col gap-2 px-5">
       <h2 className="text-sm font-bold text-black">댓글 {totalCount}</h2>
 
-      <CommentList
-        comments={commentList}
-        onReply={handleReply}
-        onLike={handleLike}
-      />
+      <CommentList comments={comments} onReply={handleReply} />
 
       {replyTarget && (
         <div className="text-deep-gray flex items-center gap-2 px-2 text-xs">
@@ -163,10 +99,11 @@ export function CommentSection({
           id="comment-input"
           type="text"
           value={comment}
+          disabled={isPending}
           onChange={(event) => setComment(event.target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.nativeEvent.isComposing) {
-              handleSubmit();
+              void handleSubmit();
             }
           }}
           placeholder={
@@ -179,8 +116,8 @@ export function CommentSection({
 
         <button
           type="button"
-          disabled={!comment.trim()}
-          onClick={handleSubmit}
+          disabled={!comment.trim() || isPending}
+          onClick={() => void handleSubmit()}
           className="text-green shrink-0 cursor-pointer px-2 text-xs font-bold disabled:cursor-default disabled:opacity-30"
         >
           게시
