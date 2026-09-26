@@ -69,14 +69,7 @@ export function ReportCard({ report }: ReportCardProps) {
         </div>
 
         <div className="flex items-center gap-1">
-          {report.mine && (
-            <EditDeleteMenu
-              onEdit={() => {
-                console.log("제보 수정", report.report_id);
-              }}
-              onDelete={handleDelete}
-            />
-          )}
+          {report.mine && <EditDeleteMenu onDelete={handleDelete} />}
 
           <BookmarkButton
             reportId={report.report_id}
