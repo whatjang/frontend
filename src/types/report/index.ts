@@ -9,6 +9,7 @@ export type {
   ReportTag,
 } from "./report";
 export type { ReportBookmarkResult } from "./reportBookmark";
+export type { ReportDeleteResult } from "./reportDelete";
 export type {
   ReportDetailAuthor,
   ReportDetailComment,
