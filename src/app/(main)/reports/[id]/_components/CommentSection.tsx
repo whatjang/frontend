@@ -5,12 +5,13 @@ import { useState } from "react";
 
 import type { ReportComment } from "@/src/types/report";
 
+import useReportCommentCreate from "../_hooks/useReportCommentCreate";
 import { CommentList } from "./CommentList";
 
 interface CommentSectionProps {
+  reportId: number;
   comments: ReportComment[];
   totalCount: number;
-  onCommentCreated: () => void;
 }
 
 interface ReplyTarget {
@@ -19,15 +20,33 @@ interface ReplyTarget {
 }
 
 export function CommentSection({
+  reportId,
   comments,
   totalCount,
-  onCommentCreated,
 }: CommentSectionProps) {
-  const [commentList, setCommentList] = useState<ReportComment[]>(comments);
-
   const [replyTarget, setReplyTarget] = useState<ReplyTarget | null>(null);
-
   const [comment, setComment] = useState("");
+  const [likedComments, setLikedComments] = useState<Record<number, boolean>>(
+    {}
+  );
+
+  const createCommentMutation = useReportCommentCreate();
+
+  const commentList = comments.map((comment) => {
+    const liked = likedComments[comment.id];
+
+    if (liked === undefined) {
+      return comment;
+    }
+
+    const likeCountChange = liked === comment.isLikedByMe ? 0 : liked ? 1 : -1;
+
+    return {
+      ...comment,
+      isLikedByMe: liked,
+      likeCount: Math.max(0, comment.likeCount + likeCountChange),
+    };
+  });
 
   const handleReply = (parentId: number, nickname: string) => {
     setReplyTarget({
@@ -45,89 +64,46 @@ export function CommentSection({
   };
 
   const handleLike = (commentId: number) => {
-    setCommentList((prev) =>
-      prev.map((comment) => {
-        if (comment.id !== commentId) {
-          return comment;
-        }
-
-        const nextLiked = !comment.isLikedByMe;
-
-        return {
-          ...comment,
-          isLikedByMe: nextLiked,
-          likeCount: nextLiked
-            ? comment.likeCount + 1
-            : Math.max(0, comment.likeCount - 1),
-        };
-      })
+    const targetComment = commentList.find(
+      (comment) => comment.id === commentId
     );
-  };
 
-  const handleSubmit = () => {
-    const content = comment.trim();
-
-    if (!content) {
+    if (!targetComment) {
       return;
     }
 
-    // 추후 댓글 등록 API 응답값으로 교체
-    const newComment: ReportComment = {
-      id: Date.now(),
+    setLikedComments((prev) => ({
+      ...prev,
+      [commentId]: !targetComment.isLikedByMe,
+    }));
+  };
 
-      author: {
-        id: 999,
-        nickname: "나",
-      },
+  const handleSubmit = async () => {
+    const content = comment.trim();
 
-      createdAt: "방금 전",
+    if (!content || createCommentMutation.isPending) {
+      return;
+    }
 
-      content,
+    try {
+      await createCommentMutation.mutateAsync({
+        reportId,
+        request: {
+          content,
+          ...(replyTarget && {
+            parent_comment_id: replyTarget.parentId,
+          }),
+        },
+      });
 
-      likeCount: 0,
+      setComment("");
+      setReplyTarget(null);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "댓글 등록에 실패했습니다.";
 
-      isLikedByMe: false,
-      isMine: true,
-
-      ...(replyTarget && {
-        parentId: replyTarget.parentId,
-        replyToNickname: replyTarget.nickname,
-      }),
-    };
-
-    setCommentList((prev) => {
-      if (!replyTarget) {
-        return [...prev, newComment];
-      }
-
-      const parentIndex = prev.findIndex(
-        (item) => item.id === replyTarget.parentId
-      );
-
-      if (parentIndex === -1) {
-        return [...prev, newComment];
-      }
-
-      let insertIndex = parentIndex + 1;
-
-      while (
-        insertIndex < prev.length &&
-        prev[insertIndex].parentId === replyTarget.parentId
-      ) {
-        insertIndex += 1;
-      }
-
-      return [
-        ...prev.slice(0, insertIndex),
-        newComment,
-        ...prev.slice(insertIndex),
-      ];
-    });
-
-    onCommentCreated();
-
-    setComment("");
-    setReplyTarget(null);
+      alert(message);
+    }
   };
 
   return (
@@ -163,10 +139,11 @@ export function CommentSection({
           id="comment-input"
           type="text"
           value={comment}
+          disabled={createCommentMutation.isPending}
           onChange={(event) => setComment(event.target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.nativeEvent.isComposing) {
-              handleSubmit();
+              void handleSubmit();
             }
           }}
           placeholder={
@@ -179,8 +156,8 @@ export function CommentSection({
 
         <button
           type="button"
-          disabled={!comment.trim()}
-          onClick={handleSubmit}
+          disabled={!comment.trim() || createCommentMutation.isPending}
+          onClick={() => void handleSubmit()}
           className="text-green shrink-0 cursor-pointer px-2 text-xs font-bold disabled:cursor-default disabled:opacity-30"
         >
           게시
