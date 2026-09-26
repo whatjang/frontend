@@ -1,17 +1,12 @@
 import { useState } from "react";
 
-import type { ReportFormInitialValues, ReportTag } from "@/src/types/report";
+import type { ReportTag } from "@/src/types/report";
 
-export default function useReportForm({
-  rating: initialRating = 0,
-  category: initialCategory = null,
-  content: initialContent = "",
-  images: initialImages = [],
-}: ReportFormInitialValues = {}) {
-  const [rating, setRating] = useState(initialRating);
-  const [category, setCategory] = useState<ReportTag | null>(initialCategory);
-  const [content, setContent] = useState(initialContent);
-  const [images, setImages] = useState<File[]>(initialImages);
+export default function useReportForm() {
+  const [rating, setRating] = useState(0);
+  const [category, setCategory] = useState<ReportTag | null>(null);
+  const [content, setContent] = useState("");
+  const [images, setImages] = useState<File[]>([]);
 
   return {
     rating,
