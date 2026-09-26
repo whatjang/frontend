@@ -50,7 +50,11 @@ export default function ReportItem({ report }: ReportItemProps) {
           </div>
         </div>
 
-        <BookmarkButton initialBookmarked={report.bookmarked} variant="plain" />
+        <BookmarkButton
+          reportId={report.report_id}
+          initialBookmarked={report.bookmarked}
+          variant="plain"
+        />
       </div>
 
       <Link

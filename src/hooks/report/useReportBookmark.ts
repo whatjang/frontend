@@ -1,28 +1,42 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
   addReportBookmark,
   removeReportBookmark,
 } from "@/src/lib/api/report/bookmark";
+import type { ReportDetailResult } from "@/src/types/report";
 
-interface UpdateReportBookmarkParams {
+interface ToggleBookmarkParams {
   reportId: number;
-  bookmarked: boolean;
+  isBookmarked: boolean;
 }
 
 export function useReportBookmark() {
-  return useMutation({
-    mutationFn: async ({
-      reportId,
-      bookmarked,
-    }: UpdateReportBookmarkParams) => {
-      const response = bookmarked
-        ? await addReportBookmark(reportId)
-        : await removeReportBookmark(reportId);
+  const queryClient = useQueryClient();
 
-      return response.result;
+  return useMutation({
+    mutationFn: ({ reportId, isBookmarked }: ToggleBookmarkParams) =>
+      isBookmarked
+        ? removeReportBookmark(reportId)
+        : addReportBookmark(reportId),
+
+    onSuccess: (response, { reportId }) => {
+      queryClient.setQueryData<ReportDetailResult>(
+        ["report", "detail", reportId],
+        (report) =>
+          report
+            ? {
+                ...report,
+                bookmarked: response.result.bookmarked,
+              }
+            : report
+      );
+
+      queryClient.invalidateQueries({
+        queryKey: ["report", "feed"],
+      });
     },
   });
 }

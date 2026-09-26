@@ -57,7 +57,10 @@ export function ReportCard({ report }: ReportCardProps) {
             />
           )}
 
-          <BookmarkButton initialBookmarked={report.bookmarked} />
+          <BookmarkButton
+            reportId={report.report_id}
+            initialBookmarked={report.bookmarked}
+          />
         </div>
       </div>
 
