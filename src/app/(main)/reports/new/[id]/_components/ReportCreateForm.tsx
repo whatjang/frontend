@@ -3,9 +3,12 @@
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 
+import { REPORT_CATEGORY_MAP } from "@/src/constants/report";
+
+import useCreateReport from "../_hooks/useCreateReport";
 import useReportForm from "../_hooks/useReportForm";
 import { validateReportForm } from "../_utils/validateReportForm";
-import ReportImageUpload from "./image-upload/ReportImageUpload";
+// import ReportImageUpload from "./image-upload/ReportImageUpload";
 import ReportCategory from "./ReportCategory";
 import ReportContent from "./ReportContent";
 import ReportRating from "./ReportRating";
@@ -17,6 +20,7 @@ interface ReportCreateFormProps {
 
 export default function ReportCreateForm({ marketId }: ReportCreateFormProps) {
   const router = useRouter();
+  const createReportMutation = useCreateReport();
 
   const {
     rating,
@@ -26,16 +30,17 @@ export default function ReportCreateForm({ marketId }: ReportCreateFormProps) {
     content,
     setContent,
     images,
-    setImages,
+    // setImages,
   } = useReportForm();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const errorMessage = validateReportForm({
       rating,
       category,
       content,
+      images,
     });
 
     if (errorMessage) {
@@ -43,9 +48,28 @@ export default function ReportCreateForm({ marketId }: ReportCreateFormProps) {
       return;
     }
 
-    alert("제보 등록이 완료되었습니다.");
+    if (!category) return;
 
-    router.replace(`/markets/${marketId}`);
+    try {
+      await createReportMutation.mutateAsync({
+        marketId,
+        request: {
+          rating,
+          category: REPORT_CATEGORY_MAP[category],
+          content: content.trim(),
+        },
+        images,
+      });
+
+      alert("제보 등록이 완료되었습니다.");
+
+      router.replace(`/reports`);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "제보 등록에 실패했습니다.";
+
+      alert(message);
+    }
   };
 
   return (
@@ -58,10 +82,11 @@ export default function ReportCreateForm({ marketId }: ReportCreateFormProps) {
         <ReportContent value={content} onChange={setContent} />
       </div>
 
-      <ReportImageUpload images={images} onChange={setImages} />
+      {/* S3 이미지 업로드 지원 후 활성화 */}
+      {/* <ReportImageUpload images={images} onChange={setImages} /> */}
 
       <div className="px-5">
-        <ReportSubmitButton />
+        <ReportSubmitButton isPending={createReportMutation.isPending} />
       </div>
     </form>
   );

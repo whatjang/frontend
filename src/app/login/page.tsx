@@ -4,9 +4,9 @@ import KakaoLoginButton from "./_components/KakaoLoginButton";
 
 export default function LoginPage() {
   return (
-    <main className="from-login-gradient-start flex min-h-screen flex-col items-center justify-center bg-linear-to-b to-white px-5">
-      <div className="flex w-full max-w-md flex-col items-center gap-12">
-        <section className="flex flex-col gap-8 text-center">
+    <main className="from-login-gradient-start flex min-h-dvh items-center justify-center bg-linear-to-b to-white px-5">
+      <div className="flex w-full max-w-md flex-col items-center gap-8">
+        <section className="flex flex-col gap-6 text-center">
           <h1 className="text-2xl font-bold">환영합니다!</h1>
 
           <p className="text-green text-sm font-medium">
@@ -16,10 +16,10 @@ export default function LoginPage() {
           </p>
         </section>
 
-        <section className="flex w-full flex-col items-center gap-12">
-          <div className="relative aspect-40/29 w-full">
+        <section className="flex w-full flex-col items-center gap-8">
+          <div className="relative aspect-square w-4/5">
             <Image
-              src="/images/login/explain.svg"
+              src="/images/login/explain.png"
               alt="왓장 서비스 소개 이미지"
               fill
               priority
@@ -28,7 +28,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="flex w-full max-w-sm flex-col items-center gap-8">
+          <div className="flex w-full max-w-sm flex-col items-center gap-6">
             <KakaoLoginButton />
 
             <p className="text-deep-gray text-center text-xs font-normal">

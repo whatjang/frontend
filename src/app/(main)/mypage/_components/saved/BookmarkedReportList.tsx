@@ -1,6 +1,6 @@
 import { Bookmark } from "lucide-react";
 
-import ReportCard from "@/src/components/reports/ReportCard";
+import ReportCard from "@/src/components/report/ReportCard";
 import type { BookmarkedReport } from "@/src/types/mypage";
 
 interface BookmarkedReportListProps {

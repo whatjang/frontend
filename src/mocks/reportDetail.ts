@@ -22,7 +22,6 @@ export const reportDetailMocks: Record<number, ReportDetailMock> = {
         createdAt: "5분 전",
         content:
           "좋은 정보 감사합니다! 주차장 정보 덕분에 편하게 방문할 수 있을 것 같아요.",
-        likeCount: 2,
       },
     ],
   },
@@ -41,7 +40,6 @@ export const reportDetailMocks: Record<number, ReportDetailMock> = {
         },
         createdAt: "3분 전",
         content: "오전 방문이 확실히 한산해서 좋더라고요.",
-        likeCount: 1,
       },
       {
         id: 2,
@@ -51,7 +49,6 @@ export const reportDetailMocks: Record<number, ReportDetailMock> = {
         },
         createdAt: "7분 전",
         content: "좋은 팁 감사합니다!",
-        likeCount: 0,
       },
       {
         id: 3,
@@ -61,7 +58,6 @@ export const reportDetailMocks: Record<number, ReportDetailMock> = {
         },
         createdAt: "12분 전",
         content: "저도 다음에는 오전에 가봐야겠어요.",
-        likeCount: 0,
       },
     ],
   },
@@ -82,7 +78,6 @@ export const reportDetailMocks: Record<number, ReportDetailMock> = {
         createdAt: "5분 전",
         content:
           "좋은 정보 감사합니다! 덕분에 주차 걱정했는데 둔치 주차장으로 바로 가야겠네요.",
-        likeCount: 2,
       },
       {
         id: 2,
@@ -92,7 +87,6 @@ export const reportDetailMocks: Record<number, ReportDetailMock> = {
         },
         createdAt: "방금 전",
         content: "네, 둔치 주차장이 훨씬 쾌적해요! 즐거운 시장 나들이 되세요.",
-        likeCount: 0,
       },
       {
         id: 3,
@@ -103,7 +97,6 @@ export const reportDetailMocks: Record<number, ReportDetailMock> = {
         createdAt: "8분 전",
         content:
           "지금 시장 안은 많이 붐비나요? 아이랑 같이 가려는데 유모차 끌기 괜찮을지 궁금해요.",
-        likeCount: 0,
       },
     ],
   },

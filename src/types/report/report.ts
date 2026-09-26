@@ -1,6 +1,20 @@
-import type { REPORT_TAGS } from "@/src/constants/report";
+import type { REPORT_CATEGORY_MAP, REPORT_TAGS } from "@/src/constants/report";
 
 export type ReportTag = (typeof REPORT_TAGS)[number];
+
+export type ReportCategory = (typeof REPORT_CATEGORY_MAP)[ReportTag];
+
+export interface CreateReportRequest {
+  rating: number;
+  category: ReportCategory;
+  content: string;
+}
+
+export interface CreateReportResult {
+  rating: number;
+  category: ReportCategory;
+  content: string;
+}
 
 export interface ReportSummary {
   id: number;
@@ -27,10 +41,8 @@ export interface ReportComment {
   author: ReportAuthor;
   createdAt: string;
   content: string;
-  likeCount: number;
   parentId?: number;
   replyToNickname?: string;
-  isLikedByMe?: boolean;
   isMine?: boolean;
 }
 

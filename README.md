@@ -32,6 +32,15 @@
 - 트렌드 기반 추천 시장 제공
 - 홈과 트렌드 페이지 간 인사이트 연동
 
+### Report
+
+- 시장 이용자 제보 등록 · 조회 · 삭제
+- 시장명 키워드 및 제보 카테고리 기반 피드 필터링
+- 제보 상세 정보 및 댓글 · 대댓글 조회
+- 댓글 · 대댓글 등록 및 삭제
+- 도움됨 · 잘못된 정보 사용자 반응 등록 · 변경 · 취소
+- 제보 북마크 등록 · 해제
+
 ### Local Tour
 
 - 시장 주변 음식점 · 관광지 · 카페 조회
@@ -48,15 +57,19 @@
 
 ## Engineering Highlights
 
-### Server State Management
+### 1. Server State Management
 
 TanStack Query로 서버 상태를 관리하고,
+
 Zustand는 인증 및 회원 정보 등 클라이언트 전역 상태에 사용합니다.
 
-Query Key에 검색 조건, 위치, 날짜 등을 포함해 조건별 캐시를 관리하며,
-주간 큐레이션은 홈과 트렌드 페이지에서 동일한 캐시를 공유합니다.
+Query Key에 검색 조건, 위치, 날짜, 카테고리 등을 포함해 조건별 캐시를 관리하며,
 
-### Authentication Flow
+주간 큐레이션은 홈과 트렌드 페이지에서 동일한 캐시를 공유하고,
+
+제보 반응 · 북마크 · 댓글 변경 시 관련 Query Cache를 갱신해 피드와 상세 화면의 서버 상태를 동기화합니다.
+
+### 2. Authentication Flow
 
 Axios Interceptor에서 인증 헤더 추가, `401` 처리, Token Refresh 및 요청 재시도를 공통화했습니다.
 
@@ -79,14 +92,15 @@ Access Token Update
 Request Retry
 ```
 
-### Data Fetching & Pagination
+### 3. Data Fetching & Pagination
 
-시장 목록과 검색 결과는 **TanStack Infinite Query** 기반으로 조회합니다.
+시장 목록과 제보 피드는 **TanStack Infinite Query** 기반으로 조회합니다.
 
 `IntersectionObserver`를 활용한 무한 스크롤과 Debounce 검색을 적용해
-불필요한 요청을 줄였습니다.
 
-### Shared Map Component
+페이지 단위 데이터를 점진적으로 조회하고 불필요한 요청을 줄였습니다.
+
+### 4. Shared Map Component
 
 시장 상세와 관광 기능의 지도 로직을 공통 `KakaoMap` 컴포넌트로 분리했습니다.
 
@@ -98,7 +112,7 @@ Local Tour ────┘
 
 SDK Loading, Marker, Overlay, 지도 중심 이동 등의 공통 동작을 하나의 컴포넌트에서 관리합니다.
 
-### PWA & Runtime Caching
+### 5. PWA & Runtime Caching
 
 모바일 환경을 고려해 PWA와 Workbox Runtime Cache를 적용했습니다.
 
@@ -136,11 +150,16 @@ SDK Loading, Marker, Overlay, 지도 중심 이동 등의 공통 동작을 하�
          TanStack Query                      Zustand
           Server State                    Client State
                 │
-         Hooks / Services
+           Query Hooks
                 │
-            Domain API
+        ┌───────┴────────┐
+        │                │
+     Services         Domain API
+   (when needed)         │
+        │                │
+        └───────┬────────┘
                 │
-            Axios Client
+           Axios Client
                 │
       Auth / Refresh / Error
                 │
@@ -161,7 +180,7 @@ src/
 │   ├── browser/  # Geolocation 등 Browser API
 │   └── kakao/    # Kakao 연동
 ├── providers/    # Global Provider
-├── services/     # 공통 데이터 가공 로직
+├── services/     # API 조합 및 도메인 데이터 가공 로직
 ├── stores/       # Zustand 기반 Client State
 ├── types/        # API / Domain Type
 ├── utils/        # 공통 Utility

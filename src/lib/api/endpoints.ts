@@ -16,6 +16,18 @@ export const API_ENDPOINTS = {
     OPEN_ON: (date: string) => `/api/markets/open-on/${date}`,
   },
 
+  REPORT: {
+    FEED: "/api/reports",
+    DETAIL: (reportId: number) => `/api/reports/${reportId}`,
+    REACTION: (reportId: number) => `/api/reports/${reportId}/reaction`,
+    BOOKMARK: (reportId: number) => `/api/reports/${reportId}/bookmark`,
+    CREATE: (marketId: number) => `/api/markets/${marketId}/reports`,
+    COMMENTS: (reportId: number) => `/api/reports/${reportId}/comments`,
+    COMMENT: (reportId: number, commentId: number) =>
+      `/api/reports/${reportId}/comments/${commentId}`,
+    DELETE: (reportId: number) => `/api/reports/${reportId}`,
+  },
+
   CURATION: {
     WEEKLY: "/api/curations/weekly",
   },
