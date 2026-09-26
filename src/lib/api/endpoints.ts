@@ -22,6 +22,7 @@ export const API_ENDPOINTS = {
     REACTION: (reportId: number) => `/api/reports/${reportId}/reaction`,
     BOOKMARK: (reportId: number) => `/api/reports/${reportId}/bookmark`,
     CREATE: (marketId: number) => `/api/markets/${marketId}/reports`,
+    DELETE: (reportId: number) => `/api/reports/${reportId}`,
   },
 
   CURATION: {
