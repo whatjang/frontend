@@ -6,6 +6,7 @@ import { useState } from "react";
 import type { ReportComment } from "@/src/types/report";
 
 import useReportCommentCreate from "../_hooks/useReportCommentCreate";
+import useReportCommentDelete from "../_hooks/useReportCommentDelete";
 import { CommentList } from "./CommentList";
 
 interface CommentSectionProps {
@@ -27,8 +28,11 @@ export function CommentSection({
   const [replyTarget, setReplyTarget] = useState<ReplyTarget | null>(null);
   const [comment, setComment] = useState("");
 
-  const { mutateAsync: createComment, isPending } =
+  const { mutateAsync: createComment, isPending: isCreating } =
     useReportCommentCreate(reportId);
+
+  const { mutateAsync: deleteComment, isPending: isDeleting } =
+    useReportCommentDelete(reportId);
 
   const handleReply = (parentId: number, nickname: string) => {
     setReplyTarget({
@@ -48,7 +52,7 @@ export function CommentSection({
   const handleSubmit = async () => {
     const content = comment.trim();
 
-    if (!content || isPending) {
+    if (!content || isCreating) {
       return;
     }
 
@@ -70,11 +74,34 @@ export function CommentSection({
     }
   };
 
+  const handleDelete = async (commentId: number) => {
+    const confirmed = window.confirm(
+      "댓글을 삭제하시겠습니까?\n부모 댓글인 경우 대댓글도 함께 삭제됩니다."
+    );
+
+    if (!confirmed || isDeleting) {
+      return;
+    }
+
+    try {
+      await deleteComment(commentId);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "댓글 삭제에 실패했습니다.";
+
+      alert(message);
+    }
+  };
+
   return (
     <section id="comments" className="flex flex-col gap-2 px-5">
       <h2 className="text-sm font-bold text-black">댓글 {totalCount}</h2>
 
-      <CommentList comments={comments} onReply={handleReply} />
+      <CommentList
+        comments={comments}
+        onReply={handleReply}
+        onDelete={handleDelete}
+      />
 
       {replyTarget && (
         <div className="text-deep-gray flex items-center gap-2 px-2 text-xs">
@@ -99,7 +126,7 @@ export function CommentSection({
           id="comment-input"
           type="text"
           value={comment}
-          disabled={isPending}
+          disabled={isCreating}
           onChange={(event) => setComment(event.target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.nativeEvent.isComposing) {
@@ -116,7 +143,7 @@ export function CommentSection({
 
         <button
           type="button"
-          disabled={!comment.trim() || isPending}
+          disabled={!comment.trim() || isCreating}
           onClick={() => void handleSubmit()}
           className="text-green shrink-0 cursor-pointer px-2 text-xs font-bold disabled:cursor-default disabled:opacity-30"
         >

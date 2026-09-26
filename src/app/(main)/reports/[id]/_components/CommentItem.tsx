@@ -5,9 +5,10 @@ import { EditDeleteMenu } from "./EditDeleteMenu";
 interface CommentItemProps {
   comment: ReportComment;
   onReply: (parentId: number, nickname: string) => void;
+  onDelete: (commentId: number) => void;
 }
 
-export function CommentItem({ comment, onReply }: CommentItemProps) {
+export function CommentItem({ comment, onReply, onDelete }: CommentItemProps) {
   return (
     <li
       className={`border-light-gray flex gap-2 rounded-2xl border bg-white/40 p-3 ${
@@ -34,18 +35,15 @@ export function CommentItem({ comment, onReply }: CommentItemProps) {
             <span className="text-deep-gray text-xs">{comment.createdAt}</span>
           </div>
 
-          <div className="ml-auto">
-            <EditDeleteMenu
-              onEdit={() => {
-                // 추후 댓글 수정 UI/API 연결
-                console.log("댓글 수정", comment.id);
-              }}
-              onDelete={() => {
-                // 추후 댓글 삭제 API 연결
-                console.log("댓글 삭제", comment.id);
-              }}
-            />
-          </div>
+          {comment.isMine && (
+            <div className="ml-auto">
+              <EditDeleteMenu
+                onDelete={() => {
+                  onDelete(comment.id);
+                }}
+              />
+            </div>
+          )}
         </div>
 
         <p className="text-xs text-black">
@@ -58,15 +56,17 @@ export function CommentItem({ comment, onReply }: CommentItemProps) {
           {comment.content}
         </p>
 
-        <button
-          type="button"
-          onClick={() =>
-            onReply(comment.parentId ?? comment.id, comment.author.nickname)
-          }
-          className="text-deep-gray mt-1 flex cursor-pointer text-xs"
-        >
-          답글 달기
-        </button>
+        <div className="text-deep-gray mt-1 flex items-center text-xs">
+          <button
+            type="button"
+            onClick={() =>
+              onReply(comment.parentId ?? comment.id, comment.author.nickname)
+            }
+            className="cursor-pointer"
+          >
+            답글 달기
+          </button>
+        </div>
       </div>
     </li>
   );
