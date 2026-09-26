@@ -8,7 +8,7 @@ import { REPORT_CATEGORY_MAP } from "@/src/constants/report";
 import useCreateReport from "../_hooks/useCreateReport";
 import useReportForm from "../_hooks/useReportForm";
 import { validateReportForm } from "../_utils/validateReportForm";
-import ReportImageUpload from "./image-upload/ReportImageUpload";
+// import ReportImageUpload from "./image-upload/ReportImageUpload";
 import ReportCategory from "./ReportCategory";
 import ReportContent from "./ReportContent";
 import ReportRating from "./ReportRating";
@@ -30,7 +30,7 @@ export default function ReportCreateForm({ marketId }: ReportCreateFormProps) {
     content,
     setContent,
     images,
-    setImages,
+    // setImages,
   } = useReportForm();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -82,7 +82,8 @@ export default function ReportCreateForm({ marketId }: ReportCreateFormProps) {
         <ReportContent value={content} onChange={setContent} />
       </div>
 
-      <ReportImageUpload images={images} onChange={setImages} />
+      {/* S3 이미지 업로드 지원 후 활성화 */}
+      {/* <ReportImageUpload images={images} onChange={setImages} /> */}
 
       <div className="px-5">
         <ReportSubmitButton isPending={createReportMutation.isPending} />
