@@ -5,19 +5,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createReportComment } from "@/src/lib/api/report/comment";
 import type { CreateReportCommentRequest } from "@/src/types/report";
 
-interface CreateCommentParams {
-  reportId: number;
-  request: CreateReportCommentRequest;
-}
-
-export default function useReportCommentCreate() {
+export default function useReportCommentCreate(reportId: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ reportId, request }: CreateCommentParams) =>
+    mutationFn: (request: CreateReportCommentRequest) =>
       createReportComment(reportId, request),
 
-    onSuccess: (_, { reportId }) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["report", "detail", reportId],
       });

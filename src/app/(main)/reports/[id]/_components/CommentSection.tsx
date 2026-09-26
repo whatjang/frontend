@@ -27,7 +27,8 @@ export function CommentSection({
   const [replyTarget, setReplyTarget] = useState<ReplyTarget | null>(null);
   const [comment, setComment] = useState("");
 
-  const createCommentMutation = useReportCommentCreate();
+  const { mutateAsync: createComment, isPending } =
+    useReportCommentCreate(reportId);
 
   const handleReply = (parentId: number, nickname: string) => {
     setReplyTarget({
@@ -47,19 +48,16 @@ export function CommentSection({
   const handleSubmit = async () => {
     const content = comment.trim();
 
-    if (!content || createCommentMutation.isPending) {
+    if (!content || isPending) {
       return;
     }
 
     try {
-      await createCommentMutation.mutateAsync({
-        reportId,
-        request: {
-          content,
-          ...(replyTarget && {
-            parent_comment_id: replyTarget.parentId,
-          }),
-        },
+      await createComment({
+        content,
+        ...(replyTarget && {
+          parent_comment_id: replyTarget.parentId,
+        }),
       });
 
       setComment("");
@@ -101,7 +99,7 @@ export function CommentSection({
           id="comment-input"
           type="text"
           value={comment}
-          disabled={createCommentMutation.isPending}
+          disabled={isPending}
           onChange={(event) => setComment(event.target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.nativeEvent.isComposing) {
@@ -118,7 +116,7 @@ export function CommentSection({
 
         <button
           type="button"
-          disabled={!comment.trim() || createCommentMutation.isPending}
+          disabled={!comment.trim() || isPending}
           onClick={() => void handleSubmit()}
           className="text-green shrink-0 cursor-pointer px-2 text-xs font-bold disabled:cursor-default disabled:opacity-30"
         >
