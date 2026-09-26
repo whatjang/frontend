@@ -8,6 +8,7 @@ export type {
   ReportSummary,
   ReportTag,
 } from "./report";
+export type { ReportBookmarkResult } from "./reportBookmark";
 export type {
   ReportDetailAuthor,
   ReportDetailComment,
