@@ -1,16 +1,14 @@
 "use client";
 
-import { MoreVertical, Pencil, Trash2 } from "lucide-react";
+import { MoreVertical, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-interface EditDeleteMenuProps {
-  onEdit?: () => void;
-  onDelete?: () => void;
+interface DeleteMenuProps {
+  onDelete: () => void;
 }
 
-export function EditDeleteMenu({ onEdit, onDelete }: EditDeleteMenuProps) {
+export function DeleteMenu({ onDelete }: DeleteMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,14 +33,9 @@ export function EditDeleteMenu({ onEdit, onDelete }: EditDeleteMenuProps) {
     };
   }, []);
 
-  const handleEdit = () => {
-    setIsOpen(false);
-    onEdit?.();
-  };
-
   const handleDelete = () => {
     setIsOpen(false);
-    onDelete?.();
+    onDelete();
   };
 
   return (
@@ -59,15 +52,6 @@ export function EditDeleteMenu({ onEdit, onDelete }: EditDeleteMenuProps) {
 
       {isOpen && (
         <div className="border-light-gray absolute top-4 right-0 z-30 w-max overflow-hidden rounded-lg border bg-white p-1 shadow-md">
-          <button
-            type="button"
-            onClick={handleEdit}
-            className="flex w-full cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-xs whitespace-nowrap text-black"
-          >
-            <Pencil size={12} strokeWidth={2} />
-            <span>수정</span>
-          </button>
-
           <button
             type="button"
             onClick={handleDelete}

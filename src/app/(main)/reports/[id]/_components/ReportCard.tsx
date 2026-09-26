@@ -9,7 +9,7 @@ import type { ReportDetailResult } from "@/src/types/report";
 import { formatDateTime } from "@/src/utils/date";
 
 import useReportDelete from "../_hooks/useReportDelete";
-import { EditDeleteMenu } from "./EditDeleteMenu";
+import { DeleteMenu } from "./DeleteMenu";
 
 interface ReportCardProps {
   report: ReportDetailResult;
@@ -19,7 +19,7 @@ export function ReportCard({ report }: ReportCardProps) {
   const firstImageUrl = report.image_urls[0];
   const profileImageUrl = report.author.profile_image_url;
   const router = useRouter();
-  const deleteReportMutation = useReportDelete();
+  const { mutateAsync: deleteReport } = useReportDelete(report.report_id);
 
   const handleDelete = async () => {
     const confirmed = window.confirm(
@@ -29,7 +29,7 @@ export function ReportCard({ report }: ReportCardProps) {
     if (!confirmed) return;
 
     try {
-      await deleteReportMutation.mutateAsync(report.report_id);
+      await deleteReport();
 
       router.replace("/reports");
     } catch (error) {
@@ -69,14 +69,7 @@ export function ReportCard({ report }: ReportCardProps) {
         </div>
 
         <div className="flex items-center gap-1">
-          {report.mine && (
-            <EditDeleteMenu
-              onEdit={() => {
-                console.log("제보 수정", report.report_id);
-              }}
-              onDelete={handleDelete}
-            />
-          )}
+          {report.mine && <DeleteMenu onDelete={handleDelete} />}
 
           <BookmarkButton
             reportId={report.report_id}

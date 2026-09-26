@@ -13,6 +13,7 @@ export type {
   CreateReportCommentAuthor,
   CreateReportCommentRequest,
   CreateReportCommentResult,
+  DeleteReportCommentResult,
 } from "./reportComment";
 export type { ReportDeleteResult } from "./reportDelete";
 export type {

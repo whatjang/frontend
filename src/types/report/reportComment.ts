@@ -18,3 +18,8 @@ export interface CreateReportCommentResult {
   created_at: string;
   comment_count: number;
 }
+
+export interface DeleteReportCommentResult {
+  deleted_count: number;
+  comment_count: number;
+}
