@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteReport } from "@/src/lib/api/report/delete";
 
-export default function useDeleteReport() {
+export default function useReportDelete() {
   const queryClient = useQueryClient();
 
   return useMutation({

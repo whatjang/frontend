@@ -8,7 +8,7 @@ import { BookmarkButton } from "@/src/components/report/BookmarkButton";
 import type { ReportDetailResult } from "@/src/types/report";
 import { formatDateTime } from "@/src/utils/date";
 
-import useDeleteReport from "../_hooks/useDeleteReport";
+import useReportDelete from "../_hooks/useReportDelete";
 import { EditDeleteMenu } from "./EditDeleteMenu";
 
 interface ReportCardProps {
@@ -19,7 +19,7 @@ export function ReportCard({ report }: ReportCardProps) {
   const firstImageUrl = report.image_urls[0];
   const profileImageUrl = report.author.profile_image_url;
   const router = useRouter();
-  const deleteReportMutation = useDeleteReport();
+  const deleteReportMutation = useReportDelete();
 
   const handleDelete = async () => {
     const confirmed = window.confirm(
