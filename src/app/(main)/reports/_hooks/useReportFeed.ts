@@ -17,7 +17,7 @@ export default function useReportFeed({
   const normalizedKeyword = keyword.trim();
 
   return useInfiniteQuery({
-    queryKey: ["report-feed", normalizedKeyword, category],
+    queryKey: ["report", "feed", normalizedKeyword, category],
 
     queryFn: async ({ pageParam }) => {
       const response = await getReportFeed({

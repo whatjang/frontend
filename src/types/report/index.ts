@@ -14,7 +14,6 @@ export type {
   ReportDetailMarket,
   ReportDetailReply,
   ReportDetailResult,
-  ReportReaction,
 } from "./reportDetail";
 export type {
   ReportFeedAuthor,
@@ -25,3 +24,8 @@ export type {
   ReportItemCategory,
 } from "./reportFeed";
 export type { ReportFormValues } from "./reportForm";
+export type {
+  ReportReaction,
+  ReportReactionResult,
+  ReportReactionType,
+} from "./reportReaction";

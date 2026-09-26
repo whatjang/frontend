@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 
-import { ReportActions } from "@/src/components/reports/ReportActions";
+import { ReportActions } from "@/src/components/report/ReportActions";
 import type { ReportDetailComment, ReportReaction } from "@/src/types/report";
 
 import { mapReportComments } from "../_utils/mapReportComments";
 import { CommentSection } from "./CommentSection";
 
 interface ReportInteractionSectionProps {
+  reportId: number;
   helpfulCount: number;
   commentCount: number;
   incorrectCount: number;
@@ -17,6 +18,7 @@ interface ReportInteractionSectionProps {
 }
 
 export function ReportInteractionSection({
+  reportId,
   helpfulCount,
   commentCount,
   incorrectCount,
@@ -34,6 +36,7 @@ export function ReportInteractionSection({
   return (
     <>
       <ReportActions
+        reportId={reportId}
         helpfulCount={helpfulCount}
         commentCount={currentCommentCount}
         incorrectCount={incorrectCount}

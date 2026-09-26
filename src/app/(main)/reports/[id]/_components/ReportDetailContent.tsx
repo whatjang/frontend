@@ -32,6 +32,7 @@ export function ReportDetailContent({ reportId }: ReportDetailContentProps) {
       <ReportCard report={report} />
 
       <ReportInteractionSection
+        reportId={report.report_id}
         helpfulCount={report.helpful_count}
         commentCount={report.comment_count}
         incorrectCount={report.incorrect_count}

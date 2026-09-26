@@ -3,7 +3,7 @@
 import { MapPin, Star, UserRound } from "lucide-react";
 
 import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
-import { BookmarkButton } from "@/src/components/reports/BookmarkButton";
+import { BookmarkButton } from "@/src/components/report/BookmarkButton";
 import type { ReportDetailResult } from "@/src/types/report";
 import { formatDateTime } from "@/src/utils/date";
 

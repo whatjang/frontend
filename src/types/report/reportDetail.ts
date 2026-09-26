@@ -1,6 +1,5 @@
 import type { ReportItemCategory } from "./reportFeed";
-
-export type ReportReaction = "HELPFUL" | "INCORRECT" | null;
+import type { ReportReaction } from "./reportReaction";
 
 export interface ReportDetailAuthor {
   member_id: number;
