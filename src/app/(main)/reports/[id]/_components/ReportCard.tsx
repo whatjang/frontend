@@ -1,12 +1,14 @@
 "use client";
 
 import { MapPin, Star, UserRound } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
 import { BookmarkButton } from "@/src/components/report/BookmarkButton";
 import type { ReportDetailResult } from "@/src/types/report";
 import { formatDateTime } from "@/src/utils/date";
 
+import useDeleteReport from "../_hooks/useDeleteReport";
 import { EditDeleteMenu } from "./EditDeleteMenu";
 
 interface ReportCardProps {
@@ -16,6 +18,27 @@ interface ReportCardProps {
 export function ReportCard({ report }: ReportCardProps) {
   const firstImageUrl = report.image_urls[0];
   const profileImageUrl = report.author.profile_image_url;
+  const router = useRouter();
+  const deleteReportMutation = useDeleteReport();
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      "제보를 삭제하시겠습니까?\n삭제된 제보는 복구할 수 없습니다."
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await deleteReportMutation.mutateAsync(report.report_id);
+
+      router.replace("/reports");
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "제보 삭제에 실패했습니다.";
+
+      alert(message);
+    }
+  };
 
   return (
     <article className="flex w-full flex-col gap-4 px-5">
@@ -51,9 +74,7 @@ export function ReportCard({ report }: ReportCardProps) {
               onEdit={() => {
                 console.log("제보 수정", report.report_id);
               }}
-              onDelete={() => {
-                console.log("제보 삭제", report.report_id);
-              }}
+              onDelete={handleDelete}
             />
           )}
 
