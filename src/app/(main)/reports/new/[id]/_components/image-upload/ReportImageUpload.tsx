@@ -5,6 +5,7 @@ import type { ChangeEvent } from "react";
 
 import { MAX_REPORT_IMAGES } from "@/src/constants/report";
 
+import { validateReportImages } from "../../_utils/validateReportImages";
 import ReportImagePreview from "./ReportImagePreview";
 import ReportImageUploadButton from "./ReportImageUploadButton";
 
@@ -26,8 +27,17 @@ export default function ReportImageUpload({
 
     const remainingCount = MAX_REPORT_IMAGES - images.length;
     const filesToAdd = selectedFiles.slice(0, remainingCount);
+    const nextImages = [...images, ...filesToAdd];
 
-    onChange([...images, ...filesToAdd]);
+    const errorMessage = validateReportImages(nextImages);
+
+    if (errorMessage) {
+      alert(errorMessage);
+      event.currentTarget.value = "";
+      return;
+    }
+
+    onChange(nextImages);
 
     event.currentTarget.value = "";
   };

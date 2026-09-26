@@ -29,7 +29,7 @@ export default function ReportImageUploadButton({
       <input
         id="report-image"
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
         multiple
         onChange={onChange}
         className="hidden"

@@ -1,5 +1,8 @@
 export type {
+  CreateReportRequest,
+  CreateReportResult,
   ReportAuthor,
+  ReportCategory,
   ReportComment,
   ReportDetail,
   ReportSummary,
@@ -21,4 +24,4 @@ export type {
   ReportFeedResult,
   ReportItemCategory,
 } from "./reportFeed";
-export type { ReportFormInitialValues, ReportFormValues } from "./reportForm";
+export type { ReportFormValues } from "./reportForm";
