@@ -10,17 +10,15 @@ import type { ReportDetailResult } from "@/src/types/report";
 
 interface ToggleBookmarkParams {
   reportId: number;
-  isBookmarked: boolean;
+  bookmarked: boolean;
 }
 
 export function useReportBookmark() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ reportId, isBookmarked }: ToggleBookmarkParams) =>
-      isBookmarked
-        ? removeReportBookmark(reportId)
-        : addReportBookmark(reportId),
+    mutationFn: ({ reportId, bookmarked }: ToggleBookmarkParams) =>
+      bookmarked ? removeReportBookmark(reportId) : addReportBookmark(reportId),
 
     onSuccess: (response, { reportId }) => {
       queryClient.setQueryData<ReportDetailResult>(

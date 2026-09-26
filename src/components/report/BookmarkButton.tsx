@@ -6,13 +6,13 @@ import { useReportBookmark } from "@/src/hooks/report/useReportBookmark";
 
 interface BookmarkButtonProps {
   reportId: number;
-  initialBookmarked: boolean;
+  bookmarked: boolean;
   variant?: "plain" | "outlined";
 }
 
 export function BookmarkButton({
   reportId,
-  initialBookmarked,
+  bookmarked,
   variant = "outlined",
 }: BookmarkButtonProps) {
   const { mutate: updateBookmark, isPending } = useReportBookmark();
@@ -20,7 +20,7 @@ export function BookmarkButton({
   const handleBookmark = () => {
     updateBookmark({
       reportId,
-      isBookmarked: initialBookmarked,
+      bookmarked,
     });
   };
 
@@ -28,23 +28,23 @@ export function BookmarkButton({
     <button
       type="button"
       disabled={isPending}
-      aria-label={initialBookmarked ? "제보 저장 해제" : "제보 저장"}
-      aria-pressed={initialBookmarked}
+      aria-label={bookmarked ? "제보 저장 해제" : "제보 저장"}
+      aria-pressed={bookmarked}
       onClick={handleBookmark}
       className={`flex shrink-0 cursor-pointer items-center justify-center transition-colors disabled:cursor-default disabled:opacity-60 ${
         variant === "outlined"
           ? `size-9 rounded-full border ${
-              initialBookmarked
+              bookmarked
                 ? "border-light-gray bg-light-green text-green"
                 : "border-light-gray text-deep-gray bg-white"
             }`
-          : `size-6 ${initialBookmarked ? "text-green" : "text-deep-gray"}`
+          : `size-6 ${bookmarked ? "text-green" : "text-deep-gray"}`
       }`}
     >
       <Bookmark
         size={20}
         strokeWidth={2}
-        fill={initialBookmarked ? "currentColor" : "none"}
+        fill={bookmarked ? "currentColor" : "none"}
       />
     </button>
   );

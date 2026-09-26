@@ -52,7 +52,7 @@ export default function ReportItem({ report }: ReportItemProps) {
 
         <BookmarkButton
           reportId={report.report_id}
-          initialBookmarked={report.bookmarked}
+          bookmarked={report.bookmarked}
           variant="plain"
         />
       </div>
