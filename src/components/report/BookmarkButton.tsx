@@ -1,44 +1,50 @@
 "use client";
 
 import { Bookmark } from "lucide-react";
-import { useState } from "react";
+
+import { useReportBookmark } from "@/src/hooks/report/useReportBookmark";
 
 interface BookmarkButtonProps {
-  initialBookmarked: boolean;
+  reportId: number;
+  bookmarked: boolean;
   variant?: "plain" | "outlined";
 }
 
 export function BookmarkButton({
-  initialBookmarked,
+  reportId,
+  bookmarked,
   variant = "outlined",
 }: BookmarkButtonProps) {
-  const [isBookmarked, setIsBookmarked] = useState(initialBookmarked);
+  const { mutate: updateBookmark, isPending } = useReportBookmark();
 
   const handleBookmark = () => {
-    // TODO: 북마크 API 연결
-    setIsBookmarked((prev) => !prev);
+    updateBookmark({
+      reportId,
+      bookmarked,
+    });
   };
 
   return (
     <button
       type="button"
-      aria-label={isBookmarked ? "제보 저장 해제" : "제보 저장"}
-      aria-pressed={isBookmarked}
+      disabled={isPending}
+      aria-label={bookmarked ? "제보 저장 해제" : "제보 저장"}
+      aria-pressed={bookmarked}
       onClick={handleBookmark}
-      className={`flex shrink-0 cursor-pointer items-center justify-center transition-colors ${
+      className={`flex shrink-0 cursor-pointer items-center justify-center transition-colors disabled:cursor-default disabled:opacity-60 ${
         variant === "outlined"
           ? `size-9 rounded-full border ${
-              isBookmarked
+              bookmarked
                 ? "border-light-gray bg-light-green text-green"
                 : "border-light-gray text-deep-gray bg-white"
             }`
-          : `size-6 ${isBookmarked ? "text-green" : "text-deep-gray"}`
+          : `size-6 ${bookmarked ? "text-green" : "text-deep-gray"}`
       }`}
     >
       <Bookmark
         size={20}
         strokeWidth={2}
-        fill={isBookmarked ? "currentColor" : "none"}
+        fill={bookmarked ? "currentColor" : "none"}
       />
     </button>
   );

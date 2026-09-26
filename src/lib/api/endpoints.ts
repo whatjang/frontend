@@ -20,6 +20,7 @@ export const API_ENDPOINTS = {
     FEED: "/api/reports",
     DETAIL: (reportId: number) => `/api/reports/${reportId}`,
     REACTION: (reportId: number) => `/api/reports/${reportId}/reaction`,
+    BOOKMARK: (reportId: number) => `/api/reports/${reportId}/bookmark`,
     CREATE: (marketId: number) => `/api/markets/${marketId}/reports`,
   },
 
