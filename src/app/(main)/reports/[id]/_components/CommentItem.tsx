@@ -1,5 +1,3 @@
-import { ThumbsUp } from "lucide-react";
-
 import type { ReportComment } from "@/src/types/report";
 
 import { EditDeleteMenu } from "./EditDeleteMenu";
@@ -7,10 +5,9 @@ import { EditDeleteMenu } from "./EditDeleteMenu";
 interface CommentItemProps {
   comment: ReportComment;
   onReply: (parentId: number, nickname: string) => void;
-  onLike: (commentId: number) => void;
 }
 
-export function CommentItem({ comment, onReply, onLike }: CommentItemProps) {
+export function CommentItem({ comment, onReply }: CommentItemProps) {
   return (
     <li
       className={`border-light-gray flex gap-2 rounded-2xl border bg-white/40 p-3 ${
@@ -61,34 +58,15 @@ export function CommentItem({ comment, onReply, onLike }: CommentItemProps) {
           {comment.content}
         </p>
 
-        <div className="text-deep-gray mt-1 flex items-center gap-3 text-xs">
-          <button
-            type="button"
-            aria-pressed={comment.isLikedByMe}
-            onClick={() => onLike(comment.id)}
-            className={`flex cursor-pointer items-center gap-1 ${
-              comment.isLikedByMe ? "text-green" : ""
-            }`}
-          >
-            <ThumbsUp
-              size={11}
-              strokeWidth={2}
-              fill={comment.isLikedByMe ? "currentColor" : "none"}
-            />
-
-            <span>{comment.likeCount}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              onReply(comment.parentId ?? comment.id, comment.author.nickname)
-            }
-            className="cursor-pointer"
-          >
-            답글 달기
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() =>
+            onReply(comment.parentId ?? comment.id, comment.author.nickname)
+          }
+          className="text-deep-gray mt-1 flex cursor-pointer text-xs"
+        >
+          답글 달기
+        </button>
       </div>
     </li>
   );

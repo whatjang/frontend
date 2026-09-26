@@ -26,27 +26,8 @@ export function CommentSection({
 }: CommentSectionProps) {
   const [replyTarget, setReplyTarget] = useState<ReplyTarget | null>(null);
   const [comment, setComment] = useState("");
-  const [likedComments, setLikedComments] = useState<Record<number, boolean>>(
-    {}
-  );
 
   const createCommentMutation = useReportCommentCreate();
-
-  const commentList = comments.map((comment) => {
-    const liked = likedComments[comment.id];
-
-    if (liked === undefined) {
-      return comment;
-    }
-
-    const likeCountChange = liked === comment.isLikedByMe ? 0 : liked ? 1 : -1;
-
-    return {
-      ...comment,
-      isLikedByMe: liked,
-      likeCount: Math.max(0, comment.likeCount + likeCountChange),
-    };
-  });
 
   const handleReply = (parentId: number, nickname: string) => {
     setReplyTarget({
@@ -61,21 +42,6 @@ export function CommentSection({
 
   const handleCancelReply = () => {
     setReplyTarget(null);
-  };
-
-  const handleLike = (commentId: number) => {
-    const targetComment = commentList.find(
-      (comment) => comment.id === commentId
-    );
-
-    if (!targetComment) {
-      return;
-    }
-
-    setLikedComments((prev) => ({
-      ...prev,
-      [commentId]: !targetComment.isLikedByMe,
-    }));
   };
 
   const handleSubmit = async () => {
@@ -110,11 +76,7 @@ export function CommentSection({
     <section id="comments" className="flex flex-col gap-2 px-5">
       <h2 className="text-sm font-bold text-black">댓글 {totalCount}</h2>
 
-      <CommentList
-        comments={commentList}
-        onReply={handleReply}
-        onLike={handleLike}
-      />
+      <CommentList comments={comments} onReply={handleReply} />
 
       {replyTarget && (
         <div className="text-deep-gray flex items-center gap-2 px-2 text-xs">

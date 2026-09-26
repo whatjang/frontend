@@ -41,10 +41,8 @@ export interface ReportComment {
   author: ReportAuthor;
   createdAt: string;
   content: string;
-  likeCount: number;
   parentId?: number;
   replyToNickname?: string;
-  isLikedByMe?: boolean;
   isMine?: boolean;
 }
 

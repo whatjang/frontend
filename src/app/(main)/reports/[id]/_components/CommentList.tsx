@@ -4,13 +4,10 @@ import { CommentItem } from "./CommentItem";
 
 interface CommentListProps {
   comments: ReportComment[];
-
   onReply: (parentId: number, nickname: string) => void;
-
-  onLike: (commentId: number) => void;
 }
 
-export function CommentList({ comments, onReply, onLike }: CommentListProps) {
+export function CommentList({ comments, onReply }: CommentListProps) {
   if (comments.length === 0) {
     return (
       <div className="text-deep-gray text-center text-xs">
@@ -22,12 +19,7 @@ export function CommentList({ comments, onReply, onLike }: CommentListProps) {
   return (
     <ul className="flex flex-col gap-3">
       {comments.map((comment) => (
-        <CommentItem
-          key={comment.id}
-          comment={comment}
-          onReply={onReply}
-          onLike={onLike}
-        />
+        <CommentItem key={comment.id} comment={comment} onReply={onReply} />
       ))}
     </ul>
   );
