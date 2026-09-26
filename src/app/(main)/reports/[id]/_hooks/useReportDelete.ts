@@ -2,15 +2,15 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { deleteReport } from "@/src/lib/api/report/delete";
+import { deleteReport as deleteReportApi } from "@/src/lib/api/report/delete";
 
-export default function useReportDelete() {
+export default function useReportDelete(reportId: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (reportId: number) => deleteReport(reportId),
+    mutationFn: () => deleteReportApi(reportId),
 
-    onSuccess: (_, reportId) => {
+    onSuccess: () => {
       queryClient.removeQueries({
         queryKey: ["report", "detail", reportId],
       });

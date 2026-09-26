@@ -1,6 +1,6 @@
 import type { ReportComment } from "@/src/types/report";
 
-import { EditDeleteMenu } from "./EditDeleteMenu";
+import { DeleteMenu } from "./DeleteMenu";
 
 interface CommentItemProps {
   comment: ReportComment;
@@ -37,7 +37,7 @@ export function CommentItem({ comment, onReply, onDelete }: CommentItemProps) {
 
           {comment.isMine && (
             <div className="ml-auto">
-              <EditDeleteMenu
+              <DeleteMenu
                 onDelete={() => {
                   onDelete(comment.id);
                 }}
