@@ -1,6 +1,6 @@
 "use client";
 
-import { LoaderCircle, LogOutIcon, Pencil, Trash2 } from "lucide-react";
+import { LoaderCircle, LogOutIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { useAuthStore } from "@/src/stores/authStore";
@@ -31,13 +31,7 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
         <div className="shadow-deep-gray flex flex-col gap-3 rounded-xl bg-white/20 p-4 shadow-xs">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="bg-deep-gray border-green h-13 w-13 rounded-full border" />
-
-                <span className="bg-green absolute -right-1 -bottom-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-white">
-                  <Pencil size={13} />
-                </span>
-              </div>
+              <div className="bg-deep-gray border-green h-13 w-13 rounded-full border" />
 
               <div>
                 {!isInitialized || !nickname ? (
