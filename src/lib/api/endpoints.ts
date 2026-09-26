@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
   REPORT: {
     FEED: "/api/reports",
     DETAIL: (reportId: number) => `/api/reports/${reportId}`,
+    CREATE: (marketId: number) => `/api/markets/${marketId}/reports`,
   },
 
   CURATION: {
@@ -29,9 +30,5 @@ export const API_ENDPOINTS = {
     ONBOARDING: "/api/members/me/onboarding",
     ME: "/api/members/me",
     FAVORITE_MARKETS: "/api/members/favorite-markets",
-  },
-
-  REPORT: {
-    CREATE: (marketId: number) => `/api/markets/${marketId}/reports`,
   },
 } as const;
