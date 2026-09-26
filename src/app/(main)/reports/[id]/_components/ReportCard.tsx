@@ -1,71 +1,84 @@
 "use client";
 
-import { MapPin, Star } from "lucide-react";
+import { MapPin, Star, UserRound } from "lucide-react";
 
+import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
 import { BookmarkButton } from "@/src/components/reports/BookmarkButton";
-import type { ReportDetail } from "@/src/types/report";
+import type { ReportDetailResult } from "@/src/types/report";
+import { formatDateTime } from "@/src/utils/date";
 
 import { EditDeleteMenu } from "./EditDeleteMenu";
 
 interface ReportCardProps {
-  report: ReportDetail;
+  report: ReportDetailResult;
 }
 
 export function ReportCard({ report }: ReportCardProps) {
+  const firstImageUrl = report.image_urls[0];
+  const profileImageUrl = report.author.profile_image_url;
+
   return (
-    <article className="flex w-full flex-col gap-2 px-5">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="bg-light-gray flex h-8 w-8 rounded-full" />
+    <article className="flex w-full flex-col gap-4 px-5">
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-2.5">
+          {profileImageUrl ? (
+            <div
+              className="bg-light-gray size-9 shrink-0 rounded-full bg-cover bg-center"
+              style={{
+                backgroundImage: `url("${profileImageUrl}")`,
+              }}
+            />
+          ) : (
+            <div className="bg-light-green text-green flex size-9 shrink-0 items-center justify-center rounded-full">
+              <UserRound size={17} strokeWidth={1.8} />
+            </div>
+          )}
 
           <div className="flex flex-col">
             <strong className="text-sm font-bold text-black">
               {report.author.nickname}
             </strong>
 
-            <span className="text-deep-gray text-xs font-medium">
-              {report.createdAt}
+            <span className="text-deep-gray text-xs">
+              {formatDateTime(report.created_at)}
             </span>
           </div>
         </div>
 
         <div className="flex items-center gap-1">
-          <EditDeleteMenu
-            onEdit={() => {
-              // 추후 제보 수정 페이지/API 연결
-              console.log("제보 수정", report.id);
-            }}
-            onDelete={() => {
-              // 추후 제보 삭제 API 연결
-              console.log("제보 삭제", report.id);
-            }}
-          />
+          {report.mine && (
+            <EditDeleteMenu
+              onEdit={() => {
+                console.log("제보 수정", report.report_id);
+              }}
+              onDelete={() => {
+                console.log("제보 삭제", report.report_id);
+              }}
+            />
+          )}
 
-          <BookmarkButton initialBookmarked={report.isBookmarked} />
+          <BookmarkButton initialBookmarked={report.bookmarked} />
         </div>
       </div>
 
-      <div className="bg-light-gray relative aspect-[1.44/1] w-full overflow-hidden rounded-2xl">
-        {report.location && (
-          <div className="text-green absolute top-2 left-2 z-10 flex items-center gap-1 rounded-xl bg-white/80 px-2 py-1 text-xs font-bold backdrop-blur-sm">
-            <MapPin size={13} strokeWidth={2} />
-            <span>{report.location}</span>
-          </div>
-        )}
+      <div className="text-deep-gray flex items-center gap-1 text-xs font-medium">
+        <MapPin size={14} strokeWidth={2} className="text-green shrink-0" />
+        <span className="truncate">{report.market.market_name}</span>
       </div>
 
-      {report.tag && (
-        <div className="bg-light-green text-green border-light-gray flex w-fit items-center gap-1 self-start rounded-full border px-2 py-1 text-xs font-semibold">
-          # {report.tag}
-        </div>
+      {firstImageUrl && (
+        <div
+          className="bg-light-gray aspect-1.5/1 w-full rounded-2xl bg-cover bg-center"
+          style={{
+            backgroundImage: `url("${firstImageUrl}")`,
+          }}
+        />
       )}
 
-      <p className="text-xs font-medium break-keep whitespace-pre-line text-black">
-        {report.content}
-      </p>
-
-      <div className="border-light-gray flex items-center justify-between rounded-2xl border bg-white p-3">
-        <strong className="text-xs font-bold text-black">종합 평가</strong>
+      <div className="flex items-center justify-between">
+        <span className="bg-light-green text-green rounded-full px-2.5 py-1 text-xs font-semibold">
+          # {REPORT_CATEGORY_LABELS[report.category]}
+        </span>
 
         <div className="flex items-center gap-1">
           <Star
@@ -79,11 +92,13 @@ export function ReportCard({ report }: ReportCardProps) {
             {report.rating.toFixed(1)}
           </strong>
 
-          <span className="self-end pb-0.5 text-xs font-bold text-black">
-            / 5
-          </span>
+          <span className="text-deep-gray text-xs">/ 5</span>
         </div>
       </div>
+
+      <p className="text-sm leading-6 font-medium break-keep whitespace-pre-line text-black">
+        {report.content}
+      </p>
     </article>
   );
 }

@@ -16,6 +16,11 @@ export const API_ENDPOINTS = {
     OPEN_ON: (date: string) => `/api/markets/open-on/${date}`,
   },
 
+  REPORT: {
+    FEED: "/api/reports",
+    DETAIL: (reportId: number) => `/api/reports/${reportId}`,
+  },
+
   CURATION: {
     WEEKLY: "/api/curations/weekly",
   },

@@ -1,9 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { getReportDetail } from "@/src/services/report";
-
-import { ReportCard } from "./_components/ReportCard";
-import { ReportInteractionSection } from "./_components/ReportInteractionSection";
+import { ReportDetailContent } from "./_components/ReportDetailContent";
 
 interface ReportDetailPageProps {
   params: Promise<{
@@ -15,23 +12,11 @@ export default async function ReportDetailPage({
   params,
 }: ReportDetailPageProps) {
   const { id } = await params;
+  const reportId = Number(id);
 
-  const report = await getReportDetail(Number(id));
-
-  if (!report) {
+  if (!Number.isInteger(reportId) || reportId <= 0) {
     notFound();
   }
 
-  return (
-    <main className="flex flex-col gap-6">
-      <ReportCard report={report} />
-
-      <ReportInteractionSection
-        helpfulCount={report.helpfulCount}
-        commentCount={report.commentCount}
-        incorrectCount={report.incorrectCount}
-        comments={report.comments}
-      />
-    </main>
-  );
+  return <ReportDetailContent reportId={reportId} />;
 }
