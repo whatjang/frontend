@@ -9,3 +9,14 @@ export function getMyReports(page = 0): Promise<ApiResponse<ReportFeedResult>> {
     params: { page },
   });
 }
+
+export function getMyBookmarkedReports(
+  page = 0
+): Promise<ApiResponse<ReportFeedResult>> {
+  return apiClient.get<ApiResponse<ReportFeedResult>>(
+    API_ENDPOINTS.REPORT.MY_BOOKMARKS,
+    {
+      params: { page },
+    }
+  );
+}

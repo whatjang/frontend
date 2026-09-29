@@ -2,7 +2,7 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { getMyBookmarkedReports } from "@/src/lib/api/report/myBookmarkedReports";
+import { getMyBookmarkedReports } from "@/src/lib/api/report/myReports";
 
 export function useMyBookmarkedReports() {
   return useInfiniteQuery({
