@@ -8,6 +8,7 @@ export interface MarketSearchParams {
 export interface MarketSearchItem {
   market_id: number;
   name: string;
+  img_url: string | null;
   market_type: string;
   city: string;
   district: string;
