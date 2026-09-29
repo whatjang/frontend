@@ -1,10 +1,13 @@
 "use client";
 
-import { ExternalLink, ImageIcon, MapPin, Phone } from "lucide-react";
+import { ExternalLink, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-import { TOUR_CATEGORY_LABELS } from "@/src/constants/tour";
+import {
+  TOUR_CATEGORY_LABELS,
+  TOUR_FALLBACK_ICONS,
+} from "@/src/constants/tour";
 import type { NearbyPlace } from "@/src/types/tour";
 
 interface TourPlaceItemProps {
@@ -20,6 +23,10 @@ function formatDistance(distance: number) {
   }
 
   return `${(distance / 1000).toFixed(1)}km`;
+}
+
+function normalizeImageUrl(url: string | null) {
+  return url?.replace(/^http:\/\//, "https://") ?? null;
 }
 
 export default function TourPlaceItem({
@@ -45,7 +52,10 @@ export default function TourPlaceItem({
     }
   };
 
-  const showImage = Boolean(place.thumbnail_url) && !imageError;
+  const imageUrl = normalizeImageUrl(place.thumbnail_url);
+  const showImage = Boolean(imageUrl) && !imageError;
+
+  const FallbackIcon = TOUR_FALLBACK_ICONS[place.category];
 
   return (
     <article
@@ -63,20 +73,25 @@ export default function TourPlaceItem({
           : "border-light-gray shadow-light-gray",
       ].join(" ")}
     >
-      <div className="relative size-20 shrink-0 overflow-hidden rounded-xl">
+      <div className="border-deep-gray/10 relative size-20 shrink-0 overflow-hidden rounded-xl border">
         {showImage ? (
           <Image
-            src={place.thumbnail_url!}
+            src={imageUrl!}
             alt={place.name}
             fill
             sizes="80px"
             loading={eager ? "eager" : "lazy"}
+            unoptimized
             onError={() => setImageError(true)}
             className="object-cover"
           />
         ) : (
           <div className="bg-light-green text-green flex h-full w-full items-center justify-center">
-            <ImageIcon className="size-6" />
+            <FallbackIcon
+              className="size-7"
+              strokeWidth={1.7}
+              aria-hidden="true"
+            />
           </div>
         )}
       </div>
@@ -96,14 +111,14 @@ export default function TourPlaceItem({
 
         {place.address && (
           <div className="text-deep-gray flex items-start gap-1 text-xs">
-            <MapPin className="mt-1 size-3 shrink-0" />
+            <MapPin className="mt-1 size-3 shrink-0" aria-hidden="true" />
             <span className="line-clamp-2 leading-5">{place.address}</span>
           </div>
         )}
 
         {place.telephone && (
           <div className="text-deep-gray flex items-center gap-1 text-xs">
-            <Phone className="size-3 shrink-0" />
+            <Phone className="size-3 shrink-0" aria-hidden="true" />
             <span>{place.telephone}</span>
           </div>
         )}
