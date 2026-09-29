@@ -35,6 +35,10 @@ export function useReportBookmark() {
       queryClient.invalidateQueries({
         queryKey: ["report", "feed"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["report", "me", "bookmarks"],
+      });
     },
   });
 }
