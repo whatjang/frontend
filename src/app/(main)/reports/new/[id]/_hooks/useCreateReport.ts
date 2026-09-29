@@ -13,14 +13,17 @@ export default function useCreateReport() {
   return useMutation({
     mutationFn: (params: CreateReportParams) => createReport(params),
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["report", "me"],
-      });
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ["report", "feed"],
+          refetchType: "all",
+        }),
 
-      queryClient.invalidateQueries({
-        queryKey: ["report", "feed"],
-      });
+        queryClient.invalidateQueries({
+          queryKey: ["report", "me"],
+        }),
+      ]);
     },
   });
 }
