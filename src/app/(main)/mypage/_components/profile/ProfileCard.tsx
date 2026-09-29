@@ -5,7 +5,6 @@ import { useState } from "react";
 
 import { useAuthStore } from "@/src/stores/authStore";
 import { useMemberStore } from "@/src/stores/memberStore";
-import type { Profile } from "@/src/types/mypage";
 
 import { useLogout } from "../../_hooks/useLogout";
 import { useWithdraw } from "../../_hooks/useWithdraw";
@@ -13,10 +12,14 @@ import DeleteModal from "./DeleteModal";
 import StatCard from "./StatCard";
 
 interface ProfileCardProps {
-  profile: Profile;
+  favoriteMarketCount: number;
+  reportCount: number;
 }
 
-export default function ProfileCard({ profile }: ProfileCardProps) {
+export default function ProfileCard({
+  favoriteMarketCount,
+  reportCount,
+}: ProfileCardProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const isInitialized = useAuthStore((state) => state.isInitialized);
@@ -79,13 +82,13 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
           <div className="grid grid-cols-2 gap-3">
             <StatCard
               label="즐겨찾는 시장"
-              value={profile.favoriteMarketCount}
+              value={favoriteMarketCount}
               unit="곳"
             />
 
             <StatCard
               label="제보 횟수"
-              value={profile.reportCount}
+              value={reportCount}
               unit="회"
               highlighted
             />
