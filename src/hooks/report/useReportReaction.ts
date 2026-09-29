@@ -64,6 +64,7 @@ export function useReportReaction() {
                       ...report,
                       helpful_count: result.helpful_count,
                       incorrect_count: result.incorrect_count,
+                      my_reaction: result.my_reaction,
                     }
                   : report
               ),
