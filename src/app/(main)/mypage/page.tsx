@@ -8,18 +8,31 @@ import ProfileCard from "./_components/profile/ProfileCard";
 import ReportList from "./_components/report/ReportList";
 import BookmarkedReportList from "./_components/saved/BookmarkedReportList";
 import { useFavoriteMarkets } from "./_hooks/useFavoriteMarkets";
+import { useMyReports } from "./_hooks/useMyReports";
 
 export default function MyPage() {
   const { data: favoriteData } = useFavoriteMarkets();
   const { mutate: toggleFavorite } = useMarketFavorite();
 
-  const { profile, bookmarkedReports, reports } = mockMyPageData;
+  const {
+    data: myReportsData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useMyReports();
+
+  const { profile, bookmarkedReports } = mockMyPageData;
 
   const favoriteMarkets = favoriteData?.markets ?? [];
+
+  const reports = myReportsData?.pages.flatMap((page) => page.reports) ?? [];
+
+  const reportTotalCount = myReportsData?.pages[0]?.total_count ?? 0;
 
   const profileData = {
     ...profile,
     favoriteMarketCount: favoriteData?.total_count ?? 0,
+    reportCount: reportTotalCount,
   };
 
   const handleRemoveFavorite = (marketId: number) => {
@@ -41,7 +54,13 @@ export default function MyPage() {
 
         <BookmarkedReportList reports={bookmarkedReports} />
 
-        <ReportList reports={reports} />
+        <ReportList
+          reports={reports}
+          totalCount={reportTotalCount}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          onLoadMore={() => void fetchNextPage()}
+        />
       </div>
     </main>
   );
