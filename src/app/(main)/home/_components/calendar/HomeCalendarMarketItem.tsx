@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, MapPin, Navigation } from "lucide-react";
+import { ChevronRight, MapPin, Navigation, Store } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -30,7 +30,24 @@ export default function HomeCalendarMarketItem({
   return (
     <article className="overflow-hidden rounded-2xl bg-white shadow-sm">
       <div className="flex">
-        <div className="bg-light-gray w-[30%]" />
+        <div
+          className="bg-light-gray flex w-[30%] items-center justify-center bg-cover bg-center"
+          style={
+            market.img_url
+              ? {
+                  backgroundImage: `url("${market.img_url}")`,
+                }
+              : undefined
+          }
+        >
+          {!market.img_url && (
+            <Store
+              className="text-deep-gray/40 size-8"
+              strokeWidth={1.5}
+              aria-hidden="true"
+            />
+          )}
+        </div>
 
         <div className="flex min-w-0 flex-1 flex-col gap-1 p-3">
           <h4 className="text-green line-clamp-1 text-sm font-bold">
