@@ -1,17 +1,13 @@
 "use client";
 
-import {
-  Coffee,
-  ExternalLink,
-  Landmark,
-  MapPin,
-  Phone,
-  Utensils,
-} from "lucide-react";
+import { ExternalLink, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-import { TOUR_CATEGORY_LABELS } from "@/src/constants/tour";
+import {
+  TOUR_CATEGORY_LABELS,
+  TOUR_FALLBACK_ICONS,
+} from "@/src/constants/tour";
 import type { NearbyPlace } from "@/src/types/tour";
 
 interface TourPlaceItemProps {
@@ -27,6 +23,10 @@ function formatDistance(distance: number) {
   }
 
   return `${(distance / 1000).toFixed(1)}km`;
+}
+
+function normalizeImageUrl(url: string | null) {
+  return url?.replace(/^http:\/\//, "https://") ?? null;
 }
 
 export default function TourPlaceItem({
@@ -52,16 +52,10 @@ export default function TourPlaceItem({
     }
   };
 
-  const imageUrl =
-    place.thumbnail_url?.replace(/^http:\/\//, "https://") ?? null;
-
+  const imageUrl = normalizeImageUrl(place.thumbnail_url);
   const showImage = Boolean(imageUrl) && !imageError;
 
-  const FallbackIcon = {
-    RESTAURANT: Utensils,
-    TOURIST_ATTRACTION: Landmark,
-    CAFE: Coffee,
-  }[place.category];
+  const FallbackIcon = TOUR_FALLBACK_ICONS[place.category];
 
   return (
     <article
@@ -117,14 +111,14 @@ export default function TourPlaceItem({
 
         {place.address && (
           <div className="text-deep-gray flex items-start gap-1 text-xs">
-            <MapPin className="mt-1 size-3 shrink-0" />
+            <MapPin className="mt-1 size-3 shrink-0" aria-hidden="true" />
             <span className="line-clamp-2 leading-5">{place.address}</span>
           </div>
         )}
 
         {place.telephone && (
           <div className="text-deep-gray flex items-center gap-1 text-xs">
-            <Phone className="size-3 shrink-0" />
+            <Phone className="size-3 shrink-0" aria-hidden="true" />
             <span>{place.telephone}</span>
           </div>
         )}
