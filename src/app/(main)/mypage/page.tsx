@@ -1,16 +1,14 @@
 "use client";
 
 import { useMarketFavorite } from "@/src/hooks/market/useMarketFavorite";
-import { getBookmarkedReports } from "@/src/mocks/marketReports";
 
 import FavoriteList from "./_components/favorite/FavoriteList";
 import ProfileCard from "./_components/profile/ProfileCard";
 import ReportList from "./_components/report/ReportList";
 import BookmarkedReportList from "./_components/saved/BookmarkedReportList";
 import { useFavoriteMarkets } from "./_hooks/useFavoriteMarkets";
+import { useMyBookmarkedReports } from "./_hooks/useMyBookmarkedReports";
 import { useMyReports } from "./_hooks/useMyReports";
-
-const bookmarkedReports = getBookmarkedReports();
 
 export default function MyPage() {
   const { data: favoriteData } = useFavoriteMarkets();
@@ -23,11 +21,22 @@ export default function MyPage() {
     isFetchingNextPage,
   } = useMyReports();
 
+  const {
+    data: bookmarkedReportsData,
+    fetchNextPage: fetchNextBookmarkedPage,
+    hasNextPage: hasNextBookmarkedPage,
+    isFetchingNextPage: isFetchingNextBookmarkedPage,
+  } = useMyBookmarkedReports();
+
   const favoriteMarkets = favoriteData?.markets ?? [];
 
   const reports = myReportsData?.pages.flatMap((page) => page.reports) ?? [];
-
   const reportTotalCount = myReportsData?.pages[0]?.total_count ?? 0;
+
+  const bookmarkedReports =
+    bookmarkedReportsData?.pages.flatMap((page) => page.reports) ?? [];
+  const bookmarkedReportTotalCount =
+    bookmarkedReportsData?.pages[0]?.total_count ?? 0;
 
   const handleRemoveFavorite = (marketId: number) => {
     toggleFavorite({
@@ -49,7 +58,13 @@ export default function MyPage() {
           onRemove={handleRemoveFavorite}
         />
 
-        <BookmarkedReportList reports={bookmarkedReports} />
+        <BookmarkedReportList
+          reports={bookmarkedReports}
+          totalCount={bookmarkedReportTotalCount}
+          hasNextPage={hasNextBookmarkedPage}
+          isFetchingNextPage={isFetchingNextBookmarkedPage}
+          onLoadMore={() => void fetchNextBookmarkedPage()}
+        />
 
         <ReportList
           reports={reports}
