@@ -1,4 +1,4 @@
-import { MapPin } from "lucide-react";
+import { MapPin, Store } from "lucide-react";
 
 import type { MarketDetailResult } from "@/src/types/market/index";
 
@@ -20,7 +20,24 @@ export default function Intro({ market }: IntroProps) {
 
   return (
     <section className="flex w-full flex-col gap-4 px-5">
-      <div className="bg-light-gray h-50 w-full rounded-3xl" />
+      <div
+        className="bg-light-gray flex h-60 w-full items-center justify-center rounded-3xl bg-cover bg-center"
+        style={
+          market.img_url
+            ? {
+                backgroundImage: `url("${market.img_url}")`,
+              }
+            : undefined
+        }
+      >
+        {!market.img_url && (
+          <Store
+            className="text-deep-gray/40 size-10"
+            strokeWidth={1.5}
+            aria-hidden="true"
+          />
+        )}
+      </div>
 
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-1">

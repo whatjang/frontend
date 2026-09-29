@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin } from "lucide-react";
+import { MapPin, Store } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -57,12 +57,29 @@ export default function TrendMarketItem({
 
   return (
     <article className="border-light-gray overflow-hidden rounded-3xl border bg-white shadow-xs">
-      <div className="bg-light-gray relative h-44 w-full overflow-hidden">
+      <div
+        className="bg-light-gray relative flex h-44 w-full items-center justify-center overflow-hidden bg-cover bg-center"
+        style={
+          market.img_url
+            ? {
+                backgroundImage: `url("${market.img_url}")`,
+              }
+            : undefined
+        }
+      >
+        {!market.img_url && (
+          <Store
+            className="text-deep-gray/40 size-10"
+            strokeWidth={1.5}
+            aria-hidden="true"
+          />
+        )}
+
         <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
           {trends.map((trend) => (
             <div
               key={trend.keyword_id}
-              className="bg-green/90 rounded-full px-3 py-1.5 text-xs font-bold text-white"
+              className="bg-green rounded-full border border-white/30 px-3 py-1.5 text-xs font-bold text-white shadow-[0_2px_10px_rgba(0,0,0,0.4)]"
             >
               TREND #{String(trend.rank).padStart(2, "0")} {trend.keyword}
             </div>
