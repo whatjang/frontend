@@ -98,6 +98,7 @@ export default function ReportItem({ report }: ReportItemProps) {
         commentCount={report.comment_count}
         incorrectCount={report.incorrect_count}
         commentHref={`/reports/${report.report_id}#comments`}
+        initialReaction={report.my_reaction}
       />
     </article>
   );
