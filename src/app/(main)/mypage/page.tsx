@@ -30,11 +30,13 @@ export default function MyPage() {
 
   const favoriteMarkets = favoriteData?.markets ?? [];
 
-  const reports = myReportsData?.pages.flatMap((page) => page.reports) ?? [];
-  const reportTotalCount = myReportsData?.pages[0]?.total_count ?? 0;
+  const myReports = myReportsData?.pages.flatMap((page) => page.reports) ?? [];
+
+  const myReportTotalCount = myReportsData?.pages[0]?.total_count ?? 0;
 
   const bookmarkedReports =
     bookmarkedReportsData?.pages.flatMap((page) => page.reports) ?? [];
+
   const bookmarkedReportTotalCount =
     bookmarkedReportsData?.pages[0]?.total_count ?? 0;
 
@@ -50,7 +52,7 @@ export default function MyPage() {
       <div className="flex flex-col gap-6">
         <ProfileCard
           favoriteMarketCount={favoriteData?.total_count ?? 0}
-          reportCount={reportTotalCount}
+          reportCount={myReportTotalCount}
         />
 
         <FavoriteList
@@ -73,8 +75,8 @@ export default function MyPage() {
           icon={MessageSquareText}
           title="나의 제보"
           emptyMessage="아직 작성한 제보가 없어요."
-          reports={reports}
-          totalCount={reportTotalCount}
+          reports={myReports}
+          totalCount={myReportTotalCount}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           onLoadMore={() => void fetchNextPage()}
