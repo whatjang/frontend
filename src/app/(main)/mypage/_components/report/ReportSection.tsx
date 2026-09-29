@@ -76,9 +76,42 @@ export default function ReportSection({
 
   return (
     <section className="flex flex-col gap-2">
-      <div className="flex items-center gap-1">
-        <Icon className="text-green" size={18} aria-hidden="true" />
-        <h2 className="text-green font-bold">{title}</h2>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1">
+          <Icon className="text-green" size={18} aria-hidden="true" />
+          <h2 className="text-green font-bold">{title}</h2>
+        </div>
+
+        {totalPages > 1 && (
+          <nav
+            aria-label={`${title} 페이지 이동`}
+            className="flex items-center gap-1"
+          >
+            <button
+              type="button"
+              aria-label={`이전 ${title} 보기`}
+              onClick={handlePrev}
+              disabled={currentPage === 0}
+              className="text-gray flex size-4 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5 disabled:cursor-default disabled:opacity-30"
+            >
+              <ChevronLeft aria-hidden="true" className="size-4" />
+            </button>
+
+            <span className="text-gray min-w-10 text-center text-xs font-medium">
+              {currentPage + 1} / {totalPages}
+            </span>
+
+            <button
+              type="button"
+              aria-label={`다음 ${title} 보기`}
+              onClick={handleNext}
+              disabled={currentPage >= totalPages - 1 || isFetchingNextPage}
+              className="text-gray flex size-4 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5 disabled:cursor-default disabled:opacity-30"
+            >
+              <ChevronRight aria-hidden="true" className="size-4" />
+            </button>
+          </nav>
+        )}
       </div>
 
       {reports.length === 0 ? (
@@ -86,52 +119,22 @@ export default function ReportSection({
           {emptyMessage}
         </p>
       ) : (
-        <>
-          <div className="flex flex-col gap-2">
-            {visibleReports.map((report) => (
-              <ReportCard
-                key={report.report_id}
-                report={{
-                  id: report.report_id,
-                  createdAt: report.created_at.slice(0, 10),
-                  tag: REPORT_CATEGORY_LABELS[report.category],
-                  rating: report.rating,
-                  content: report.content,
-                  imageUrl: report.image_urls[0],
-                }}
-                title={report.market_name}
-              />
-            ))}
-          </div>
-
-          {totalPages > 1 && (
-            <div className="mt-2 flex items-center justify-center gap-8">
-              <button
-                type="button"
-                aria-label={`이전 ${title} 보기`}
-                onClick={handlePrev}
-                disabled={currentPage === 0}
-                className="border-light-gray flex size-6 cursor-pointer items-center justify-center rounded-full border bg-white disabled:cursor-default disabled:opacity-30"
-              >
-                <ChevronLeft className="text-green size-4" />
-              </button>
-
-              <span className="text-deep-gray min-w-12 text-center text-xs font-semibold">
-                {currentPage + 1} / {totalPages}
-              </span>
-
-              <button
-                type="button"
-                aria-label={`다음 ${title} 보기`}
-                onClick={handleNext}
-                disabled={currentPage >= totalPages - 1 || isFetchingNextPage}
-                className="border-light-gray flex size-6 cursor-pointer items-center justify-center rounded-full border bg-white disabled:cursor-default disabled:opacity-30"
-              >
-                <ChevronRight className="text-green size-4" />
-              </button>
-            </div>
-          )}
-        </>
+        <div className="flex flex-col gap-2">
+          {visibleReports.map((report) => (
+            <ReportCard
+              key={report.report_id}
+              report={{
+                id: report.report_id,
+                createdAt: report.created_at.slice(0, 10),
+                tag: REPORT_CATEGORY_LABELS[report.category],
+                rating: report.rating,
+                content: report.content,
+                imageUrl: report.image_urls[0],
+              }}
+              title={report.market_name}
+            />
+          ))}
+        </div>
       )}
     </section>
   );
