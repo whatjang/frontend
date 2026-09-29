@@ -1,13 +1,16 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, MessageSquareText } from "lucide-react";
+import { ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 
 import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
 import ReportCard from "@/src/components/report/ReportCard";
 import type { ReportFeedItem } from "@/src/types/report";
 
-interface ReportListProps {
+interface ReportSectionProps {
+  icon: LucideIcon;
+  title: string;
+  emptyMessage: string;
   reports: ReportFeedItem[];
   totalCount: number;
   hasNextPage: boolean;
@@ -17,13 +20,16 @@ interface ReportListProps {
 
 const REPORT_PAGE_SIZE = 3;
 
-export default function ReportList({
+export default function ReportSection({
+  icon: Icon,
+  title,
+  emptyMessage,
   reports,
   totalCount,
   hasNextPage,
   isFetchingNextPage,
   onLoadMore,
-}: ReportListProps) {
+}: ReportSectionProps) {
   const [currentPage, setCurrentPage] = useState(0);
 
   const totalPages = Math.ceil(totalCount / REPORT_PAGE_SIZE);
@@ -71,18 +77,14 @@ export default function ReportList({
   return (
     <section className="flex flex-col gap-2">
       <div className="flex items-center gap-1">
-        <MessageSquareText
-          className="text-green"
-          size={18}
-          aria-hidden="true"
-        />
-        <h2 className="text-green font-bold">나의 제보</h2>
+        <Icon className="text-green" size={18} aria-hidden="true" />
+        <h2 className="text-green font-bold">{title}</h2>
       </div>
 
       {reports.length === 0 ? (
-        <div className="text-deep-gray rounded-xl text-center text-sm">
-          아직 작성한 제보가 없어요.
-        </div>
+        <p className="text-deep-gray py-6 text-center text-xs">
+          {emptyMessage}
+        </p>
       ) : (
         <>
           <div className="flex flex-col gap-2">
@@ -106,7 +108,7 @@ export default function ReportList({
             <div className="mt-2 flex items-center justify-center gap-8">
               <button
                 type="button"
-                aria-label="이전 제보 보기"
+                aria-label={`이전 ${title} 보기`}
                 onClick={handlePrev}
                 disabled={currentPage === 0}
                 className="border-light-gray flex size-6 cursor-pointer items-center justify-center rounded-full border bg-white disabled:cursor-default disabled:opacity-30"
@@ -120,7 +122,7 @@ export default function ReportList({
 
               <button
                 type="button"
-                aria-label="다음 제보 보기"
+                aria-label={`다음 ${title} 보기`}
                 onClick={handleNext}
                 disabled={currentPage >= totalPages - 1 || isFetchingNextPage}
                 className="border-light-gray flex size-6 cursor-pointer items-center justify-center rounded-full border bg-white disabled:cursor-default disabled:opacity-30"
