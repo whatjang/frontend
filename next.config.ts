@@ -66,7 +66,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "tong.visitkorea.or.kr",
         pathname: "/cms/resource/**",
       },

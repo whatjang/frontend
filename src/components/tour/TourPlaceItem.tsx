@@ -52,7 +52,10 @@ export default function TourPlaceItem({
     }
   };
 
-  const showImage = Boolean(place.thumbnail_url) && !imageError;
+  const imageUrl =
+    place.thumbnail_url?.replace(/^http:\/\//, "https://") ?? null;
+
+  const showImage = Boolean(imageUrl) && !imageError;
 
   const FallbackIcon = {
     RESTAURANT: Utensils,
@@ -79,11 +82,12 @@ export default function TourPlaceItem({
       <div className="border-deep-gray/10 relative size-20 shrink-0 overflow-hidden rounded-xl border">
         {showImage ? (
           <Image
-            src={place.thumbnail_url!}
+            src={imageUrl!}
             alt={place.name}
             fill
             sizes="80px"
             loading={eager ? "eager" : "lazy"}
+            unoptimized
             onError={() => setImageError(true)}
             className="object-cover"
           />
