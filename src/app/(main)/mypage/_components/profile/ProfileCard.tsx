@@ -1,11 +1,10 @@
 "use client";
 
-import { LoaderCircle, LogOutIcon, Pencil, Trash2 } from "lucide-react";
+import { LoaderCircle, LogOutIcon, Trash2, UserRound } from "lucide-react";
 import { useState } from "react";
 
 import { useAuthStore } from "@/src/stores/authStore";
 import { useMemberStore } from "@/src/stores/memberStore";
-import type { Profile } from "@/src/types/mypage";
 
 import { useLogout } from "../../_hooks/useLogout";
 import { useWithdraw } from "../../_hooks/useWithdraw";
@@ -13,14 +12,18 @@ import DeleteModal from "./DeleteModal";
 import StatCard from "./StatCard";
 
 interface ProfileCardProps {
-  profile: Profile;
+  favoriteMarketCount: number;
+  reportCount: number;
 }
 
-export default function ProfileCard({ profile }: ProfileCardProps) {
+export default function ProfileCard({
+  favoriteMarketCount,
+  reportCount,
+}: ProfileCardProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const isInitialized = useAuthStore((state) => state.isInitialized);
-  const nickname = useMemberStore((state) => state.member?.nickname);
+  const member = useMemberStore((state) => state.member);
 
   const { logout, isLoggingOut } = useLogout();
   const { withdraw, isWithdrawing } = useWithdraw();
@@ -30,20 +33,26 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
       <section>
         <div className="shadow-deep-gray flex flex-col gap-3 rounded-xl bg-white/20 p-4 shadow-xs">
           <div className="flex items-start justify-between">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="bg-deep-gray border-green h-13 w-13 rounded-full border" />
-
-                <span className="bg-green absolute -right-1 -bottom-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-white">
-                  <Pencil size={13} />
-                </span>
+            <div className="flex items-center gap-2">
+              <div className="bg-light-green text-green border-green/20 flex h-13 w-13 items-center justify-center rounded-full border">
+                <UserRound
+                  className="size-7"
+                  strokeWidth={1.7}
+                  aria-hidden="true"
+                />
               </div>
 
               <div>
-                {!isInitialized || !nickname ? (
-                  <div className="bg-light-gray h-6 w-20 animate-pulse rounded" />
+                {!isInitialized || !member ? (
+                  <div className="flex flex-col gap-1">
+                    <div className="bg-light-gray h-6 w-20 animate-pulse rounded" />
+                    <div className="bg-light-gray h-4 w-16 animate-pulse rounded" />
+                  </div>
                 ) : (
-                  <h2 className="text-lg font-bold">{nickname} 님</h2>
+                  <div className="flex flex-col">
+                    <h2 className="text-md font-bold">{member.nickname} 님</h2>
+                    <p className="text-deep-gray text-xs">{member.name}</p>
+                  </div>
                 )}
               </div>
             </div>
@@ -79,13 +88,13 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
           <div className="grid grid-cols-2 gap-3">
             <StatCard
               label="즐겨찾는 시장"
-              value={profile.favoriteMarketCount}
+              value={favoriteMarketCount}
               unit="곳"
             />
 
             <StatCard
               label="제보 횟수"
-              value={profile.reportCount}
+              value={reportCount}
               unit="회"
               highlighted
             />

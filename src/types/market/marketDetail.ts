@@ -7,6 +7,7 @@ export interface MarketDetailResult {
   is_favorite: boolean;
   market_id: number;
   name: string;
+  img_url: string | null;
   market_type: string;
 
   province: string;

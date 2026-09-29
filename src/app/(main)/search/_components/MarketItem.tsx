@@ -1,4 +1,4 @@
-import { ChevronRight, MapPin, Navigation } from "lucide-react";
+import { ChevronRight, MapPin, Navigation, Store } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -29,7 +29,24 @@ export default function MarketItem({ market }: MarketItemProps) {
   return (
     <li className="min-w-full">
       <article className="group overflow-hidden rounded-3xl bg-white">
-        <div className="bg-light-gray relative aspect-2/1 min-h-40">
+        <div
+          className="bg-light-gray relative flex aspect-2/1 min-h-40 items-center justify-center bg-cover bg-center"
+          style={
+            market.img_url
+              ? {
+                  backgroundImage: `url("${market.img_url}")`,
+                }
+              : undefined
+          }
+        >
+          {!market.img_url && (
+            <Store
+              className="text-deep-gray/40 size-10"
+              strokeWidth={1.5}
+              aria-hidden="true"
+            />
+          )}
+
           {isMarketDayToday && (
             <span className="bg-green absolute top-4 left-4 rounded-full px-3 py-1 text-sm font-bold text-white shadow-sm">
               오늘 장날 (Today)

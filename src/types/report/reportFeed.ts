@@ -1,3 +1,5 @@
+import type { ReportReaction } from "./reportReaction";
+
 export type ReportItemCategory =
   "CROWD" | "OPERATION" | "NEW_FOOD" | "EVENT_FESTIVAL" | "OTHER";
 
@@ -19,22 +21,17 @@ export interface ReportFeedItem {
   report_id: number;
   market_id: number;
   market_name: string;
-
   author: ReportFeedAuthor;
-
   rating: number;
   category: ReportItemCategory;
   content: string;
-
   image_urls: string[];
-
   created_at: string;
-
   helpful_count: number;
   incorrect_count: number;
   comment_count: number;
-
   bookmarked: boolean;
+  my_reaction: ReportReaction;
 }
 
 export interface ReportFeedResult {

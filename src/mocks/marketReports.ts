@@ -89,17 +89,3 @@ export const mockMarketReports: MarketReportMock[] = [
 export function getMarketReports(marketId: number) {
   return mockMarketReports.filter((report) => report.marketId === marketId);
 }
-
-export function getReportById(reportId: number) {
-  return mockMarketReports.find((report) => report.id === reportId);
-}
-
-export function getBookmarkedReports() {
-  return mockMarketReports
-    .filter((report) => report.isBookmarked)
-    .map((report) => ({
-      ...report,
-      marketId: report.marketId,
-      marketName: report.marketName,
-    }));
-}

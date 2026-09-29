@@ -18,6 +18,10 @@ export default function useReportDelete(reportId: number) {
       queryClient.invalidateQueries({
         queryKey: ["report", "feed"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["report", "me"],
+      });
     },
   });
 }
