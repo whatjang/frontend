@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Star } from "lucide-react";
+import { MapPin, Star, UserRound } from "lucide-react";
 import Link from "next/link";
 
 import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
@@ -15,22 +15,14 @@ interface ReportItemProps {
 
 export default function ReportItem({ report }: ReportItemProps) {
   const firstImageUrl = report.image_urls[0];
-  const profileImageUrl = report.author.profile_image_url;
 
   return (
     <article className="border-light-gray flex w-full flex-col gap-3 rounded-3xl border bg-white/20 p-3">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-2">
-          <div
-            className="bg-light-gray size-8 rounded-full bg-cover bg-center"
-            style={
-              profileImageUrl
-                ? {
-                    backgroundImage: `url("${profileImageUrl}")`,
-                  }
-                : undefined
-            }
-          />
+          <div className="bg-light-green text-green border-green/20 flex size-8 shrink-0 items-center justify-center rounded-full border">
+            <UserRound size={15} strokeWidth={1.8} aria-hidden="true" />
+          </div>
 
           <div>
             <div className="flex items-center gap-2">

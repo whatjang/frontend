@@ -1,6 +1,13 @@
 "use client";
 
-import { ExternalLink, ImageIcon, MapPin, Phone } from "lucide-react";
+import {
+  Coffee,
+  ExternalLink,
+  Landmark,
+  MapPin,
+  Phone,
+  Utensils,
+} from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -47,6 +54,12 @@ export default function TourPlaceItem({
 
   const showImage = Boolean(place.thumbnail_url) && !imageError;
 
+  const FallbackIcon = {
+    RESTAURANT: Utensils,
+    TOURIST_ATTRACTION: Landmark,
+    CAFE: Coffee,
+  }[place.category];
+
   return (
     <article
       id={`place-${place.place_id}`}
@@ -63,7 +76,7 @@ export default function TourPlaceItem({
           : "border-light-gray shadow-light-gray",
       ].join(" ")}
     >
-      <div className="relative size-20 shrink-0 overflow-hidden rounded-xl">
+      <div className="border-deep-gray/10 relative size-20 shrink-0 overflow-hidden rounded-xl border">
         {showImage ? (
           <Image
             src={place.thumbnail_url!}
@@ -76,7 +89,11 @@ export default function TourPlaceItem({
           />
         ) : (
           <div className="bg-light-green text-green flex h-full w-full items-center justify-center">
-            <ImageIcon className="size-6" />
+            <FallbackIcon
+              className="size-7"
+              strokeWidth={1.7}
+              aria-hidden="true"
+            />
           </div>
         )}
       </div>

@@ -17,7 +17,6 @@ interface ReportCardProps {
 
 export function ReportCard({ report }: ReportCardProps) {
   const firstImageUrl = report.image_urls[0];
-  const profileImageUrl = report.author.profile_image_url;
   const router = useRouter();
   const { mutateAsync: deleteReport } = useReportDelete(report.report_id);
 
@@ -44,18 +43,9 @@ export function ReportCard({ report }: ReportCardProps) {
     <article className="flex w-full flex-col gap-4 px-5">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-2.5">
-          {profileImageUrl ? (
-            <div
-              className="bg-light-gray size-9 shrink-0 rounded-full bg-cover bg-center"
-              style={{
-                backgroundImage: `url("${profileImageUrl}")`,
-              }}
-            />
-          ) : (
-            <div className="bg-light-green text-green flex size-9 shrink-0 items-center justify-center rounded-full">
-              <UserRound size={17} strokeWidth={1.8} />
-            </div>
-          )}
+          <div className="bg-light-green text-green border-green/20 flex size-9 shrink-0 items-center justify-center rounded-full border">
+            <UserRound size={17} strokeWidth={1.8} aria-hidden="true" />
+          </div>
 
           <div className="flex flex-col">
             <strong className="text-sm font-bold text-black">

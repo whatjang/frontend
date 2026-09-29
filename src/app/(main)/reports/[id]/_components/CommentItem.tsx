@@ -1,3 +1,5 @@
+import { UserRound } from "lucide-react";
+
 import type { ReportComment } from "@/src/types/report";
 
 import { DeleteMenu } from "./DeleteMenu";
@@ -15,7 +17,9 @@ export function CommentItem({ comment, onReply, onDelete }: CommentItemProps) {
         comment.parentId ? "ml-8" : ""
       }`}
     >
-      <div className="bg-light-gray h-5 w-5 rounded-full" />
+      <div className="bg-light-green text-green border-green/20 flex size-5 shrink-0 items-center justify-center rounded-full border">
+        <UserRound size={11} strokeWidth={1.8} aria-hidden="true" />
+      </div>
 
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <div className="flex items-start">
@@ -26,8 +30,8 @@ export function CommentItem({ comment, onReply, onDelete }: CommentItemProps) {
               </strong>
 
               {comment.isMine && (
-                <span className="text-green ml-1 text-xs font-semibold">
-                  나
+                <span className="text-green ml-1 text-[10px] font-semibold">
+                  작성자
                 </span>
               )}
             </div>
