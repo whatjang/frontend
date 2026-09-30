@@ -10,6 +10,7 @@ import {
   TOUR_FALLBACK_ICONS,
 } from "@/src/constants/tour";
 import type { NearbyPlace } from "@/src/types/tour";
+import { formatDistance, normalizeTourImageUrl } from "@/src/utils/tour";
 
 interface TourPlaceItemProps {
   place: NearbyPlace;
@@ -17,18 +18,6 @@ interface TourPlaceItemProps {
   onSelect?: () => void;
   detailHref?: string;
   eager?: boolean;
-}
-
-function formatDistance(distance: number) {
-  if (distance < 1000) {
-    return `${distance}m`;
-  }
-
-  return `${(distance / 1000).toFixed(1)}km`;
-}
-
-function normalizeImageUrl(url: string | null) {
-  return url?.replace(/^http:\/\//, "https://") ?? null;
 }
 
 export default function TourPlaceItem({
@@ -55,7 +44,7 @@ export default function TourPlaceItem({
     }
   };
 
-  const imageUrl = normalizeImageUrl(place.thumbnail_url);
+  const imageUrl = normalizeTourImageUrl(place.thumbnail_url);
   const showImage = Boolean(imageUrl) && !imageError;
 
   const FallbackIcon = TOUR_FALLBACK_ICONS[place.category];

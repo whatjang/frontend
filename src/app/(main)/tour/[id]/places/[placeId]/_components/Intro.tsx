@@ -5,27 +5,16 @@ import Image from "next/image";
 import { useState } from "react";
 
 import type { NearbyPlaceDetail } from "@/src/types/tour/nearbyTour";
+import { formatDistance, normalizeTourImageUrl } from "@/src/utils/tour";
 
 interface IntroProps {
   place: NearbyPlaceDetail;
 }
 
-function formatDistance(distance: number) {
-  if (distance < 1000) {
-    return `${distance}m`;
-  }
-
-  return `${(distance / 1000).toFixed(1)}km`;
-}
-
-function normalizeImageUrl(url: string | undefined) {
-  return url?.replace(/^http:\/\//, "https://") ?? null;
-}
-
 export default function Intro({ place }: IntroProps) {
   const [imageError, setImageError] = useState(false);
 
-  const imageUrl = normalizeImageUrl(place.image_urls[0]);
+  const imageUrl = normalizeTourImageUrl(place.image_urls[0]);
   const showImage = Boolean(imageUrl) && !imageError;
 
   return (
