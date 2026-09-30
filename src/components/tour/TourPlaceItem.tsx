@@ -1,7 +1,8 @@
 "use client";
 
-import { ExternalLink, MapPin, Phone } from "lucide-react";
+import { ChevronRight, ExternalLink, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import {
@@ -14,6 +15,7 @@ interface TourPlaceItemProps {
   place: NearbyPlace;
   selected?: boolean;
   onSelect?: () => void;
+  detailHref?: string;
   eager?: boolean;
 }
 
@@ -33,6 +35,7 @@ export default function TourPlaceItem({
   place,
   selected = false,
   onSelect,
+  detailHref,
   eager = false,
 }: TourPlaceItemProps) {
   const [imageError, setImageError] = useState(false);
@@ -123,17 +126,28 @@ export default function TourPlaceItem({
           </div>
         )}
 
-        {place.place_url && (
-          <a
-            href={place.place_url}
-            target="_blank"
-            rel="noopener noreferrer"
+        {detailHref ? (
+          <Link
+            href={detailHref}
             onClick={handleLinkClick}
             className="text-green mt-1 flex w-fit items-center gap-1 text-xs font-semibold"
           >
-            카카오맵에서 보기
-            <ExternalLink className="size-3" aria-hidden="true" />
-          </a>
+            상세보기
+            <ChevronRight className="size-3" aria-hidden="true" />
+          </Link>
+        ) : (
+          place.place_url && (
+            <a
+              href={place.place_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleLinkClick}
+              className="text-green mt-1 flex w-fit items-center gap-1 text-xs font-semibold"
+            >
+              카카오맵에서 보기
+              <ExternalLink className="size-3" aria-hidden="true" />
+            </a>
+          )
         )}
       </div>
     </article>
