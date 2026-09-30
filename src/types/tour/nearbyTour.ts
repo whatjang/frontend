@@ -31,3 +31,26 @@ export interface NearbyPlacesResult {
   places: NearbyPlace[];
   source_notice: string;
 }
+
+export interface NearbyPlaceDetail {
+  market_id: number;
+  place_id: string;
+  source: "TOUR_API";
+  name: string;
+  address: string | null;
+  telephone: string | null;
+  homepage: string | null;
+  overview: string | null;
+  image_urls: string[];
+  latitude: number;
+  longitude: number;
+  distance_m: number;
+  opening_hours: string | null;
+  rest_date: string | null;
+  parking: string | null;
+  use_time: string | null;
+  representative_menu: string | null;
+  treat_menu: string | null;
+  reservation: string | null;
+  source_notice: string;
+}
