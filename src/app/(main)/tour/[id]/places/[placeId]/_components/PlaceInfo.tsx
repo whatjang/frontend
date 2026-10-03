@@ -15,6 +15,10 @@ interface PlaceInfoProps {
   place: NearbyPlaceDetail;
 }
 
+function formatMultilineText(value: string) {
+  return value.replace(/^-\s*/, "").replace(/\s+-\s+/g, "\n");
+}
+
 export default function PlaceInfo({ place }: PlaceInfoProps) {
   const hasInfo =
     place.opening_hours ||
@@ -33,9 +37,24 @@ export default function PlaceInfo({ place }: PlaceInfoProps) {
     <section className="flex flex-col gap-2 px-5">
       <h2 className="text-green text-lg font-bold">장소 정보</h2>
 
-      <div className="border-light-gray flex flex-col divide-y rounded-3xl border bg-white px-4">
+      <div className="border-light-gray divide-light-gray flex flex-col divide-y rounded-3xl border bg-white px-4">
         {place.opening_hours && (
-          <InfoRow icon={Clock3} label="운영시간" value={place.opening_hours} />
+          <div className="flex flex-col gap-2 py-4">
+            <div className="flex items-center gap-2">
+              <Clock3
+                size={18}
+                strokeWidth={2}
+                className="text-green shrink-0"
+                aria-hidden="true"
+              />
+
+              <span className="text-green text-xs font-semibold">운영시간</span>
+            </div>
+
+            <p className="text-deep-gray pl-6 text-xs leading-6 whitespace-pre-line">
+              {formatMultilineText(place.opening_hours)}
+            </p>
+          </div>
         )}
 
         {place.rest_date && (
@@ -78,7 +97,7 @@ export default function PlaceInfo({ place }: PlaceInfoProps) {
                 href={place.homepage}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-green flex items-center justify-end gap-1 font-semibold"
+                className="text-green flex items-center gap-1 font-semibold"
               >
                 바로가기
                 <ExternalLink size={12} aria-hidden="true" />
@@ -99,7 +118,7 @@ interface InfoRowProps {
 
 function InfoRow({ icon: Icon, label, value }: InfoRowProps) {
   return (
-    <div className="flex items-center gap-2 py-3">
+    <div className="flex items-center gap-3 py-4">
       <Icon
         size={18}
         strokeWidth={2}
@@ -107,12 +126,10 @@ function InfoRow({ icon: Icon, label, value }: InfoRowProps) {
         aria-hidden="true"
       />
 
-      <div className="flex min-w-0 flex-1 items-center justify-between gap-4">
-        <span className="text-green shrink-0 text-xs font-semibold">
-          {label}
-        </span>
+      <span className="text-green shrink-0 text-xs font-semibold">{label}</span>
 
-        <div className="min-w-0 text-right text-xs font-medium">{value}</div>
+      <div className="ml-auto min-w-0 text-right text-xs font-medium">
+        {value}
       </div>
     </div>
   );
