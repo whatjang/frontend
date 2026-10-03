@@ -59,20 +59,23 @@ export default function ReportItem({ report }: ReportItemProps) {
 
       <div className="flex items-center justify-between">
         <span className="bg-light-brown/20 text-light-brown rounded-full px-2 py-1 text-xs font-semibold">
-          {REPORT_CATEGORY_LABEL_MAP[report.category]}
+          #{REPORT_CATEGORY_LABEL_MAP[report.category]}
         </span>
 
-        <div className="flex items-center gap-0.5">
+        <div className="flex items-center gap-1">
           <Star
             size={15}
             strokeWidth={0}
             fill="currentColor"
             className="text-light-brown"
+            aria-hidden="true"
           />
 
           <strong className="text-light-brown text-xs font-extrabold">
             {report.rating.toFixed(1)}
           </strong>
+
+          <span className="text-deep-gray text-xs">/ 5</span>
         </div>
       </div>
 
