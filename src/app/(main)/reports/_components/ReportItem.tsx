@@ -58,7 +58,7 @@ export default function ReportItem({ report }: ReportItemProps) {
       </Link>
 
       <div className="flex items-center justify-between">
-        <span className="bg-light-brown/20 text-light-brown rounded-full px-2 py-1 text-xs font-semibold">
+        <span className="bg-light-green text-green border-green/30 rounded-full border px-2.5 py-1 text-xs font-semibold">
           #{REPORT_CATEGORY_LABEL_MAP[report.category]}
         </span>
 
