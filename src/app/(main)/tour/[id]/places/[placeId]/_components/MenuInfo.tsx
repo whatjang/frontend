@@ -5,6 +5,13 @@ interface MenuInfoProps {
   treatMenu: string | null;
 }
 
+function splitMenuItems(value: string) {
+  return value
+    .split("/")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 export default function MenuInfo({
   representativeMenu,
   treatMenu,
@@ -13,11 +20,7 @@ export default function MenuInfo({
     return null;
   }
 
-  const treatMenuItems =
-    treatMenu
-      ?.split("/")
-      .map((item) => item.trim())
-      .filter(Boolean) ?? [];
+  const treatMenuItems = treatMenu ? splitMenuItems(treatMenu) : [];
 
   return (
     <section className="flex flex-col gap-2 px-5">
