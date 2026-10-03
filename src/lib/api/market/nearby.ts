@@ -1,6 +1,7 @@
 import type { ApiResponse } from "@/src/types/api";
 import type {
   NearbyPlaceCategory,
+  NearbyPlaceDetail,
   NearbyPlacesResult,
 } from "@/src/types/tour/nearbyTour";
 
@@ -20,5 +21,14 @@ export function getNearbyPlaces(
     {
       params,
     }
+  );
+}
+
+export function getNearbyPlaceDetail(
+  marketId: number,
+  placeId: string
+): Promise<ApiResponse<NearbyPlaceDetail>> {
+  return apiClient.get<ApiResponse<NearbyPlaceDetail>>(
+    API_ENDPOINTS.MARKET.NEARBY_PLACE_DETAIL(marketId, placeId)
   );
 }
