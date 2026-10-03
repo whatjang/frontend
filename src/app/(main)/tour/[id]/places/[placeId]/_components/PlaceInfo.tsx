@@ -15,8 +15,12 @@ interface PlaceInfoProps {
   place: NearbyPlaceDetail;
 }
 
-function formatMultilineText(value: string) {
-  return value.replace(/^-\s*/, "").replace(/\s+-\s+/g, "\n");
+function splitMultilineText(value: string) {
+  return value
+    .replace(/^-\s*/, "")
+    .split(/\s+-\s+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 export default function PlaceInfo({ place }: PlaceInfoProps) {
@@ -33,28 +37,27 @@ export default function PlaceInfo({ place }: PlaceInfoProps) {
     return null;
   }
 
+  const openingHourItems = place.opening_hours
+    ? splitMultilineText(place.opening_hours)
+    : [];
+
   return (
     <section className="flex flex-col gap-2 px-5">
       <h2 className="text-green text-lg font-bold">장소 정보</h2>
 
       <div className="border-light-gray divide-light-gray flex flex-col divide-y rounded-3xl border bg-white px-4">
         {place.opening_hours && (
-          <div className="flex flex-col gap-2 py-4">
-            <div className="flex items-center gap-2">
-              <Clock3
-                size={18}
-                strokeWidth={2}
-                className="text-green shrink-0"
-                aria-hidden="true"
-              />
-
-              <span className="text-green text-xs font-semibold">운영시간</span>
-            </div>
-
-            <p className="text-deep-gray pl-6 text-xs leading-6 whitespace-pre-line">
-              {formatMultilineText(place.opening_hours)}
-            </p>
-          </div>
+          <InfoRow
+            icon={Clock3}
+            label="운영시간"
+            value={
+              <div className="flex flex-col items-end gap-1">
+                {openingHourItems.map((item, index) => (
+                  <span key={`${item}-${index}`}>{item}</span>
+                ))}
+              </div>
+            }
+          />
         )}
 
         {place.rest_date && (
@@ -118,7 +121,7 @@ interface InfoRowProps {
 
 function InfoRow({ icon: Icon, label, value }: InfoRowProps) {
   return (
-    <div className="flex items-center gap-3 py-4">
+    <div className="flex items-start gap-2 py-4">
       <Icon
         size={18}
         strokeWidth={2}
