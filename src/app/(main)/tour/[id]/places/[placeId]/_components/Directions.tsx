@@ -16,6 +16,19 @@ interface DirectionsProps {
   placeId: string;
 }
 
+function getDirectionsErrorMessage(
+  error: unknown,
+  transport: TourTransportType
+) {
+  if (error instanceof ApiError && error.code === "TOUR4042") {
+    return transport === "WALK"
+      ? "도보 길찾기는 30km 이내에서 지원해요.\n다른 이동 수단을 이용해보세요."
+      : "현재 위치에서 자전거 경로를 찾을 수 없습니다.";
+  }
+
+  return "길찾기 정보를 불러올 수 없습니다.";
+}
+
 export default function Directions({ marketId, placeId }: DirectionsProps) {
   const [transport, setTransport] = useState<TourTransportType>(
     DEFAULT_TOUR_TRANSPORT
@@ -60,16 +73,7 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
 
       window.location.assign(directions.navigation_url);
     } catch (error) {
-      if (error instanceof ApiError && error.code === "TOUR4042") {
-        setDirectionsError(
-          transport === "WALK"
-            ? "도보 길찾기는 30km 이내에서 지원해요.\n다른 이동 수단을 이용해보세요."
-            : "현재 위치에서 자전거 경로를 찾을 수 없습니다."
-        );
-        return;
-      }
-
-      setDirectionsError("길찾기 정보를 불러올 수 없습니다.");
+      setDirectionsError(getDirectionsErrorMessage(error, transport));
     }
   };
 
