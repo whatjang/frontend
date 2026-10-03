@@ -96,7 +96,7 @@ export function ReportCard({ report }: ReportCardProps) {
         </div>
       </div>
 
-      <p className="text-sm leading-6 font-medium break-keep whitespace-pre-line text-black">
+      <p className="text-xs leading-6 font-medium break-keep whitespace-pre-line text-black">
         {report.content}
       </p>
     </article>
