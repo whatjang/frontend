@@ -46,7 +46,7 @@ export default function ReportImageCarousel({
             onClick={handlePrev}
             disabled={currentIndex === 0}
             aria-label="이전 이미지"
-            className="absolute top-1/2 left-3 flex size-6 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white shadow-md backdrop-blur-sm disabled:opacity-30"
+            className="absolute top-1/2 left-3 flex size-6 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white shadow-md backdrop-blur-sm disabled:opacity-30"
           >
             <ChevronLeft size={15} />
           </button>
@@ -56,7 +56,7 @@ export default function ReportImageCarousel({
             onClick={handleNext}
             disabled={currentIndex === images.length - 1}
             aria-label="다음 이미지"
-            className="absolute top-1/2 right-3 flex size-6 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white shadow-md backdrop-blur-sm disabled:opacity-30"
+            className="absolute top-1/2 right-3 flex size-6 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white shadow-md backdrop-blur-sm disabled:opacity-30"
           >
             <ChevronRight size={15} />
           </button>
