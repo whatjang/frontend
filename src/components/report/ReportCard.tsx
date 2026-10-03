@@ -55,24 +55,21 @@ export default function ReportCard({
               </span>
             )}
 
-            <div className="flex shrink-0 items-center gap-0.5">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <Star
-                  key={index}
-                  size={11}
-                  strokeWidth={2}
-                  className={
-                    index < Math.round(report.rating)
-                      ? "fill-green text-green"
-                      : "text-light-gray"
-                  }
-                />
-              ))}
-            </div>
+            <div className="flex shrink-0 items-center gap-1">
+              <Star
+                size={15}
+                strokeWidth={0}
+                fill="currentColor"
+                className="text-light-brown"
+                aria-hidden="true"
+              />
 
-            <span className="text-green shrink-0 text-xs font-semibold">
-              {report.rating.toFixed(1)}
-            </span>
+              <strong className="text-light-brown text-xs font-extrabold">
+                {report.rating.toFixed(1)}
+              </strong>
+
+              <span className="text-deep-gray text-xs">/ 5</span>
+            </div>
           </div>
         </div>
 
