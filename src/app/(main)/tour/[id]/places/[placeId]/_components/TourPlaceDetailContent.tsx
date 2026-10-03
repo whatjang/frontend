@@ -57,7 +57,7 @@ export default function TourPlaceDetailContent({
         treatMenu={place.treat_menu}
       />
 
-      <Directions />
+      <Directions marketId={marketId} placeId={placeId} />
 
       <p className="text-deep-gray -mt-5 px-5 text-right text-xs">
         {place.source_notice}
