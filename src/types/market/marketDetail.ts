@@ -1,3 +1,5 @@
+import type { ReportFeedItem } from "@/src/types/report";
+
 export interface MarketDetailParams {
   latitude?: number;
   longitude?: number;
@@ -38,4 +40,6 @@ export interface MarketDetailResult {
   opened_year: number | null;
   phone: string | null;
   data_reference_date: string;
+
+  reports: ReportFeedItem[];
 }

@@ -2,25 +2,35 @@ import { SquarePen } from "lucide-react";
 import Link from "next/link";
 
 import ReportCard from "@/src/components/report/ReportCard";
-import type { MarketReport } from "@/src/types/market";
+import { REPORT_CATEGORY_LABEL_MAP } from "@/src/constants/report";
+import type { ReportFeedItem } from "@/src/types/report";
 
 interface ReportsProps {
-  reports: MarketReport[];
+  reports: ReportFeedItem[];
   marketId: number;
 }
 
-type Report = MarketReport;
-
 const ITEMS_PER_PAGE = 3;
 
-function chunkReports(reports: Report[]) {
-  const chunks: Report[][] = [];
+function chunkReports(reports: ReportFeedItem[]) {
+  const chunks: ReportFeedItem[][] = [];
 
   for (let i = 0; i < reports.length; i += ITEMS_PER_PAGE) {
     chunks.push(reports.slice(i, i + ITEMS_PER_PAGE));
   }
 
   return chunks;
+}
+
+function toReportCardData(report: ReportFeedItem) {
+  return {
+    id: report.report_id,
+    rating: report.rating,
+    content: report.content,
+    createdAt: report.created_at.slice(0, 10),
+    tag: REPORT_CATEGORY_LABEL_MAP[report.category],
+    imageUrl: report.image_urls[0],
+  };
 }
 
 export default function Reports({ reports, marketId }: ReportsProps) {
@@ -47,21 +57,21 @@ export default function Reports({ reports, marketId }: ReportsProps) {
       </div>
 
       {reports.length === 0 ? (
-        <p className="text-deep-gray text-center text-xs">
+        <p className="text-deep-gray py-4 text-center text-xs">
           아직 등록된 제보가 없어요.
         </p>
       ) : (
-        <div className="scrollbar-hide flex snap-x snap-mandatory scrollbar-none gap-2 overflow-x-auto scroll-smooth py-1">
+        <div className="scrollbar-hide flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth py-1">
           {reportPages.map((page, pageIndex) => (
             <ul
               key={pageIndex}
               className="flex w-full shrink-0 snap-start flex-col gap-2"
             >
               {page.map((report) => (
-                <li key={report.id}>
+                <li key={report.report_id}>
                   <ReportCard
-                    report={report}
-                    title={report.author}
+                    report={toReportCardData(report)}
+                    title={report.author.nickname}
                     showUserIcon
                   />
                 </li>
