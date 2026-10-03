@@ -2,11 +2,14 @@ import { ChevronRight, Star, UserRound } from "lucide-react";
 import Link from "next/link";
 
 import type { ReportSummary } from "@/src/types/report";
+import { getReportImageUrl } from "@/src/utils/report";
 
 type ReportCardReport = Pick<
   ReportSummary,
-  "id" | "createdAt" | "tag" | "rating" | "content" | "imageUrl"
->;
+  "id" | "createdAt" | "tag" | "rating" | "content"
+> & {
+  imageUrls: string[];
+};
 
 interface ReportCardProps {
   report: ReportCardReport;
@@ -85,8 +88,21 @@ export default function ReportCard({
           {report.content}
         </p>
 
-        {report.imageUrl && (
-          <div className="bg-light-gray size-16 shrink-0 rounded-xl" />
+        {report.imageUrls.length > 0 && (
+          <div className="relative size-16 shrink-0 overflow-hidden rounded-xl">
+            <div
+              className="bg-light-gray size-full bg-cover bg-center"
+              style={{
+                backgroundImage: `url("${getReportImageUrl(report.imageUrls[0])}")`,
+              }}
+            />
+
+            {report.imageUrls.length > 1 && (
+              <span className="absolute right-1 bottom-1 rounded-full bg-black/60 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                +{report.imageUrls.length - 1}
+              </span>
+            )}
+          </div>
         )}
       </div>
     </Link>

@@ -1,9 +1,12 @@
-import { SquarePen } from "lucide-react";
+"use client";
+
+import { ChevronLeft, ChevronRight, SquarePen } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 import ReportCard from "@/src/components/report/ReportCard";
-import { REPORT_CATEGORY_LABEL_MAP } from "@/src/constants/report";
 import type { ReportFeedItem } from "@/src/types/report";
+import { toReportCardData } from "@/src/utils/report";
 
 interface ReportsProps {
   reports: ReportFeedItem[];
@@ -12,29 +15,25 @@ interface ReportsProps {
 
 const ITEMS_PER_PAGE = 3;
 
-function chunkReports(reports: ReportFeedItem[]) {
-  const chunks: ReportFeedItem[][] = [];
-
-  for (let i = 0; i < reports.length; i += ITEMS_PER_PAGE) {
-    chunks.push(reports.slice(i, i + ITEMS_PER_PAGE));
-  }
-
-  return chunks;
-}
-
-function toReportCardData(report: ReportFeedItem) {
-  return {
-    id: report.report_id,
-    rating: report.rating,
-    content: report.content,
-    createdAt: report.created_at.slice(0, 10),
-    tag: REPORT_CATEGORY_LABEL_MAP[report.category],
-    imageUrl: report.image_urls[0],
-  };
-}
-
 export default function Reports({ reports, marketId }: ReportsProps) {
-  const reportPages = chunkReports(reports);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const totalPages = Math.ceil(reports.length / ITEMS_PER_PAGE);
+
+  const startIndex = currentPage * ITEMS_PER_PAGE;
+  const visibleReports = reports.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handlePrev = () => {
+    if (currentPage === 0) return;
+
+    setCurrentPage((prev) => prev - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage >= totalPages - 1) return;
+
+    setCurrentPage((prev) => prev + 1);
+  };
 
   return (
     <section className="flex flex-col gap-4 px-5">
@@ -61,23 +60,46 @@ export default function Reports({ reports, marketId }: ReportsProps) {
           아직 등록된 제보가 없어요.
         </p>
       ) : (
-        <div className="scrollbar-hide flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth py-1">
-          {reportPages.map((page, pageIndex) => (
-            <ul
-              key={pageIndex}
-              className="flex w-full shrink-0 snap-start flex-col gap-2"
-            >
-              {page.map((report) => (
-                <li key={report.report_id}>
-                  <ReportCard
-                    report={toReportCardData(report)}
-                    title={report.author.nickname}
-                    showUserIcon
-                  />
-                </li>
-              ))}
-            </ul>
+        <div className="flex flex-col gap-2">
+          {visibleReports.map((report) => (
+            <ReportCard
+              key={report.report_id}
+              report={toReportCardData(report)}
+              title={report.author.nickname}
+              showUserIcon
+            />
           ))}
+
+          {totalPages > 1 && (
+            <nav
+              aria-label="현장 제보 페이지 이동"
+              className="mt-1 flex items-center justify-center gap-1"
+            >
+              <button
+                type="button"
+                aria-label="이전 현장 제보 보기"
+                onClick={handlePrev}
+                disabled={currentPage === 0}
+                className="text-gray flex size-6 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5 disabled:cursor-default disabled:opacity-30"
+              >
+                <ChevronLeft aria-hidden="true" className="size-4" />
+              </button>
+
+              <span className="text-gray min-w-10 text-center text-xs font-medium">
+                {currentPage + 1} / {totalPages}
+              </span>
+
+              <button
+                type="button"
+                aria-label="다음 현장 제보 보기"
+                onClick={handleNext}
+                disabled={currentPage >= totalPages - 1}
+                className="text-gray flex size-6 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5 disabled:cursor-default disabled:opacity-30"
+              >
+                <ChevronRight aria-hidden="true" className="size-4" />
+              </button>
+            </nav>
+          )}
         </div>
       )}
     </section>
