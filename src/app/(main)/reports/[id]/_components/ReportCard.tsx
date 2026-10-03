@@ -3,20 +3,20 @@
 import { MapPin, Star, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
 import { BookmarkButton } from "@/src/components/report/BookmarkButton";
+import { REPORT_CATEGORY_LABEL_MAP } from "@/src/constants/report";
 import type { ReportDetailResult } from "@/src/types/report";
 import { formatDateTime } from "@/src/utils/date";
 
 import useReportDelete from "../_hooks/useReportDelete";
 import { DeleteMenu } from "./DeleteMenu";
+import ReportImageCarousel from "./ReportImageCarousel";
 
 interface ReportCardProps {
   report: ReportDetailResult;
 }
 
 export function ReportCard({ report }: ReportCardProps) {
-  const firstImageUrl = report.image_urls[0];
   const router = useRouter();
   const { mutateAsync: deleteReport } = useReportDelete(report.report_id);
 
@@ -73,18 +73,11 @@ export function ReportCard({ report }: ReportCardProps) {
         <span className="truncate">{report.market.market_name}</span>
       </div>
 
-      {firstImageUrl && (
-        <div
-          className="bg-light-gray aspect-1.5/1 w-full rounded-2xl bg-cover bg-center"
-          style={{
-            backgroundImage: `url("${firstImageUrl}")`,
-          }}
-        />
-      )}
+      <ReportImageCarousel imageUrls={report.image_urls} />
 
       <div className="flex items-center justify-between">
-        <span className="bg-light-green text-green rounded-full px-2.5 py-1 text-xs font-semibold">
-          # {REPORT_CATEGORY_LABELS[report.category]}
+        <span className="bg-light-green text-green border-green/30 rounded-full border px-2.5 py-1 text-xs font-semibold">
+          # {REPORT_CATEGORY_LABEL_MAP[report.category]}
         </span>
 
         <div className="flex items-center gap-1">
@@ -103,7 +96,7 @@ export function ReportCard({ report }: ReportCardProps) {
         </div>
       </div>
 
-      <p className="text-sm leading-6 font-medium break-keep whitespace-pre-line text-black">
+      <p className="text-xs leading-6 font-medium break-keep whitespace-pre-line text-black">
         {report.content}
       </p>
     </article>

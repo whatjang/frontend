@@ -3,9 +3,9 @@
 import { ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 
-import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
 import ReportCard from "@/src/components/report/ReportCard";
 import type { ReportFeedItem } from "@/src/types/report";
+import { toReportCardData } from "@/src/utils/report";
 
 interface ReportSectionProps {
   icon: LucideIcon;
@@ -123,14 +123,7 @@ export default function ReportSection({
           {visibleReports.map((report) => (
             <ReportCard
               key={report.report_id}
-              report={{
-                id: report.report_id,
-                createdAt: report.created_at.slice(0, 10),
-                tag: REPORT_CATEGORY_LABELS[report.category],
-                rating: report.rating,
-                content: report.content,
-                imageUrl: report.image_urls[0],
-              }}
+              report={toReportCardData(report)}
               title={report.market_name}
             />
           ))}

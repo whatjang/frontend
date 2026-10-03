@@ -3,12 +3,14 @@ import type { NearbyPlace } from "@/src/types/tour";
 import TourPlaceItem from "./TourPlaceItem";
 
 interface TourPlaceListProps {
+  marketId: number;
   places: NearbyPlace[];
   selectedPlaceId: string | null;
   onSelectPlace: (placeId: string) => void;
 }
 
 export default function TourPlaceList({
+  marketId,
   places,
   selectedPlaceId,
   onSelectPlace,
@@ -35,6 +37,11 @@ export default function TourPlaceList({
               place={place}
               selected={place.place_id === selectedPlaceId}
               onSelect={() => onSelectPlace(place.place_id)}
+              detailHref={
+                place.detail_available
+                  ? `/tour/${marketId}/places/${place.place_id}`
+                  : undefined
+              }
               eager={index === 0}
             />
           </li>

@@ -100,6 +100,7 @@ export default function NearbyTourSection({
       />
 
       <TourPlaceList
+        marketId={marketId}
         places={filteredPlaces}
         selectedPlaceId={selectedPlaceId}
         onSelectPlace={handleSelectPlace}

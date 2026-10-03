@@ -3,7 +3,6 @@
 import Spinner from "@/src/components/common/Spinner";
 import { useCurrentLocation } from "@/src/hooks/location/useCurrentLocation";
 import { useMarketDetail } from "@/src/hooks/market/useMarketDetail";
-import { getMarketReports } from "@/src/mocks/marketReports";
 
 import BottomActions from "./BottomActions";
 import Intro from "./Intro";
@@ -53,8 +52,6 @@ export default function MarketDetailContent({
     return null;
   }
 
-  const reports = getMarketReports(market.market_id);
-
   return (
     <main className="flex flex-col gap-8">
       <Intro market={market} />
@@ -69,7 +66,7 @@ export default function MarketDetailContent({
 
       <MarketDetails market={market} />
 
-      <Reports reports={reports} marketId={market.market_id} />
+      <Reports reports={market.reports} marketId={market.market_id} />
 
       <BottomActions
         marketId={market.market_id}

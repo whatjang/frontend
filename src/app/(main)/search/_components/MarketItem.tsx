@@ -28,83 +28,83 @@ export default function MarketItem({ market }: MarketItemProps) {
 
   return (
     <li className="min-w-full">
-      <article className="group overflow-hidden rounded-3xl bg-white">
-        <div
-          className="bg-light-gray relative flex aspect-2/1 min-h-40 items-center justify-center bg-cover bg-center"
-          style={
-            market.img_url
-              ? {
-                  backgroundImage: `url("${market.img_url}")`,
-                }
-              : undefined
-          }
-        >
-          {!market.img_url && (
-            <Store
-              className="text-deep-gray/40 size-10"
-              strokeWidth={1.5}
-              aria-hidden="true"
-            />
-          )}
-
-          {isMarketDayToday && (
-            <span className="bg-green absolute top-4 left-4 rounded-full px-3 py-1 text-sm font-bold text-white shadow-sm">
-              오늘 장날 (Today)
-            </span>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-2 p-4">
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="text-green line-clamp-2 min-w-0 flex-1 text-lg font-bold">
-              {market.name}
-            </h3>
-
-            <span className="border-light-brown/20 bg-light-brown/10 text-light-brown shrink-0 rounded-full border px-2 py-0.5 text-xs font-bold">
-              {marketDayText}
-            </span>
-          </div>
-
-          <div className="flex items-start gap-1">
-            <MapPin className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
-
-            <p className="text-xs font-semibold">
-              {market.road_address?.trim() || "주소 정보 없음"}
-            </p>
-          </div>
-
-          <ul
-            className="mt-2 flex flex-wrap items-center gap-2"
-            aria-label={`${market.name} 대표 상품`}
+      <Link
+        href={`/markets/${market.market_id}`}
+        aria-label={`${market.name} 상세보기`}
+        className="group block cursor-pointer rounded-3xl"
+      >
+        <article className="overflow-hidden rounded-3xl bg-white">
+          <div
+            className="bg-light-gray relative flex aspect-2/1 min-h-40 items-center justify-center bg-cover bg-center"
+            style={
+              market.img_url
+                ? {
+                    backgroundImage: `url("${market.img_url}")`,
+                  }
+                : undefined
+            }
           >
-            {market.products.map((product) => {
-              const ProductIcon =
-                PRODUCT_ICONS[product] ?? DEFAULT_PRODUCT_ICON;
+            {!market.img_url && (
+              <Store
+                className="text-deep-gray/40 size-10"
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
+            )}
 
-              return (
-                <li
-                  key={`${market.market_id}-${product}`}
-                  className="flex items-center gap-1 text-xs font-semibold"
-                >
-                  <ProductIcon
-                    className="text-green h-4 w-4"
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
+            {isMarketDayToday && (
+              <span className="bg-green absolute top-4 left-4 rounded-full px-3 py-1 text-sm font-bold text-white shadow-sm">
+                오늘 장날 (Today)
+              </span>
+            )}
+          </div>
 
-                  <span>{product}</span>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="flex flex-col gap-2 p-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-green line-clamp-2 min-w-0 flex-1 text-lg font-bold">
+                {market.name}
+              </h3>
 
-          <div className="border-deep-gray text-green mt-2 border-t py-3 font-bold">
-            <Link
-              href={`/markets/${market.market_id}`}
-              className="flex items-center justify-between text-xs"
-              aria-label={`${market.name} 상세보기`}
+              <span className="border-light-brown/20 bg-light-brown/10 text-light-brown shrink-0 rounded-full border px-2 py-0.5 text-xs font-bold">
+                {marketDayText}
+              </span>
+            </div>
+
+            <div className="flex items-start gap-1">
+              <MapPin className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+
+              <p className="text-xs font-semibold">
+                {market.road_address?.trim() || "주소 정보 없음"}
+              </p>
+            </div>
+
+            <ul
+              className="mt-2 flex flex-wrap items-center gap-2"
+              aria-label={`${market.name} 대표 상품`}
             >
-              <span className="flex items-center gap-1">
+              {market.products.map((product) => {
+                const ProductIcon =
+                  PRODUCT_ICONS[product] ?? DEFAULT_PRODUCT_ICON;
+
+                return (
+                  <li
+                    key={`${market.market_id}-${product}`}
+                    className="flex items-center gap-1 text-xs font-semibold"
+                  >
+                    <ProductIcon
+                      className="text-green h-4 w-4"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+
+                    <span>{product}</span>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="border-deep-gray text-green mt-2 flex justify-between border-t py-3 font-bold">
+              <span className="flex items-center gap-1 text-xs">
                 {market.distance_km !== null && (
                   <>
                     <Navigation
@@ -117,7 +117,7 @@ export default function MarketItem({ market }: MarketItemProps) {
                 )}
               </span>
 
-              <span className="flex items-center">
+              <span className="flex items-center text-xs">
                 상세보기
                 <ChevronRight
                   className="ml-1 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1"
@@ -125,10 +125,10 @@ export default function MarketItem({ market }: MarketItemProps) {
                   aria-hidden="true"
                 />
               </span>
-            </Link>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
+      </Link>
     </li>
   );
 }

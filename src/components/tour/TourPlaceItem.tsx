@@ -1,7 +1,8 @@
 "use client";
 
-import { ExternalLink, MapPin, Phone } from "lucide-react";
+import { ChevronRight, ExternalLink, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import {
@@ -9,30 +10,21 @@ import {
   TOUR_FALLBACK_ICONS,
 } from "@/src/constants/tour";
 import type { NearbyPlace } from "@/src/types/tour";
+import { formatDistance, normalizeTourImageUrl } from "@/src/utils/tour";
 
 interface TourPlaceItemProps {
   place: NearbyPlace;
   selected?: boolean;
   onSelect?: () => void;
+  detailHref?: string;
   eager?: boolean;
-}
-
-function formatDistance(distance: number) {
-  if (distance < 1000) {
-    return `${distance}m`;
-  }
-
-  return `${(distance / 1000).toFixed(1)}km`;
-}
-
-function normalizeImageUrl(url: string | null) {
-  return url?.replace(/^http:\/\//, "https://") ?? null;
 }
 
 export default function TourPlaceItem({
   place,
   selected = false,
   onSelect,
+  detailHref,
   eager = false,
 }: TourPlaceItemProps) {
   const [imageError, setImageError] = useState(false);
@@ -52,7 +44,7 @@ export default function TourPlaceItem({
     }
   };
 
-  const imageUrl = normalizeImageUrl(place.thumbnail_url);
+  const imageUrl = normalizeTourImageUrl(place.thumbnail_url);
   const showImage = Boolean(imageUrl) && !imageError;
 
   const FallbackIcon = TOUR_FALLBACK_ICONS[place.category];
@@ -123,17 +115,28 @@ export default function TourPlaceItem({
           </div>
         )}
 
-        {place.place_url && (
-          <a
-            href={place.place_url}
-            target="_blank"
-            rel="noopener noreferrer"
+        {detailHref ? (
+          <Link
+            href={detailHref}
             onClick={handleLinkClick}
             className="text-green mt-1 flex w-fit items-center gap-1 text-xs font-semibold"
           >
-            카카오맵에서 보기
-            <ExternalLink className="size-3" aria-hidden="true" />
-          </a>
+            상세보기
+            <ChevronRight className="size-3" aria-hidden="true" />
+          </Link>
+        ) : (
+          place.place_url && (
+            <a
+              href={place.place_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleLinkClick}
+              className="text-green mt-1 flex w-fit items-center gap-1 text-xs font-semibold"
+            >
+              카카오맵에서 보기
+              <ExternalLink className="size-3" aria-hidden="true" />
+            </a>
+          )
         )}
       </div>
     </article>
