@@ -1,4 +1,10 @@
 export type {
+  GetNearbyPlaceDirectionsParams,
+  NearbyPlaceDirections,
+  NearbyPlaceDirectionsPoint,
+  TourTransportType,
+} from "./directions";
+export type {
   NearbyMarket,
   NearbyPlace,
   NearbyPlaceCategory,
