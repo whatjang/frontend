@@ -3,6 +3,7 @@
 import Spinner from "@/src/components/common/Spinner";
 
 import { useNearbyPlaceDetail } from "../_hooks/useNearbyPlaceDetail";
+import Directions from "./Directions";
 import Intro from "./Intro";
 import MenuInfo from "./MenuInfo";
 import Overview from "./Overview";
@@ -56,7 +57,9 @@ export default function TourPlaceDetailContent({
         treatMenu={place.treat_menu}
       />
 
-      <p className="text-deep-gray px-5 text-right text-xs">
+      <Directions />
+
+      <p className="text-deep-gray -mt-5 px-5 text-right text-xs">
         {place.source_notice}
       </p>
     </main>

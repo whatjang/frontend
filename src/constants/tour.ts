@@ -32,3 +32,19 @@ export const TOUR_CATEGORIES: {
     label: TOUR_CATEGORY_LABELS.CAFE,
   },
 ];
+
+export const TOUR_TRANSPORT_OPTIONS = [
+  {
+    value: "WALK",
+    label: "도보",
+  },
+  {
+    value: "BICYCLE",
+    label: "자전거",
+  },
+] as const;
+
+export type TourTransportType =
+  (typeof TOUR_TRANSPORT_OPTIONS)[number]["value"];
+
+export const DEFAULT_TOUR_TRANSPORT: TourTransportType = "WALK";
