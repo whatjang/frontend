@@ -22,6 +22,17 @@ function chunkReports(reports: ReportFeedItem[]) {
   return chunks;
 }
 
+function toReportCardData(report: ReportFeedItem) {
+  return {
+    id: report.report_id,
+    rating: report.rating,
+    content: report.content,
+    createdAt: report.created_at.slice(0, 10),
+    tag: REPORT_CATEGORY_LABEL_MAP[report.category],
+    imageUrl: report.image_urls[0],
+  };
+}
+
 export default function Reports({ reports, marketId }: ReportsProps) {
   const reportPages = chunkReports(reports);
 
@@ -59,14 +70,7 @@ export default function Reports({ reports, marketId }: ReportsProps) {
               {page.map((report) => (
                 <li key={report.report_id}>
                   <ReportCard
-                    report={{
-                      id: report.report_id,
-                      rating: report.rating,
-                      content: report.content,
-                      createdAt: report.created_at.slice(0, 10),
-                      tag: REPORT_CATEGORY_LABEL_MAP[report.category],
-                      imageUrl: report.image_urls[0],
-                    }}
+                    report={toReportCardData(report)}
                     title={report.author.nickname}
                     showUserIcon
                   />
