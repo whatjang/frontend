@@ -6,6 +6,7 @@ import Link from "next/link";
 import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
 import { BookmarkButton } from "@/src/components/report/BookmarkButton";
 import { ReportActions } from "@/src/components/report/ReportActions";
+import ReportImageGrid from "@/src/components/report/ReportImageGrid";
 import type { ReportFeedItem } from "@/src/types/report";
 import { formatDateTime } from "@/src/utils/date";
 
@@ -14,8 +15,6 @@ interface ReportItemProps {
 }
 
 export default function ReportItem({ report }: ReportItemProps) {
-  const firstImageUrl = report.image_urls[0];
-
   return (
     <article className="border-light-gray flex w-full flex-col gap-3 rounded-3xl border bg-white/20 p-3">
       <div className="flex items-start justify-between">
@@ -55,14 +54,7 @@ export default function ReportItem({ report }: ReportItemProps) {
       >
         <p className="text-xs text-black">{report.content}</p>
 
-        {firstImageUrl && (
-          <div
-            className="bg-light-gray aspect-[1.65/1] w-full rounded-2xl bg-cover bg-center"
-            style={{
-              backgroundImage: `url("${firstImageUrl}")`,
-            }}
-          />
-        )}
+        <ReportImageGrid imageUrls={report.image_urls} />
       </Link>
 
       <div className="flex items-center justify-between">

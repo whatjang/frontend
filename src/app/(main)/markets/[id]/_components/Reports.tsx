@@ -2,8 +2,8 @@ import { SquarePen } from "lucide-react";
 import Link from "next/link";
 
 import ReportCard from "@/src/components/report/ReportCard";
-import { REPORT_CATEGORY_LABEL_MAP } from "@/src/constants/report";
 import type { ReportFeedItem } from "@/src/types/report";
+import { toReportCardData } from "@/src/utils/report";
 
 interface ReportsProps {
   reports: ReportFeedItem[];
@@ -20,17 +20,6 @@ function chunkReports(reports: ReportFeedItem[]) {
   }
 
   return chunks;
-}
-
-function toReportCardData(report: ReportFeedItem) {
-  return {
-    id: report.report_id,
-    rating: report.rating,
-    content: report.content,
-    createdAt: report.created_at.slice(0, 10),
-    tag: REPORT_CATEGORY_LABEL_MAP[report.category],
-    imageUrl: report.image_urls[0],
-  };
 }
 
 export default function Reports({ reports, marketId }: ReportsProps) {

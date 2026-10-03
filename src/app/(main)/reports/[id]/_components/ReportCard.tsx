@@ -10,13 +10,13 @@ import { formatDateTime } from "@/src/utils/date";
 
 import useReportDelete from "../_hooks/useReportDelete";
 import { DeleteMenu } from "./DeleteMenu";
+import ReportImageCarousel from "./ReportImageCarousel";
 
 interface ReportCardProps {
   report: ReportDetailResult;
 }
 
 export function ReportCard({ report }: ReportCardProps) {
-  const firstImageUrl = report.image_urls[0];
   const router = useRouter();
   const { mutateAsync: deleteReport } = useReportDelete(report.report_id);
 
@@ -73,14 +73,7 @@ export function ReportCard({ report }: ReportCardProps) {
         <span className="truncate">{report.market.market_name}</span>
       </div>
 
-      {firstImageUrl && (
-        <div
-          className="bg-light-gray aspect-1.5/1 w-full rounded-2xl bg-cover bg-center"
-          style={{
-            backgroundImage: `url("${firstImageUrl}")`,
-          }}
-        />
-      )}
+      <ReportImageCarousel imageUrls={report.image_urls} />
 
       <div className="flex items-center justify-between">
         <span className="bg-light-green text-green rounded-full px-2.5 py-1 text-xs font-semibold">
