@@ -354,7 +354,7 @@ refactor/sheepyis-market-card-link#155
 ✨ Feat: 주간 먹거리 트렌드 API 연동
 🐛 Fix: 관광지 상세 정보 UI 수정
 ♻️ Refactor: 시장 조회 로직 개선
-🎨 Style: 제보 카테고리 태그 UI 통일
+🎨 Design: 제보 카테고리 태그 UI 통일
 🔥 Delete: 미사용 시장 제보 타입 제거
 📝 Docs: README 업데이트
 🚀 Release: 프론트 주요 기능 반영
