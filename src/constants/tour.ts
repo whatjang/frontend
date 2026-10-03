@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { Coffee, Landmark, Utensils } from "lucide-react";
 
-import type { NearbyPlaceCategory } from "@/src/types/tour";
+import type { NearbyPlaceCategory, TourTransportType } from "@/src/types/tour";
 
 export const TOUR_CATEGORY_LABELS: Record<NearbyPlaceCategory, string> = {
   RESTAURANT: "음식점",
@@ -42,9 +42,9 @@ export const TOUR_TRANSPORT_OPTIONS = [
     value: "BICYCLE",
     label: "자전거",
   },
-] as const;
-
-export type TourTransportType =
-  (typeof TOUR_TRANSPORT_OPTIONS)[number]["value"];
+] as const satisfies ReadonlyArray<{
+  value: TourTransportType;
+  label: string;
+}>;
 
 export const DEFAULT_TOUR_TRANSPORT: TourTransportType = "WALK";

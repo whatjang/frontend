@@ -14,6 +14,8 @@ export const API_ENDPOINTS = {
       `/api/markets/${marketId}/nearby-places`,
     NEARBY_PLACE_DETAIL: (marketId: number, placeId: string) =>
       `/api/markets/${marketId}/nearby-places/${placeId}`,
+    NEARBY_PLACE_DIRECTIONS: (marketId: number, placeId: string) =>
+      `/api/markets/${marketId}/nearby-places/${placeId}/directions`,
     CALENDAR: "/api/markets/calendar",
     OPEN_ON: (date: string) => `/api/markets/open-on/${date}`,
   },

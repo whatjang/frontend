@@ -2,10 +2,8 @@
 
 import { Bike, Footprints } from "lucide-react";
 
-import {
-  TOUR_TRANSPORT_OPTIONS,
-  type TourTransportType,
-} from "@/src/constants/tour";
+import { TOUR_TRANSPORT_OPTIONS } from "@/src/constants/tour";
+import type { TourTransportType } from "@/src/types/tour";
 
 interface TransportSelectorProps {
   value: TourTransportType;

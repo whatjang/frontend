@@ -3,10 +3,8 @@
 import { MapPin, Navigation } from "lucide-react";
 import { useState } from "react";
 
-import {
-  DEFAULT_TOUR_TRANSPORT,
-  type TourTransportType,
-} from "@/src/constants/tour";
+import { DEFAULT_TOUR_TRANSPORT } from "@/src/constants/tour";
+import type { TourTransportType } from "@/src/types/tour";
 
 import TransportSelector from "./TransportSelector";
 
