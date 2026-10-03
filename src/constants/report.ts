@@ -14,6 +14,17 @@ export const REPORT_CATEGORY_MAP = {
   기타: "OTHER",
 } as const;
 
+export const REPORT_CATEGORY_LABEL_MAP = Object.fromEntries(
+  Object.entries(REPORT_CATEGORY_MAP).map(([label, category]) => [
+    category,
+    label,
+  ])
+) as {
+  [
+    K in (typeof REPORT_CATEGORY_MAP)[keyof typeof REPORT_CATEGORY_MAP]
+  ]: keyof typeof REPORT_CATEGORY_MAP;
+};
+
 export const MAX_REPORT_IMAGES = 3;
 
 export const MAX_REPORT_RATING = 5;
