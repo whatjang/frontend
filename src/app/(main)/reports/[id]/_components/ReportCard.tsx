@@ -3,8 +3,8 @@
 import { MapPin, Star, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
 import { BookmarkButton } from "@/src/components/report/BookmarkButton";
+import { REPORT_CATEGORY_LABEL_MAP } from "@/src/constants/report";
 import type { ReportDetailResult } from "@/src/types/report";
 import { formatDateTime } from "@/src/utils/date";
 
@@ -77,7 +77,7 @@ export function ReportCard({ report }: ReportCardProps) {
 
       <div className="flex items-center justify-between">
         <span className="bg-light-green text-green rounded-full px-2.5 py-1 text-xs font-semibold">
-          # {REPORT_CATEGORY_LABELS[report.category]}
+          # {REPORT_CATEGORY_LABEL_MAP[report.category]}
         </span>
 
         <div className="flex items-center gap-1">

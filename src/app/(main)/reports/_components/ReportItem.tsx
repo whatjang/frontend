@@ -3,10 +3,10 @@
 import { MapPin, Star, UserRound } from "lucide-react";
 import Link from "next/link";
 
-import { REPORT_CATEGORY_LABELS } from "@/src/app/(main)/reports/_config/reportCategory";
 import { BookmarkButton } from "@/src/components/report/BookmarkButton";
 import { ReportActions } from "@/src/components/report/ReportActions";
 import ReportImageGrid from "@/src/components/report/ReportImageGrid";
+import { REPORT_CATEGORY_LABEL_MAP } from "@/src/constants/report";
 import type { ReportFeedItem } from "@/src/types/report";
 import { formatDateTime } from "@/src/utils/date";
 
@@ -59,7 +59,7 @@ export default function ReportItem({ report }: ReportItemProps) {
 
       <div className="flex items-center justify-between">
         <span className="bg-light-brown/20 text-light-brown rounded-full px-2 py-1 text-xs font-semibold">
-          {REPORT_CATEGORY_LABELS[report.category]}
+          {REPORT_CATEGORY_LABEL_MAP[report.category]}
         </span>
 
         <div className="flex items-center gap-0.5">
