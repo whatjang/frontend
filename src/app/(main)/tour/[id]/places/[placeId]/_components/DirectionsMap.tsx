@@ -1,5 +1,7 @@
 "use client";
 
+import { ExternalLink } from "lucide-react";
+
 import KakaoMap from "@/src/components/map/KakaoMap";
 import type { NearbyPlaceDirections } from "@/src/types/tour";
 import { formatDistance, formatDuration } from "@/src/utils/tour";
@@ -43,9 +45,20 @@ export default function DirectionsMap({ directions }: DirectionsMapProps) {
           },
         ]}
         path={directions.path}
-        level={5}
         className="h-60 w-full rounded-2xl"
       />
+
+      {directions.navigation_url && (
+        <a
+          href={directions.navigation_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-green flex items-center justify-end gap-1 text-xs font-medium"
+        >
+          카카오맵에서 보기
+          <ExternalLink size={13} strokeWidth={1.5} aria-hidden="true" />
+        </a>
+      )}
     </div>
   );
 }
