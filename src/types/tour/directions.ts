@@ -1,9 +1,9 @@
+import type { MapCoordinates } from "@/src/types/map";
+
 export type TourTransportType = "WALK" | "BICYCLE";
 
-export interface NearbyPlaceDirectionsPoint {
+export interface NearbyPlaceDirectionsPoint extends MapCoordinates {
   name: string;
-  latitude: number;
-  longitude: number;
 }
 
 export interface NearbyPlaceDirections {
@@ -13,6 +13,7 @@ export interface NearbyPlaceDirections {
   distance_m: number;
   estimated_minutes: number;
   navigation_url: string | null;
+  path: MapCoordinates[];
 }
 
 export interface GetNearbyPlaceDirectionsParams {

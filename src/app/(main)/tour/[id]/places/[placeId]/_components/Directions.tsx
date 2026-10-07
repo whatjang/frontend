@@ -6,9 +6,13 @@ import { useState } from "react";
 import { DEFAULT_TOUR_TRANSPORT } from "@/src/constants/tour";
 import { useCurrentLocation } from "@/src/hooks/location/useCurrentLocation";
 import { ApiError } from "@/src/lib/api/core/error";
-import type { TourTransportType } from "@/src/types/tour";
+import type {
+  NearbyPlaceDirections,
+  TourTransportType,
+} from "@/src/types/tour";
 
 import { useNearbyPlaceDirections } from "../_hooks/useNearbyPlaceDirections";
+import DirectionsMap from "./DirectionsMap";
 import TransportSelector from "./TransportSelector";
 
 interface DirectionsProps {
@@ -33,6 +37,9 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
   const [transport, setTransport] = useState<TourTransportType>(
     DEFAULT_TOUR_TRANSPORT
   );
+  const [directions, setDirections] = useState<NearbyPlaceDirections | null>(
+    null
+  );
   const [directionsError, setDirectionsError] = useState<string | null>(null);
 
   const {
@@ -48,6 +55,7 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
     });
 
   const isLoading = isLocationLoading || isDirectionsPending;
+
   const errorMessage = locationError || directionsError;
 
   const handleDirections = async () => {
@@ -60,18 +68,13 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
     }
 
     try {
-      const directions = await getDirections({
+      const result = await getDirections({
         currentLatitude: coordinates.latitude,
         currentLongitude: coordinates.longitude,
         transport,
       });
 
-      if (!directions.navigation_url) {
-        setDirectionsError("길찾기 경로를 찾을 수 없습니다.");
-        return;
-      }
-
-      window.location.assign(directions.navigation_url);
+      setDirections(result);
     } catch (error) {
       setDirectionsError(getDirectionsErrorMessage(error, transport));
     }
@@ -79,6 +82,7 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
 
   const handleTransportChange = (nextTransport: TourTransportType) => {
     setTransport(nextTransport);
+    setDirections(null);
     setDirectionsError(null);
   };
 
@@ -115,6 +119,8 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
           />
         </div>
 
+        {directions && <DirectionsMap directions={directions} />}
+
         <button
           type="button"
           onClick={handleDirections}
@@ -123,7 +129,11 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
         >
           <Navigation size={17} strokeWidth={2} aria-hidden="true" />
 
-          {isLoading ? "길찾기 확인 중..." : "길찾기 바로가기"}
+          {isLoading
+            ? "길찾기 확인 중..."
+            : directions
+              ? "길찾기 다시 확인"
+              : "길찾기 확인"}
         </button>
 
         {errorMessage ? (
