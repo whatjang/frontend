@@ -4,6 +4,7 @@ import {
   CustomOverlayMap,
   Map,
   MapMarker,
+  Polyline,
   useKakaoLoader,
 } from "react-kakao-maps-sdk";
 
@@ -12,6 +13,7 @@ import type { MapCoordinates, MapMarkerItem } from "@/src/types/map";
 interface KakaoMapProps {
   center: MapCoordinates;
   markers: MapMarkerItem[];
+  path?: MapCoordinates[];
   selectedMarkerId?: string | number | null;
   level?: number;
   draggable?: boolean;
@@ -24,6 +26,7 @@ interface KakaoMapProps {
 export default function KakaoMap({
   center,
   markers,
+  path = [],
   selectedMarkerId,
   level = 3,
   draggable = true,
@@ -74,6 +77,18 @@ export default function KakaoMap({
       className={className}
       onClick={onClick}
     >
+      {path.length > 0 && (
+        <Polyline
+          path={path.map(({ latitude, longitude }) => ({
+            lat: latitude,
+            lng: longitude,
+          }))}
+          strokeWeight={5}
+          strokeColor="#FF5A36"
+          strokeOpacity={0.9}
+          strokeStyle="solid"
+        />
+      )}
       {markers.map((marker) => (
         <MapMarker
           key={marker.id}

@@ -3,10 +3,15 @@
 import { MapPin, Navigation } from "lucide-react";
 import { useState } from "react";
 
+import KakaoMap from "@/src/components/map/KakaoMap";
 import { DEFAULT_TOUR_TRANSPORT } from "@/src/constants/tour";
 import { useCurrentLocation } from "@/src/hooks/location/useCurrentLocation";
 import { ApiError } from "@/src/lib/api/core/error";
-import type { TourTransportType } from "@/src/types/tour";
+import type {
+  NearbyPlaceDirections,
+  TourTransportType,
+} from "@/src/types/tour";
+import { formatDistance, formatDuration } from "@/src/utils/tour";
 
 import { useNearbyPlaceDirections } from "../_hooks/useNearbyPlaceDirections";
 import TransportSelector from "./TransportSelector";
@@ -32,6 +37,9 @@ function getDirectionsErrorMessage(
 export default function Directions({ marketId, placeId }: DirectionsProps) {
   const [transport, setTransport] = useState<TourTransportType>(
     DEFAULT_TOUR_TRANSPORT
+  );
+  const [directions, setDirections] = useState<NearbyPlaceDirections | null>(
+    null
   );
   const [directionsError, setDirectionsError] = useState<string | null>(null);
 
@@ -60,18 +68,13 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
     }
 
     try {
-      const directions = await getDirections({
+      const result = await getDirections({
         currentLatitude: coordinates.latitude,
         currentLongitude: coordinates.longitude,
         transport,
       });
 
-      if (!directions.navigation_url) {
-        setDirectionsError("길찾기 경로를 찾을 수 없습니다.");
-        return;
-      }
-
-      window.location.assign(directions.navigation_url);
+      setDirections(result);
     } catch (error) {
       setDirectionsError(getDirectionsErrorMessage(error, transport));
     }
@@ -79,6 +82,7 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
 
   const handleTransportChange = (nextTransport: TourTransportType) => {
     setTransport(nextTransport);
+    setDirections(null);
     setDirectionsError(null);
   };
 
@@ -115,6 +119,46 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
           />
         </div>
 
+        {directions && (
+          <div className="flex flex-col gap-2">
+            <div className="bg-light-green flex items-center justify-center gap-2 rounded-2xl px-4 py-3">
+              <span className="text-sm font-bold">
+                {formatDistance(directions.distance_m)}
+              </span>
+
+              <span className="text-deep-gray">·</span>
+
+              <span className="text-deep-gray text-xs font-medium">
+                약 {formatDuration(directions.estimated_minutes)}
+              </span>
+            </div>
+
+            <KakaoMap
+              center={{
+                latitude: directions.start.latitude,
+                longitude: directions.start.longitude,
+              }}
+              markers={[
+                {
+                  id: "start",
+                  title: directions.start.name,
+                  latitude: directions.start.latitude,
+                  longitude: directions.start.longitude,
+                },
+                {
+                  id: "destination",
+                  title: directions.destination.name,
+                  latitude: directions.destination.latitude,
+                  longitude: directions.destination.longitude,
+                },
+              ]}
+              path={directions.path}
+              level={5}
+              className="h-60 w-full rounded-2xl"
+            />
+          </div>
+        )}
+
         <button
           type="button"
           onClick={handleDirections}
@@ -123,7 +167,11 @@ export default function Directions({ marketId, placeId }: DirectionsProps) {
         >
           <Navigation size={17} strokeWidth={2} aria-hidden="true" />
 
-          {isLoading ? "길찾기 확인 중..." : "길찾기 바로가기"}
+          {isLoading
+            ? "길찾기 확인 중..."
+            : directions
+              ? "길찾기 다시 확인"
+              : "길찾기 확인"}
         </button>
 
         {errorMessage ? (
