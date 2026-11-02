@@ -2,10 +2,88 @@
 
 강원도 전통시장과 오일장의 장날, 먹거리, 주변 관광 정보를 연결하는 로컬 장터 여행 서비스입니다.
 
-사용자의 **위치와 방문 날짜**를 기반으로 시장을 탐색하고,
+사용자의 **위치와 방문 날짜**를 기반으로 시장을 탐색하고,  
 시장 상세 정보부터 먹거리 트렌드, 현장 제보, 주변 관광지와 길찾기까지 하나의 흐름으로 제공합니다.
 
-[서비스 바로가기](https://whatjang.vercel.app)
+[🌐 서비스 바로가기](https://whatjang.vercel.app)  
+[🎬 시연 영상 바로가기](https://www.youtube.com/watch?v=0FH0gSDhptQ)
+
+---
+
+## 🖥️ Screenshots
+
+### Core Features
+
+<table>
+  <tr>
+    <th align="left" width="50%">Home</th>
+    <th align="left" width="50%">Market Detail</th>
+  </tr>
+  <tr>
+    <td valign="top" align="left">
+      <img src="docs/images/home.png" width="280" />
+    </td>
+    <td valign="top" align="left">
+      <img src="docs/images/market-detail.png" width="280" />
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <strong>홈 화면</strong><br/>
+      오늘의 장터, 먹거리 트렌드, 장날 캘린더
+    </td>
+    <td valign="top">
+      <strong>시장 상세</strong><br/>
+      시장 정보, 장날, 편의시설, 먹거리 정보
+    </td>
+  </tr>
+</table>
+
+### Explore & Discover
+
+<table>
+  <tr>
+    <th align="left" width="50%">Local Recommendations</th>
+    <th align="left" width="50%">Food Trends</th>
+  </tr>
+  <tr>
+    <td valign="top" align="left">
+      <img src="docs/images/local-recommendations.png" width="280" />
+    </td>
+    <td valign="top" align="left">
+      <img src="docs/images/food-trends.png" width="280" />
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <strong>주변 장소 추천</strong><br/>
+      주변 음식점 및 관광지 탐색
+    </td>
+    <td valign="top">
+      <strong>먹거리 트렌드</strong><br/>
+      검색 증가율 및 트렌드 기반 시장 추천
+    </td>
+  </tr>
+</table>
+
+### Place Information
+
+<table>
+  <tr>
+    <th align="left">Place Detail</th>
+  </tr>
+  <tr>
+    <td valign="top" align="left">
+      <img src="docs/images/place-detail.png" width="280" />
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <strong>장소 상세</strong><br/>
+      장소 소개, 운영시간, 메뉴 및 길찾기 정보
+    </td>
+  </tr>
+</table>
 
 ---
 
